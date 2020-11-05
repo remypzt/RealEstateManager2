@@ -1,4 +1,4 @@
-package remy.pouzet.realestatemanager2.data.model;
+package remy.pouzet.realestatemanager2.datas.models;
 
 import android.widget.ImageView;
 

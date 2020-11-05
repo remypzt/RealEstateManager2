@@ -4,11 +4,12 @@
 
 
     <item
-    android:id="@+id/action_modify"
-    android:icon="@drawable/ic_modify"
-    android:orderInCategory="300"
-    android:title="User"
-    app:showAsAction="ifRoom" />
+        android:id="@+id/action_modify"
+        android:icon="@drawable/ic_modify"
+        android:orderInCategory="300"
+        android:title="User"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_search"
@@ -18,10 +19,4 @@
         app:showAsAction="ifRoom" />
 
 
-    <item
-        android:id="@+id/action_add"
-        android:icon="@drawable/ic_add"
-        android:orderInCategory="200"
-        android:title="Search"
-        app:showAsAction="ifRoom" />
 </menu>

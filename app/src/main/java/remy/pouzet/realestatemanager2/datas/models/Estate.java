@@ -1,6 +1,4 @@
-package remy.pouzet.realestatemanager2.data.model;
-
-import android.widget.ImageView;
+package remy.pouzet.realestatemanager2.datas.models;
 
 import java.util.Date;
 import java.util.List;
@@ -10,16 +8,16 @@ import java.util.List;
  */
 public class Estate {
 	
-	private String    mType;
-	private String    mCity;
-	private int       mPrice;
-	private ImageView mMainPicture;
+	private String mType;
+	private String mCity;
+	private int    mPrice;
 	
-	private Galerie mGalerie;
-	private String  mDescription;
-	private int     mSurface;
-	private int     mRooms;
-	private String  mAdress;
+	private String mMainPicture;
+	
+	private String mDescription;
+	private int    mSurface;
+	private int    mRooms;
+	private String mAdress;
 	
 	private List<String> mPOI;
 	private String       mStatus;
@@ -30,8 +28,8 @@ public class Estate {
 	public Estate(String type,
 	              String city,
 	              int price,
-	              ImageView mainPicture,
-	              Galerie galerie,
+	              String mainPicture,
+	
 	              String description,
 	              int surface,
 	              int rooms,
@@ -45,7 +43,6 @@ public class Estate {
 		mCity         = city;
 		mPrice        = price;
 		mMainPicture  = mainPicture;
-		mGalerie      = galerie;
 		mDescription  = description;
 		mSurface      = surface;
 		mRooms        = rooms;
@@ -121,20 +118,12 @@ public class Estate {
 		mPrice = parameterPrice;
 	}
 	
-	public ImageView getMainPicture() {
+	public String getMainPicture() {
 		return mMainPicture;
 	}
 	
-	public void setMainPicture(ImageView parameterMainPicture) {
+	public void setMainPicture(String parameterMainPicture) {
 		mMainPicture = parameterMainPicture;
-	}
-	
-	public Galerie getGalerie() {
-		return mGalerie;
-	}
-	
-	public void setGalerie(Galerie parameterGalerie) {
-		mGalerie = parameterGalerie;
 	}
 	
 	public String getDescription() {

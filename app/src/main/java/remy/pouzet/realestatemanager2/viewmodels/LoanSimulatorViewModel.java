@@ -1,16 +1,16 @@
-package remy.pouzet.realestatemanager2.ui.home;
+package remy.pouzet.realestatemanager2.viewmodels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class LoanSimulatorViewModel extends ViewModel {
 	
 	private MutableLiveData<String> mText;
 	
-	public HomeViewModel() {
+	public LoanSimulatorViewModel() {
 		mText = new MutableLiveData<>();
-		mText.setValue("This is home fragment");
+		mText.setValue("This is loan simulator fragment");
 	}
 	
 	public LiveData<String> getText() {

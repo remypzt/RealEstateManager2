@@ -1,4 +1,4 @@
-package remy.pouzet.realestatemanager2.ui.gallery;
+package remy.pouzet.realestatemanager2.views.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,21 +12,25 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import remy.pouzet.realestatemanager2.R;
+import remy.pouzet.realestatemanager2.databinding.FragmentHomeBinding;
+import remy.pouzet.realestatemanager2.viewmodels.HomeViewModel;
 
-public class GalleryFragment extends Fragment {
-
-	private GalleryViewModel galleryViewModel;
-
+public class HomeFragment extends Fragment {
+	
+	private HomeViewModel       homeViewModel;
+	private FragmentHomeBinding mFragmentHomeBinding;
+	
 	public View onCreateView(@NonNull LayoutInflater inflater,
 	                         ViewGroup container,
 	                         Bundle savedInstanceState) {
-		galleryViewModel = ViewModelProviders
+		mFragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false);
+		
+		homeViewModel = ViewModelProviders
 				.of(this)
-				.get(GalleryViewModel.class);
-		View           root     = inflater.inflate(R.layout.fragment_gallery, container, false);
-		final TextView textView = root.findViewById(R.id.text_gallery);
-		galleryViewModel
+				.get(HomeViewModel.class);
+		
+		final TextView textView = mFragmentHomeBinding.textHome;
+		homeViewModel
 				.getText()
 				.observe(getViewLifecycleOwner(), new Observer<String>() {
 					@Override
@@ -34,6 +38,7 @@ public class GalleryFragment extends Fragment {
 						textView.setText(s);
 					}
 				});
-		return root;
+		
+		return mFragmentHomeBinding.getRoot();
 	}
 }
