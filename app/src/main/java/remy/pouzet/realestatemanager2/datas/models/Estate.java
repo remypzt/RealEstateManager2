@@ -1,11 +1,14 @@
 package remy.pouzet.realestatemanager2.datas.models;
 
+import androidx.room.Entity;
+
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Remy Pouzet on 03/11/2020.
  */
+@Entity
 public class Estate {
 	
 	private String mType;

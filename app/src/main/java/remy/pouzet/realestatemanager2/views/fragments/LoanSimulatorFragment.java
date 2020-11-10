@@ -40,5 +40,6 @@ public class LoanSimulatorFragment extends Fragment {
 				});
 		
 		return mFragmentLoanSimulatorBinding.getRoot();
+		
 	}
 }

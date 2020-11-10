@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraint_layout_of_content_item_of_fragment_estate_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/estate_main_picture_of_content_item_of_fragment_estate_list"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/nav_header_desc"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/estate_type_of_content_item_of_fragment_estate_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/textview"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/estate_main_picture_of_content_item_of_fragment_estate_list"
+        app:layout_constraintTop_toTopOf="@id/estate_main_picture_of_content_item_of_fragment_estate_list" />
+
+    <TextView
+        android:id="@+id/estate_city_location_of_content_item_of_fragment_estate_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/textview"
+        app:layout_constraintStart_toStartOf="@id/estate_type_of_content_item_of_fragment_estate_list"
+        app:layout_constraintTop_toBottomOf="@+id/estate_type_of_content_item_of_fragment_estate_list" />
+
+    <TextView
+        android:id="@+id/estate_price_of_content_item_of_fragment_estate_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/textview"
+        app:layout_constraintStart_toStartOf="@id/estate_type_of_content_item_of_fragment_estate_list"
+        app:layout_constraintTop_toBottomOf="@+id/estate_city_location_of_content_item_of_fragment_estate_list" />
+
+    <View
+        android:id="@+id/separation"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintStart_toEndOf="@id/estate_main_picture_of_content_item_of_fragment_estate_list"
+        app:layout_constraintTop_toBottomOf="@id/estate_main_picture_of_content_item_of_fragment_estate_list" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

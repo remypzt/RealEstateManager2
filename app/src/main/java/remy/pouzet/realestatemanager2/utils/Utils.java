@@ -1,6 +1,5 @@
 package remy.pouzet.realestatemanager2.utils;
 
-import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -66,19 +65,19 @@ public class Utils {
 	 * Vérification de la connexion réseau
 	 * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
 	 *
-	 * @param application
+	 * @param context
 	 * @return
 	 */
 	
-	public static Boolean isNetworkAvailable(Application application) {
-		ConnectivityManager connectivityManager = (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
+	public static Boolean isNetworkAvailable(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 			Network nw = connectivityManager.getActiveNetwork();
 			if (nw == null) {
 				return false;
 			}
 			NetworkCapabilities actNw = connectivityManager.getNetworkCapabilities(nw);
-			return actNw != null && (actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH));
+			return actNw != null && (actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
 		} else {
 			NetworkInfo nwInfo = connectivityManager.getActiveNetworkInfo();
 			return nwInfo != null && nwInfo.isConnected();

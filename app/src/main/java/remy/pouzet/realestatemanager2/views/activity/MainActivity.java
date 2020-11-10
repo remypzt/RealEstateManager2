@@ -2,12 +2,15 @@ package remy.pouzet.realestatemanager2.views.activity;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.ActivityMainBinding;
@@ -42,16 +45,16 @@ public class MainActivity extends AppCompatActivity {
 		
 		setContentView(mActivityMainBinding.getRoot());
 		setSupportActionBar(mActivityMainBinding.mainToolbar.toolbar);
-
-//		mAppBarMainBinding.fab.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View view) {
-//				Snackbar
-//						.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//						.setAction("Action", null)
-//						.show();
-//			}
-//		});
+		
+		mActivityMainBinding.mainToolbar.fab.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Snackbar
+						.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+						.setAction("Action", null)
+						.show();
+			}
+		});
 		
 		// Passing each menu ID as a set of Ids because each
 		// menu should be considered as top level destinations.
