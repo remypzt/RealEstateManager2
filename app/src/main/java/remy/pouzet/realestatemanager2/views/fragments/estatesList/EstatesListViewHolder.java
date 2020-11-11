@@ -15,11 +15,11 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
  */
 public class EstatesListViewHolder extends RecyclerView.ViewHolder {
 	
-	private @NonNull final ContentItemsOfFragmentEstateListBinding mContentItemsOfFragmentEstateListBinding;
-	public                 ImageView                               mainPictureEstate;
-	public                 TextView                                typeEstate;
-	public                 TextView                                cityLocationEstate;
-	public                 TextView                                priceEstate;
+	private final ContentItemsOfFragmentEstateListBinding mContentItemsOfFragmentEstateListBinding;
+	public        ImageView                               mainPictureEstate;
+	public        TextView                                typeEstate;
+	public        TextView                                cityLocationEstate;
+	public        TextView                                priceEstate;
 	
 	public EstatesListViewHolder(@NonNull View itemView) {
 		super(itemView);
@@ -28,10 +28,14 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
 		typeEstate                               = mContentItemsOfFragmentEstateListBinding.estateTypeOfContentItemOfFragmentEstateList;
 		cityLocationEstate                       = mContentItemsOfFragmentEstateListBinding.estateCityLocationOfContentItemOfFragmentEstateList;
 		priceEstate                              = mContentItemsOfFragmentEstateListBinding.estatePriceOfContentItemOfFragmentEstateList;
+		
+		cityLocationEstate.setText("test");
+		
 	}
 	
 	public void updateEstates(Estate estate) {
-		typeEstate.setText("TEST");
+		priceEstate.setText("1");
+		typeEstate.setText(estate.getType());
 	}
 
 //	private void clickRestaurant(String placeID) {

@@ -1,6 +1,5 @@
 package remy.pouzet.realestatemanager2.views.fragments.estatesList;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +18,11 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 public class EstatesListAdapter extends RecyclerView.Adapter<EstatesListViewHolder> {
 	
 	// FOR DATA
-	private final List<Estate> estatesList;
+	List<Estate> estatesList;
 	
 	// CONSTRUCTOR
 	public EstatesListAdapter(List<Estate> estatesList) {
+		
 		this.estatesList = estatesList;
 	}
 	
@@ -31,15 +31,14 @@ public class EstatesListAdapter extends RecyclerView.Adapter<EstatesListViewHold
 	public EstatesListViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
 	                                                int viewType) {
 		// CREATE VIEW HOLDER AND INFLATING ITS XML LAYOUT
-		Context        context  = parent.getContext();
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View           view     = inflater.inflate(R.layout.fragment_estates_list, parent, false);
+		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+		View           view     = inflater.inflate(R.layout.content_items_of_fragment_estate_list, parent, false);
 		
 		return new EstatesListViewHolder(view);
 		
 	}
 	
-	// UPDATE VIEW HOLDER WITH A GITHUBUSER
+	// UPDATE VIEW HOLDER
 	@Override
 	public void onBindViewHolder(@NonNull EstatesListViewHolder viewHolder,
 	                             int position) {

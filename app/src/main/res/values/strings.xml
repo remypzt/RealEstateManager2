@@ -7,9 +7,12 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
+    <string name="menu_estates_list">Estates list</string>
     <string name="menu_loan_simulator">Loan simulator</string>
     <string name="saved">saved</string>
     <string name="error_happened">error happened</string>
     <string name="textview">textview</string>
+    <string name="menu_details">Details</string>
+    <string name="menu_form">Form</string>
+    <string name="menu_search">Search</string>
 </resources>

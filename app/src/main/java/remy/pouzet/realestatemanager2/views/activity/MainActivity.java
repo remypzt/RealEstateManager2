@@ -14,30 +14,41 @@ import com.google.android.material.snackbar.Snackbar;
 
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.ActivityMainBinding;
-import remy.pouzet.realestatemanager2.databinding.AppBarMainBinding;
-
 //------------------------------------------------------//
 // ------------------    Binding    ------------------- //
+//------------------------------------------------------//
 // ------------------   Variables   ------------------- //
+//------------------------------------------------------//
 // ------------------   LifeCycle   ------------------- //
+//------------------------------------------------------//
 // ------------------   Functions   ------------------- //
+//------------------------------------------------------//
 // ------------------     Intent    ------------------- //
+//------------------------------------------------------//
 // ------------------   Callbacks   ------------------- //
+//------------------------------------------------------//
 // ------------------     Data      ------------------- //
+//------------------------------------------------------//
 // ------------------    Adapter    ------------------- //
+//------------------------------------------------------//
 // ------------------ Miscellaneous ------------------- //
+//------------------------------------------------------//
 // ----------------- Navigation, Menu, UI ------------- //
 //------------------------------------------------------//
+
 public class MainActivity extends AppCompatActivity {
-	
+	//------------------------------------------------------//
 	// ------------------   Variables   ------------------- //
+	//------------------------------------------------------//
 	private AppBarConfiguration mAppBarConfiguration;
-	
+	//------------------------------------------------------//
 	// ------------------    Binding    ------------------- //
+	//------------------------------------------------------//
 	private ActivityMainBinding mActivityMainBinding;
-	private AppBarMainBinding   mAppBarMainBinding;
 	
+	//------------------------------------------------------//
 	// ------------------   LifeCycle   ------------------- //
+	//------------------------------------------------------//
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 		mActivityMainBinding.mainToolbar.fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				
 				Snackbar
 						.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 						.setAction("Action", null)
@@ -58,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 		
 		// Passing each menu ID as a set of Ids because each
 		// menu should be considered as top level destinations.
-		mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_loan_simulator)
+		mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_estates_list, R.id.nav_loan_simulator)
 				.setDrawerLayout(mActivityMainBinding.drawerLayout)
 				.build();
 		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -66,7 +78,9 @@ public class MainActivity extends AppCompatActivity {
 		NavigationUI.setupWithNavController(mActivityMainBinding.navView, navController);
 	}
 	
+	//------------------------------------------------------//
 	// ----------------- Navigation, Menu, UI ------------- //
+	//------------------------------------------------------//
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

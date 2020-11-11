@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_estates_list">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_estates_list"
         android:name="remy.pouzet.realestatemanager2.views.fragments.estatesList.EstatesListFragment"
-        android:label="@string/menu_home"
+        android:label="@string/menu_estates_list"
         tools:layout="@layout/fragment_estates_list" />
 
 
@@ -17,4 +17,22 @@
         android:name="remy.pouzet.realestatemanager2.views.fragments.LoanSimulatorFragment"
         android:label="@string/menu_loan_simulator"
         tools:layout="@layout/fragment_loan_simulator" />
+
+    <fragment
+        android:id="@+id/nav_details"
+        android:name="remy.pouzet.realestatemanager2.views.fragments.DetailsFragment"
+        android:label="@string/menu_details"
+        tools:layout="@layout/fragment_details" />
+
+    <fragment
+        android:id="@+id/nav_form"
+        android:name="remy.pouzet.realestatemanager2.views.fragments.FormFragment"
+        android:label="@string/menu_form"
+        tools:layout="@layout/fragment_form" />
+
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="remy.pouzet.realestatemanager2.views.fragments.SearchFragment"
+        android:label="@string/menu_search"
+        tools:layout="@layout/fragment_search" />
 </navigation>
