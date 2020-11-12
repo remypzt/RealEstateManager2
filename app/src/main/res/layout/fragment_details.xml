@@ -6,17 +6,156 @@
     android:layout_height="match_parent"
     tools:context=".views.fragments.DetailsFragment">
 
+
     <TextView
-        android:id="@+id/text_gallery"
-        android:layout_width="match_parent"
+        android:id="@+id/media_title_fragment_details"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/media"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/estate_pictures_list_fragment_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/media_title_fragment_details"
+        app:layout_constraintTop_toBottomOf="@id/media_title_fragment_details" />
+
+    <TextView
+        android:id="@+id/description_title_fragment_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/description"
+        app:layout_constraintStart_toStartOf="@+id/media_title_fragment_details"
+        app:layout_constraintTop_toBottomOf="@id/estate_pictures_list_fragment_details" />
+
+    <TextView
+        android:id="@+id/content_description_fragment_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/content_description"
+        app:layout_constraintStart_toStartOf="@+id/media_title_fragment_details"
+        app:layout_constraintTop_toBottomOf="@id/description_title_fragment_details" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/estate_specification_constraint_layout_fragment_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description_title_fragment_details">
+
+        <ImageView
+            android:id="@+id/surface_picture_fragment_details"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+        <TextView
+            android:id="@+id/surface_title_fragment_details"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Surface"
+            app:layout_constraintStart_toEndOf="@+id/surface_picture_fragment_details"
+            app:layout_constraintTop_toTopOf="@+id/surface_picture_fragment_details"></TextView>
+
+        <TextView
+            android:id="@+id/surface_value_fragment_details"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="surface value"
+            app:layout_constraintStart_toStartOf="@+id/surface_title_fragment_details"
+            app:layout_constraintTop_toBottomOf="@+id/surface_title_fragment_details"></TextView>
+
+        <ImageView
+            android:id="@+id/rooms_picture_fragment_details"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            app:layout_constraintStart_toStartOf="@+id/surface_picture_fragment_details"
+            app:layout_constraintTop_toBottomOf="@+id/surface_value_fragment_details"></ImageView>
+
+        <TextView
+            android:id="@+id/rooms_title_fragment_details"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Number of rooms"
+            app:layout_constraintStart_toEndOf="@+id/rooms_picture_fragment_details"
+            app:layout_constraintTop_toTopOf="@+id/rooms_picture_fragment_details"></TextView>
+
+        <TextView
+            android:id="@+id/rooms_value_fragment_details"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="rooms value"
+            app:layout_constraintStart_toStartOf="@+id/rooms_title_fragment_details"
+            app:layout_constraintTop_toBottomOf="@+id/rooms_title_fragment_details"></TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/estate_specification_second_column_constraint_layout_fragment_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/estate_specification_constraint_layout_fragment_details"
+        app:layout_constraintTop_toTopOf="@+id/estate_specification_constraint_layout_fragment_details">
+
+        <ImageView
+            android:id="@+id/location_picture_fragment_details"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+        <TextView
+            android:id="@+id/location_title_fragment_details"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Location"
+            app:layout_constraintStart_toEndOf="@+id/location_picture_fragment_details"
+            app:layout_constraintTop_toTopOf="@+id/location_picture_fragment_details"></TextView>
+
+        <TextView
+            android:id="@+id/location_value_fragment_details"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="location value"
+            app:layout_constraintStart_toStartOf="@+id/location_title_fragment_details"
+            app:layout_constraintTop_toBottomOf="@+id/location_title_fragment_details"></TextView>
+
+        <ImageView
+            android:id="@+id/contact_picture_fragment_details"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            app:layout_constraintStart_toStartOf="@+id/location_picture_fragment_details"
+            app:layout_constraintTop_toBottomOf="@+id/location_value_fragment_details"></ImageView>
+
+        <TextView
+            android:id="@+id/contact_title_fragment_details"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="contact"
+            app:layout_constraintStart_toEndOf="@+id/contact_picture_fragment_details"
+            app:layout_constraintTop_toTopOf="@+id/contact_picture_fragment_details"></TextView>
+
+        <TextView
+            android:id="@+id/contact_value_fragment_details"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="contact value"
+            app:layout_constraintStart_toStartOf="@+id/contact_title_fragment_details"
+            app:layout_constraintTop_toBottomOf="@+id/contact_title_fragment_details"></TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintStart_toEndOf="@+id/estate_specification_second_column_constraint_layout_fragment_details"
+        app:layout_constraintTop_toTopOf="@+id/estate_specification_constraint_layout_fragment_details"
+
+        >
+
+    </ImageView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

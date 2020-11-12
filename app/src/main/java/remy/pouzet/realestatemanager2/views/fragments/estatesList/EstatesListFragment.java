@@ -67,7 +67,7 @@ public class EstatesListFragment extends Fragment {
 		mRecyclerView               = mFragmentEstatesListBinding.fragmentMainRecyclerView;
 		
 		estatesList = new ArrayList<>();
-		estatesList.add(new Estate("test", "test", 1, null, "test", 2, 2, "test", null, null, null, null, null));
+		estatesList.add(new Estate("test", "test", 1, null, 1, "test", 2, 2, "test", null, null));
 		
 		this.configureRecyclerView(); // -  Call during UI creation
 		

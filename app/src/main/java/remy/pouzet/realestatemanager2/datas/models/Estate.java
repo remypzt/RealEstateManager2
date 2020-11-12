@@ -1,9 +1,7 @@
 package remy.pouzet.realestatemanager2.datas.models;
 
 import androidx.room.Entity;
-
-import java.util.Date;
-import java.util.List;
+import androidx.room.PrimaryKey;
 
 /**
  * Created by Remy Pouzet on 03/11/2020.
@@ -15,6 +13,8 @@ public class Estate {
 	private String mCity;
 	private int    mPrice;
 	
+	@PrimaryKey(autoGenerate = true) private long mId;
+	
 	private String mMainPicture;
 	
 	private String mDescription;
@@ -22,47 +22,51 @@ public class Estate {
 	private int    mRooms;
 	private String mAdress;
 	
-	private List<String> mPOI;
-	private String       mStatus;
-	private Date         mEntranceDate;
-	private Date         mSelledDate;
-	private String       mAgent;
+	private String mStatus;
+	private String mAgent;
+	
+	//	private List<String> mPOI;
+//	private Date         mEntranceDate;
+//	private Date         mSelledDate;
 	
 	public Estate(String type,
 	              String city,
 	              int price,
 	              String mainPicture,
-	
+	              long id,
 	              String description,
 	              int surface,
 	              int rooms,
 	              String adress,
-	              List<String> pOI,
 	              String status,
-	              Date entranceDate,
-	              Date selledDate,
-	              String agent) {
-		mType         = type;
-		mCity         = city;
-		mPrice        = price;
-		mMainPicture  = mainPicture;
-		mDescription  = description;
-		mSurface      = surface;
-		mRooms        = rooms;
-		mAdress       = adress;
-		mPOI          = pOI;
-		mStatus       = status;
-		mEntranceDate = entranceDate;
-		mSelledDate   = selledDate;
-		mAgent        = agent;
+	              String agent
+//	              List<String> pOI,
+//	              Date entranceDate,
+//	              Date selledDate,
+	             ) {
+		mId          = id;
+		mType        = type;
+		mCity        = city;
+		mPrice       = price;
+		mMainPicture = mainPicture;
+		mDescription = description;
+		mSurface     = surface;
+		mRooms       = rooms;
+		mAdress      = adress;
+		mStatus      = status;
+		mAgent       = agent;
+//		mPOI          = pOI;
+//		mEntranceDate = entranceDate;
+//		mSelledDate   = selledDate;
+	
 	}
 	
-	public List<String> getPOI() {
-		return mPOI;
+	public long getId() {
+		return mId;
 	}
 	
-	public void setPOI(List<String> parameterPOI) {
-		mPOI = parameterPOI;
+	public void setId(long parameterId) {
+		mId = parameterId;
 	}
 	
 	public String getStatus() {
@@ -72,22 +76,31 @@ public class Estate {
 	public void setStatus(String parameterStatus) {
 		mStatus = parameterStatus;
 	}
-	
-	public Date getEntranceDate() {
-		return mEntranceDate;
-	}
-	
-	public void setEntranceDate(Date parameterEntranceDate) {
-		mEntranceDate = parameterEntranceDate;
-	}
-	
-	public Date getSelledDate() {
-		return mSelledDate;
-	}
-	
-	public void setSelledDate(Date parameterSelledDate) {
-		mSelledDate = parameterSelledDate;
-	}
+
+//	public List<String> getPOI() {
+//		return mPOI;
+//	}
+//
+//	public void setPOI(List<String> parameterPOI) {
+//		mPOI = parameterPOI;
+//	}
+//
+//
+//	public Date getEntranceDate() {
+//		return mEntranceDate;
+//	}
+//
+//	public void setEntranceDate(Date parameterEntranceDate) {
+//		mEntranceDate = parameterEntranceDate;
+//	}
+//
+//	public Date getSelledDate() {
+//		return mSelledDate;
+//	}
+//
+//	public void setSelledDate(Date parameterSelledDate) {
+//		mSelledDate = parameterSelledDate;
+//	}
 	
 	public String getAgent() {
 		return mAgent;

@@ -16,7 +16,12 @@
         android:id="@+id/nav_loan_simulator"
         android:name="remy.pouzet.realestatemanager2.views.fragments.LoanSimulatorFragment"
         android:label="@string/menu_loan_simulator"
-        tools:layout="@layout/fragment_loan_simulator" />
+        tools:layout="@layout/fragment_loan_simulator">
+        <action
+            android:id="@+id/nav_loan_simulator_action"
+            app:destination="@+id/nav_loan_simulator" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/nav_details"
