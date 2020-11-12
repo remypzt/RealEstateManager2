@@ -17,8 +17,11 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 @Dao
 public interface EstateDao {
 	
+	@Query("SELECT * FROM Estate ")
+	LiveData<List<Estate>> getAllEstates();
+	
 	@Query("SELECT * FROM Estate  WHERE mId = :id")
-	LiveData<List<Estate>> getEstates(long id);
+	LiveData<Estate> getEstate(long id);
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	void createEstate(Estate estate);

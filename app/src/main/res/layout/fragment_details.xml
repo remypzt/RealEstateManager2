@@ -51,7 +51,7 @@
             android:layout_width="5dp"
             android:layout_height="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></ImageView>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/surface_title_fragment_details"
@@ -59,7 +59,7 @@
             android:layout_height="match_parent"
             android:text="Surface"
             app:layout_constraintStart_toEndOf="@+id/surface_picture_fragment_details"
-            app:layout_constraintTop_toTopOf="@+id/surface_picture_fragment_details"></TextView>
+            app:layout_constraintTop_toTopOf="@+id/surface_picture_fragment_details" />
 
         <TextView
             android:id="@+id/surface_value_fragment_details"
@@ -67,14 +67,14 @@
             android:layout_height="match_parent"
             android:text="surface value"
             app:layout_constraintStart_toStartOf="@+id/surface_title_fragment_details"
-            app:layout_constraintTop_toBottomOf="@+id/surface_title_fragment_details"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/surface_title_fragment_details" />
 
         <ImageView
             android:id="@+id/rooms_picture_fragment_details"
             android:layout_width="5dp"
             android:layout_height="5dp"
             app:layout_constraintStart_toStartOf="@+id/surface_picture_fragment_details"
-            app:layout_constraintTop_toBottomOf="@+id/surface_value_fragment_details"></ImageView>
+            app:layout_constraintTop_toBottomOf="@+id/surface_value_fragment_details" />
 
         <TextView
             android:id="@+id/rooms_title_fragment_details"
@@ -82,7 +82,7 @@
             android:layout_height="match_parent"
             android:text="Number of rooms"
             app:layout_constraintStart_toEndOf="@+id/rooms_picture_fragment_details"
-            app:layout_constraintTop_toTopOf="@+id/rooms_picture_fragment_details"></TextView>
+            app:layout_constraintTop_toTopOf="@+id/rooms_picture_fragment_details" />
 
         <TextView
             android:id="@+id/rooms_value_fragment_details"
@@ -90,7 +90,7 @@
             android:layout_height="match_parent"
             android:text="rooms value"
             app:layout_constraintStart_toStartOf="@+id/rooms_title_fragment_details"
-            app:layout_constraintTop_toBottomOf="@+id/rooms_title_fragment_details"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/rooms_title_fragment_details" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -105,7 +105,7 @@
             android:layout_width="5dp"
             android:layout_height="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></ImageView>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/location_title_fragment_details"
@@ -113,7 +113,7 @@
             android:layout_height="match_parent"
             android:text="Location"
             app:layout_constraintStart_toEndOf="@+id/location_picture_fragment_details"
-            app:layout_constraintTop_toTopOf="@+id/location_picture_fragment_details"></TextView>
+            app:layout_constraintTop_toTopOf="@+id/location_picture_fragment_details" />
 
         <TextView
             android:id="@+id/location_value_fragment_details"
@@ -121,14 +121,14 @@
             android:layout_height="match_parent"
             android:text="location value"
             app:layout_constraintStart_toStartOf="@+id/location_title_fragment_details"
-            app:layout_constraintTop_toBottomOf="@+id/location_title_fragment_details"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/location_title_fragment_details" />
 
         <ImageView
             android:id="@+id/contact_picture_fragment_details"
             android:layout_width="5dp"
             android:layout_height="5dp"
             app:layout_constraintStart_toStartOf="@+id/location_picture_fragment_details"
-            app:layout_constraintTop_toBottomOf="@+id/location_value_fragment_details"></ImageView>
+            app:layout_constraintTop_toBottomOf="@+id/location_value_fragment_details" />
 
         <TextView
             android:id="@+id/contact_title_fragment_details"
@@ -136,7 +136,7 @@
             android:layout_height="match_parent"
             android:text="contact"
             app:layout_constraintStart_toEndOf="@+id/contact_picture_fragment_details"
-            app:layout_constraintTop_toTopOf="@+id/contact_picture_fragment_details"></TextView>
+            app:layout_constraintTop_toTopOf="@+id/contact_picture_fragment_details" />
 
         <TextView
             android:id="@+id/contact_value_fragment_details"
@@ -144,7 +144,7 @@
             android:layout_height="match_parent"
             android:text="contact value"
             app:layout_constraintStart_toStartOf="@+id/contact_title_fragment_details"
-            app:layout_constraintTop_toBottomOf="@+id/contact_title_fragment_details"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/contact_title_fragment_details" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView

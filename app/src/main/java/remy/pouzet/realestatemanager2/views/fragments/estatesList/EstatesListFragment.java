@@ -66,8 +66,6 @@ public class EstatesListFragment extends Fragment {
 		mFragmentEstatesListBinding = FragmentEstatesListBinding.inflate(inflater, container, false);
 		mRecyclerView               = mFragmentEstatesListBinding.fragmentMainRecyclerView;
 		
-		estatesList = new ArrayList<>();
-		estatesList.add(new Estate("test", "test", 1, null, 1, "test", 2, 2, "test", null, null));
 		
 		this.configureRecyclerView(); // -  Call during UI creation
 		
@@ -100,6 +98,8 @@ public class EstatesListFragment extends Fragment {
 	private void configureRecyclerView() {
 		//  - Reset list
 		this.estatesList = new ArrayList<>();
+		estatesList.add(new Estate("test", "test", 1, null, 1, "test", 2, 2, "test", null, null));
+		
 		//  - Create adapter passing the list of users
 		this.estatesListAdapter = new EstatesListAdapter(this.estatesList);
 		//  - Attach the adapter to the recyclerview to populate items
@@ -112,9 +112,9 @@ public class EstatesListFragment extends Fragment {
 	//updateListOfArticles still in Fragments cause I must call the adapter and I cannot do it in viewmodel
 	
 	public void updateList(List<Estate> estatesList) {
-		estatesList.clear();
+		this.estatesList.clear();
 		if (estatesList != null) {
-			estatesList.addAll(estatesList);
+			this.estatesList.addAll(estatesList);
 			estatesListAdapter.notifyDataSetChanged();
 		}
 	}
