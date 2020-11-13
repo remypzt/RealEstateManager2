@@ -10,9 +10,16 @@
         android:name="remy.pouzet.realestatemanager2.views.fragments.estatesList.EstatesListFragment"
         android:label="@string/menu_estates_list"
         tools:layout="@layout/fragment_estates_list">
+
         <action
-            android:id="@+id/action_search"
-            app:destination="@+id/nav_loan_simulator" />
+            android:id="@+id/action_nav_estates_list_to_nav_form"
+            app:destination="@id/nav_form" />
+        <action
+            android:id="@+id/action_nav_estates_list_to_nav_search"
+            app:destination="@id/nav_search" />
+        <action
+            android:id="@+id/action_nav_estates_list_to_nav_details"
+            app:destination="@id/nav_details" />
     </fragment>
 
 
@@ -29,7 +36,11 @@
         android:id="@+id/nav_details"
         android:name="remy.pouzet.realestatemanager2.views.fragments.DetailsFragment"
         android:label="@string/menu_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details">
+        <action
+            android:id="@+id/action_nav_details_to_nav_form"
+            app:destination="@id/nav_form" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_form"

@@ -23,16 +23,6 @@ public class DetailsFragment extends Fragment {
 		mDetailsViewModel       = ViewModelProviders
 				.of(this)
 				.get(DetailsViewModel.class);
-//
-////		final TextView textView = mFragmentDetailsBinding.textGallery;
-//		mDetailsViewModel
-//				.getText()
-//				.observe(getViewLifecycleOwner(), new Observer<String>() {
-//					@Override
-////					public void onChanged(@Nullable String s) {
-////						textView.setText(s);
-////					}
-//				});
 		
 		return mFragmentDetailsBinding.getRoot();
 	}
