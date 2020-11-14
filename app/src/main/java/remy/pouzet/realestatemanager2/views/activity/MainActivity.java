@@ -81,10 +81,28 @@ public class MainActivity extends AppCompatActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-		MenuItem searchActionButton = menu.findItem(R.id.action_search);
-		MenuItem modifyActionbutton = menu.findItem(R.id.action_modify);
+		MenuItem searchActionButton = menu.findItem(R.id.action_search_button);
+		MenuItem modifyActionbutton = menu.findItem(R.id.action_modify_button);
 		navigationManagement(searchActionButton, modifyActionbutton);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_search_button:
+				Navigation
+						.findNavController(this, R.id.nav_host_fragment)
+						.navigate(R.id.action_nav_estates_list_to_nav_search);
+				return true;
+			case R.id.action_modify_button:
+				Navigation
+						.findNavController(this, R.id.nav_host_fragment)
+						.navigate(R.id.action_nav_estates_list_to_nav_form);
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	public void navigationManagement(MenuItem searchActionButton,
@@ -92,6 +110,9 @@ public class MainActivity extends AppCompatActivity {
 		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 		NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 		NavigationUI.setupWithNavController(mActivityMainBinding.navView, navController);
+		
+		
+		/* Set items visibility depends navigation position*/
 		navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
 			@Override
 			public void onDestinationChanged(@NonNull NavController controller,
@@ -99,18 +120,15 @@ public class MainActivity extends AppCompatActivity {
 			                                 @Nullable Bundle arguments) {
 				if (destination.getId() != R.id.nav_estates_list) {
 					mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
+				} else {
+					mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
 				}
-				if (destination.getId() == R.id.nav_details || destination.getId() == R.id.nav_estates_list) {
-					searchActionButton.setVisible(true);
-				}
-				if (destination.getId() != R.id.nav_details) {
-					modifyActionButton.setVisible(false);
-				}
+				searchActionButton.setVisible(destination.getId() == R.id.nav_details || destination.getId() == R.id.nav_estates_list);
+				modifyActionButton.setVisible(destination.getId() == R.id.nav_details);
 			}
 		});
-		
 		Navigation.setViewNavController(mActivityMainBinding.mainToolbar.fab, Navigation.findNavController(this, R.id.nav_host_fragment));
 		mActivityMainBinding.mainToolbar.fab.setOnClickListener((Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_form, null)));
-		
 	}
+	
 }

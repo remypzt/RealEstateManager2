@@ -13,10 +13,10 @@
 
         <action
             android:id="@+id/action_nav_estates_list_to_nav_form"
-            app:destination="@id/nav_form" />
+            app:destination="@id/action_modify_button" />
         <action
             android:id="@+id/action_nav_estates_list_to_nav_search"
-            app:destination="@id/nav_search" />
+            app:destination="@id/action_search_button" />
         <action
             android:id="@+id/action_nav_estates_list_to_nav_details"
             app:destination="@id/nav_details" />
@@ -39,17 +39,17 @@
         tools:layout="@layout/fragment_details">
         <action
             android:id="@+id/action_nav_details_to_nav_form"
-            app:destination="@id/nav_form" />
+            app:destination="@id/action_modify_button" />
     </fragment>
 
     <fragment
-        android:id="@+id/nav_form"
+        android:id="@+id/action_modify_button"
         android:name="remy.pouzet.realestatemanager2.views.fragments.FormFragment"
         android:label="@string/menu_form"
         tools:layout="@layout/fragment_form" />
 
     <fragment
-        android:id="@+id/nav_search"
+        android:id="@+id/action_search_button"
         android:name="remy.pouzet.realestatemanager2.views.fragments.SearchFragment"
         android:label="@string/menu_search"
         tools:layout="@layout/fragment_search" />
