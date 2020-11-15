@@ -5,8 +5,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.ContentItemsOfFragmentEstateListBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 
@@ -20,6 +23,7 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
 	public        TextView                                typeEstate;
 	public        TextView                                cityLocationEstate;
 	public        TextView                                priceEstate;
+	public        ConstraintLayout                        constraintLayout;
 	
 	public EstatesListViewHolder(@NonNull View itemView) {
 		super(itemView);
@@ -28,57 +32,12 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
 		typeEstate                               = mContentItemsOfFragmentEstateListBinding.estateTypeOfContentItemOfFragmentEstateList;
 		cityLocationEstate                       = mContentItemsOfFragmentEstateListBinding.estateCityLocationOfContentItemOfFragmentEstateList;
 		priceEstate                              = mContentItemsOfFragmentEstateListBinding.estatePriceOfContentItemOfFragmentEstateList;
-		
-		cityLocationEstate.setText("test");
-		
+		constraintLayout                         = mContentItemsOfFragmentEstateListBinding.constraintLayoutOfContentItemOfFragmentEstateList;
 	}
 	
 	public void updateEstates(Estate estate) {
-		priceEstate.setText("1");
 		typeEstate.setText(estate.getType());
+		constraintLayout.setOnClickListener((Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_details, null)));
 	}
-
-//	private void clickRestaurant(String placeID) {
-//		RestaurantsRepository.getInstance().mRestaurantsApiInterfaceService
-//				.getResponseOfPlaceDetailsRestaurants(placeID, BuildConfig.apiKey)
-//				.enqueue(new Callback<ResponseOfPlaceDetailsRestaurants>() {
-//					@Override
-//					public void onResponse(Call<ResponseOfPlaceDetailsRestaurants> call,
-//					                       Response<ResponseOfPlaceDetailsRestaurants> response) {
-//						if (response.isSuccessful()) {
-//
-//							Restaurant restaurant = new Restaurant(placeID, "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=" + response
-//									.body()
-//									.getResult()
-//									.getPhotos()
-//									.get(0)
-//									.getPhotoReference() + "&key=" + BuildConfig.apiKey, response
-//									                                       .body()
-//									                                       .getResult()
-//									                                       .getName(), response
-//									                                       .body()
-//									                                       .getResult()
-//									                                       .getFormattedAddress(), response
-//									                                       .body()
-//									                                       .getStatus(), "distance", 0, response
-//									                                       .body()
-//									                                       .getResult()
-//									                                       .getRating(), response
-//									                                       .body()
-//									                                       .getResult()
-//									                                       .getInternationalPhoneNumber(), response
-//									                                       .body()
-//									                                       .getResult()
-//									                                       .getWebsite(), 0, 0);
-//
-//							RestaurantDetailsActivity.startActivity(textViewProfile.getContext(), restaurant);
-//						}
-//					}
-//
-//					@Override
-//					public void onFailure(Call<> call,
-//					                      Throwable t) {
-//					}
-//				});
 }
 

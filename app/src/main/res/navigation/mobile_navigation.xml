@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_nav_details_to_nav_form"
             app:destination="@id/action_modify_button" />
+        <action
+            android:id="@+id/action_nav_details_to_action_search_button"
+            app:destination="@id/action_search_button" />
     </fragment>
 
     <fragment

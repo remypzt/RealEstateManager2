@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 	// ------------------   Variables   ------------------- //
 	//------------------------------------------------------//
 	private AppBarConfiguration mAppBarConfiguration;
+	public  int                 navigateToNavSearch;
+	public  int                 navigateToNavForm;
 	//------------------------------------------------------//
 	// ------------------    Binding    ------------------- //
 	//------------------------------------------------------//
@@ -89,11 +91,21 @@ public class MainActivity extends AppCompatActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+		if (navController
+				    .getCurrentDestination()
+				    .getId() == R.id.nav_estates_list) {
+			navigateToNavSearch = R.id.action_nav_estates_list_to_nav_search;
+		} else if (navController
+				           .getCurrentDestination()
+				           .getId() == R.id.nav_details) {
+			navigateToNavSearch = R.id.action_nav_details_to_action_search_button;
+		}
 		switch (item.getItemId()) {
 			case R.id.action_search_button:
 				Navigation
 						.findNavController(this, R.id.nav_host_fragment)
-						.navigate(R.id.action_nav_estates_list_to_nav_search);
+						.navigate(navigateToNavSearch);
 				return true;
 			case R.id.action_modify_button:
 				Navigation
@@ -111,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
 		NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 		NavigationUI.setupWithNavController(mActivityMainBinding.navView, navController);
 		
-		
 		/* Set items visibility depends navigation position*/
 		navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
 			@Override
@@ -127,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
 				modifyActionButton.setVisible(destination.getId() == R.id.nav_details);
 			}
 		});
+		
 		Navigation.setViewNavController(mActivityMainBinding.mainToolbar.fab, Navigation.findNavController(this, R.id.nav_host_fragment));
 		mActivityMainBinding.mainToolbar.fab.setOnClickListener((Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_form, null)));
 	}
