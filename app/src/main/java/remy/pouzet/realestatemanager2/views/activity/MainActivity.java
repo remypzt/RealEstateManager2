@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
 	//------------------------------------------------------//
 	private AppBarConfiguration mAppBarConfiguration;
 	public  int                 navigateToNavSearch;
-	public  int                 navigateToNavForm;
 	//------------------------------------------------------//
 	// ------------------    Binding    ------------------- //
 	//------------------------------------------------------//
@@ -138,9 +137,7 @@ public class MainActivity extends AppCompatActivity {
 				modifyActionButton.setVisible(destination.getId() == R.id.nav_details);
 			}
 		});
-		
 		Navigation.setViewNavController(mActivityMainBinding.mainToolbar.fab, Navigation.findNavController(this, R.id.nav_host_fragment));
 		mActivityMainBinding.mainToolbar.fab.setOnClickListener((Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_form, null)));
 	}
-	
 }
