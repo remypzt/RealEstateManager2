@@ -9,9 +9,12 @@ import java.util.concurrent.TimeUnit
  * Created by Remy Pouzet on 15/11/2020.
  */
 
-object LiveDataTestUtil
+object LiveDataTestUtilKt
 {
-    // @Throws(InterruptedException::class)
+    /**
+     * Get the value from a LiveData object. We're waiting for LiveData to emit, for 2 seconds.
+     * Once we got a notification via onChanged, we stop observing.
+     */
     fun <T> getValue(liveData: LiveData<T>): T
     {
         val data = arrayOfNulls<Any>(1)
@@ -28,6 +31,7 @@ object LiveDataTestUtil
         liveData.observeForever(observer)
         latch.await(2, TimeUnit.SECONDS)
 
+        @Suppress("UNCHECKED_CAST")
         return data[0] as T
     }
 }

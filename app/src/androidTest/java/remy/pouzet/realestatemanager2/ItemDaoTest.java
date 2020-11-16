@@ -12,9 +12,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import remy.pouzet.realestatemanager2.datas.database.EstateDatabase;
+import remy.pouzet.realestatemanager2.datas.database.dao.EstateDao;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Remy Pouzet on 15/11/2020.
@@ -28,14 +29,16 @@ public class ItemDaoTest {
 	@Rule public         InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 	// FOR DATA
 	private              EstateDatabase          database;
+	private              EstateDao               mEstateDao;
 	
 	@Before
 	public void initDb() throws
 	                     Exception {
-		this.database = Room
-				.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(), EstateDatabase.class)
+		this.database   = Room
+				.inMemoryDatabaseBuilder(InstrumentationRegistry.getTargetContext(), EstateDatabase.class)
 				.allowMainThreadQueries()
 				.build();
+		this.mEstateDao = this.database.mEstateDao();
 	}
 	
 	@After
@@ -47,7 +50,7 @@ public class ItemDaoTest {
 	@Test
 	public void insertAndGetUser() throws
 	                               InterruptedException {
-		// BEFORE : Adding a new user
+//		BEFORE : Adding a new user
 		this.database
 				.mEstateDao()
 				.createEstate(ESTATE_DEMO);
@@ -55,12 +58,8 @@ public class ItemDaoTest {
 		Estate localEstate = LiveDataTestUtil.getValue(this.database
 				                                               .mEstateDao()
 				                                               .getEstate(ESTATE_ID));
-		assertTrue(localEstate
-				           .getType()
-				           .equals(ESTATE_DEMO.getType()) && localEstate
-				           .getType()
-				           .equals(ESTATE_ID));
-		
+		assertEquals(localEstate.getId(), ESTATE_DEMO.getId());
+		assertEquals(localEstate.getId(), ESTATE_ID);
 	}
 	
 }
