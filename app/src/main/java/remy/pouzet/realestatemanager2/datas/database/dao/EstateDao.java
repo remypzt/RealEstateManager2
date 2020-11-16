@@ -24,7 +24,7 @@ public interface EstateDao {
 	LiveData<Estate> getEstate(long id);
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	void createEstate(Estate estate);
+	long createEstate(Estate estate);
 	
 	@Update
 	int updateEstate(Estate estate);

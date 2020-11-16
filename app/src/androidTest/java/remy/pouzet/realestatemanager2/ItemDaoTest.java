@@ -11,11 +11,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 import remy.pouzet.realestatemanager2.datas.database.EstateDatabase;
 import remy.pouzet.realestatemanager2.datas.database.dao.EstateDao;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Remy Pouzet on 15/11/2020.
@@ -24,12 +27,13 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class ItemDaoTest {
 	// DATA SET FOR TEST
-	private static final long                    ESTATE_ID               = 1;
-	private static final Estate                  ESTATE_DEMO             = new Estate("Type", "City", 0, "R.drawable.ic_add", 1, "Description", 0, 0, "Adress", "Status", "Agent");
-	@Rule public         InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+	private static final Estate ESTATE_DEMO   = new Estate("Type", "City", 0, "R.drawable.ic_add", 1, "Description", 0, 0, "Adress", "Status", "Agent");
+	private static final Estate ESTATE_DEMO_2 = new Estate("Type2", "City2", 0, "R.drawable.ic_add2", 2, "Description2", 0, 0, "Adress2", "Status2", "Agent2");
+	
+	@Rule public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 	// FOR DATA
-	private              EstateDatabase          database;
-	private              EstateDao               mEstateDao;
+	private      EstateDatabase          database;
+	private      EstateDao               mEstateDao;
 	
 	@Before
 	public void initDb() throws
@@ -48,8 +52,8 @@ public class ItemDaoTest {
 	}
 	
 	@Test
-	public void insertAndGetUser() throws
-	                               InterruptedException {
+	public void createAndGetEstateTest() throws
+	                                     InterruptedException {
 //		BEFORE : Adding a new user
 		this.database
 				.mEstateDao()
@@ -57,9 +61,49 @@ public class ItemDaoTest {
 		// TEST
 		Estate localEstate = LiveDataTestUtil.getValue(this.database
 				                                               .mEstateDao()
-				                                               .getEstate(ESTATE_ID));
+				                                               .getEstate(1));
 		assertEquals(localEstate.getId(), ESTATE_DEMO.getId());
-		assertEquals(localEstate.getId(), ESTATE_ID);
+		assertEquals(localEstate.getId(), 1);
+	}
+	
+	@Test
+	public void insertAndGetAllEstatesTest() throws
+	                                         Exception {
+		this.database
+				.mEstateDao()
+				.createEstate(ESTATE_DEMO);
+		this.database
+				.mEstateDao()
+				.createEstate(ESTATE_DEMO_2);
+		List<Estate> allEstates = LiveDataTestUtil.getValue(mEstateDao.getAllEstates());
+		assertEquals(allEstates.size(), 2);
+		
+	}
+	
+	@Test
+	public void deleteEstateTest() throws
+	                               Exception {
+		this.database
+				.mEstateDao()
+				.createEstate(ESTATE_DEMO);
+		mEstateDao.deleteEstate(1);
+		List<Estate> allEstates = LiveDataTestUtil.getValue(mEstateDao.getAllEstates());
+		assertTrue(allEstates.isEmpty());
+	}
+	
+	@Test
+	public void updateEstateTest() throws
+	                               Exception {
+		this.database
+				.mEstateDao()
+				.createEstate(ESTATE_DEMO);
+		this.database
+				.mEstateDao()
+				.updateEstate(ESTATE_DEMO_2);
+		Estate localEstate = LiveDataTestUtil.getValue(this.database
+				                                               .mEstateDao()
+				                                               .getEstate(1));
+		assertEquals(localEstate.getId(), ESTATE_DEMO_2.getId());
 	}
 	
 }
