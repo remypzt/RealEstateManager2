@@ -14,11 +14,9 @@ public class EstatesListViewModel extends ViewModel {
 	
 	public EstatesListViewModel() {
 		mEstateList = new MutableLiveData<>();
-		
 	}
 	
 	public LiveData<List<Estate>> getEstate() {
-		
 		return mEstateList;
 	}
 }

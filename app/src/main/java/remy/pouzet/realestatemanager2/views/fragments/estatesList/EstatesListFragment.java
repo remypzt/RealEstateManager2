@@ -110,7 +110,6 @@ public class EstatesListFragment extends Fragment {
 	
 	// UPDATE UI
 	//updateListOfArticles still in Fragments cause I must call the adapter and I cannot do it in viewmodel
-	
 	public void updateList(List<Estate> estatesList) {
 		this.estatesList.clear();
 		if (estatesList != null) {
@@ -118,5 +117,4 @@ public class EstatesListFragment extends Fragment {
 			estatesListAdapter.notifyDataSetChanged();
 		}
 	}
-	
 }
