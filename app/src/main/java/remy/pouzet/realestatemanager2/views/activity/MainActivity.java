@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 			case R.id.action_modify_button:
 				Navigation
 						.findNavController(this, R.id.nav_host_fragment)
-						.navigate(R.id.action_nav_estates_list_to_nav_form);
+						.navigate(R.id.action_nav_details_to_nav_form);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

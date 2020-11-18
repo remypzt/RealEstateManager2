@@ -1,5 +1,7 @@
 package remy.pouzet.realestatemanager2.datas.models;
 
+import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -9,21 +11,23 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Estate {
 	
-	private String mType;
-	private String mCity;
-	private int    mPrice;
+	@ColumnInfo(name = "type") private String mType;
+	@Nullable private                  String mCity;
+	
+	private int mPrice;
 	
 	@PrimaryKey(autoGenerate = true) private long mId;
 	
-	private String mMainPicture;
+	@Nullable private String mMainPicture;
 	
-	private String mDescription;
-	private int    mSurface;
-	private int    mRooms;
-	private String mAdress;
+	@Nullable private String mDescription;
 	
-	private String mStatus;
-	private String mAgent;
+	private int mSurface;
+	
+	private           int    mRooms;
+	@Nullable private String mAdress;
+	@Nullable private String mStatus;
+	@Nullable private String mAgent;
 	
 	//	private List<String> mPOI;
 //	private Date         mEntranceDate;

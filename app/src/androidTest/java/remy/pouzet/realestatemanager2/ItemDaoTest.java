@@ -94,16 +94,17 @@ public class ItemDaoTest {
 	@Test
 	public void updateEstateTest() throws
 	                               Exception {
-//		this.database
-//				.mEstateDao()
-//				.createEstate(ESTATE_DEMO);
-//		this.database
-//				.mEstateDao()
-//				.updateEstate(ESTATE_DEMO_2);
-//		Estate localEstate = LiveDataTestUtil.getValue(this.database
-//				                                               .mEstateDao()
-//				                                               .getEstate(1));
-//		assertEquals(localEstate.getId(), ESTATE_DEMO_2.getId());
+		this.database
+				.mEstateDao()
+				.createEstate(ESTATE_DEMO);
+		ESTATE_DEMO.setType("TypeModified");
+		this.database
+				.mEstateDao()
+				.updateEstate(ESTATE_DEMO);
+		Estate localEstate = LiveDataTestUtil.getValue(this.database
+				                                               .mEstateDao()
+				                                               .getEstate(1));
+		assertEquals(localEstate.getType(), ESTATE_DEMO.getType());
 	}
 	
 }

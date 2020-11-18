@@ -20,7 +20,7 @@ public class EstateRepository {
 	
 	// --- GET ---
 	
-	public LiveData<List<Estate>> getAllEstates(long userId) {
+	public LiveData<List<Estate>> getAllEstates() {
 		return this.estateDao.getAllEstates();
 	}
 	

@@ -46,10 +46,18 @@ public abstract class EstateDatabase extends RoomDatabase {
 				super.onCreate(db);
 				
 				ContentValues contentValues = new ContentValues();
-				contentValues.put("id", 1);
+				contentValues.put("mId", 1);
 				contentValues.put("type", "prepopulate type");
-				contentValues.put("city", "prepopulate city");
-				contentValues.put("price", "prepopulate price");
+				contentValues.put("mCity", "prepopulate city");
+				contentValues.put("mPrice", 0);
+				contentValues.put("mMainPicture", "test");
+				contentValues.put("mSurface", "test");
+				contentValues.put("mRooms", 1);
+				contentValues.put("mDescription", 1);
+				contentValues.put("mStatus", "test");
+				contentValues.put("mAgent", "test");
+				contentValues.put("mAdress", "test");
+				
 				db.insert("Estate", OnConflictStrategy.IGNORE, contentValues);
 			}
 		};

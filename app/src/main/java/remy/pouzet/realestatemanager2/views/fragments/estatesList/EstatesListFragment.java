@@ -68,16 +68,13 @@ public class EstatesListFragment extends Fragment {
 		mFragmentEstatesListBinding = FragmentEstatesListBinding.inflate(inflater, container, false);
 		mRecyclerView               = mFragmentEstatesListBinding.fragmentMainRecyclerView;
 		
-		this.configureRecyclerView(); // -  Call during UI creation
 		this.configureViewModel();
-		
-		estatesListViewModel = ViewModelProviders
-				.of(this)
-				.get(EstatesListViewModel.class);
+		this.configureRecyclerView(); // -  Call during UI creation
+		getAllEstates();
 		
 		return mFragmentEstatesListBinding.getRoot();
 	}
-//
+	
 //	@Override
 //	public void onViewCreated(@NonNull View view,
 //	                          @Nullable Bundle savedInstanceState) {
@@ -119,15 +116,17 @@ public class EstatesListFragment extends Fragment {
 	}
 	
 	// 3 - Get all estates
-	private void getAllEstates(int userId) {
-//		this.estatesListViewModel.getAllEstates(userId).observe(this, updateList(List<Estate>););
+	private void getAllEstates() {
+		this.estatesListViewModel
+				.getAllEstates()
+				.observe(getViewLifecycleOwner(), this::updateList);
 	}
 	
 	// Get estate
 	private void getEstate(int id) {
-		this.estatesListViewModel
-				.getEstate(id)
-				.observe(this, this::updateEstate);
+//		this.estatesListViewModel
+//				.getEstate(id)
+//				.observe(this, this::);
 	}
 	
 	// 3 - Update an estate (selected or not)

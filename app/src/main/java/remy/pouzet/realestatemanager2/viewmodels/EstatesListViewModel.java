@@ -25,8 +25,8 @@ public class EstatesListViewModel extends ViewModel {
 	// FOR ITEM
 	// -------------
 	
-	public LiveData<List<Estate>> getAllEstates(long userId) {
-		return estateDataSource.getAllEstates(userId);
+	public LiveData<List<Estate>> getAllEstates() {
+		return estateDataSource.getAllEstates();
 	}
 	
 	public LiveData<Estate> getEstate(long id) {
