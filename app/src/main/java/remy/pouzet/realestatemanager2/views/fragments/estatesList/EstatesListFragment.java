@@ -16,6 +16,8 @@ import java.util.List;
 
 import remy.pouzet.realestatemanager2.databinding.FragmentEstatesListBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
+import remy.pouzet.realestatemanager2.injections.Injection;
+import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.EstatesListViewModel;
 
 //------------------------------------------------------//
@@ -66,8 +68,8 @@ public class EstatesListFragment extends Fragment {
 		mFragmentEstatesListBinding = FragmentEstatesListBinding.inflate(inflater, container, false);
 		mRecyclerView               = mFragmentEstatesListBinding.fragmentMainRecyclerView;
 		
-		
 		this.configureRecyclerView(); // -  Call during UI creation
+		this.configureViewModel();
 		
 		estatesListViewModel = ViewModelProviders
 				.of(this)
@@ -102,10 +104,50 @@ public class EstatesListFragment extends Fragment {
 		
 		//  - Create adapter passing the list of users
 		this.estatesListAdapter = new EstatesListAdapter(this.estatesList);
-		//  - Attach the adapter to the recyclerview to populate items
+		//  - Attach the adapter to the recyclerview to populate estates
 		this.mRecyclerView.setAdapter(this.estatesListAdapter);
-		// - Set layout manager to position the items
+		// - Set layout manager to position the estates
 		this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+	}
+	
+	// 2 - Configuring ViewModel
+	private void configureViewModel() {
+		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
+		this.estatesListViewModel = ViewModelProviders
+				.of(this, mViewModelFactory)
+				.get(EstatesListViewModel.class);
+	}
+	
+	// 3 - Get all estates
+	private void getAllEstates(int userId) {
+//		this.estatesListViewModel.getAllEstates(userId).observe(this, updateList(List<Estate>););
+	}
+	
+	// Get estate
+	private void getEstate(int id) {
+		this.estatesListViewModel
+				.getEstate(id)
+				.observe(this, this::updateEstate);
+	}
+	
+	// 3 - Update an estate (selected or not)
+	private void updateEstate(Estate estate) {
+
+//		estate.setSelected(!estate.getSelected());
+		
+		this.estatesListViewModel.updateEstate(estate);
+	}
+	
+	// 3 - Create a new estate
+	private void createEstate() {
+
+//		Estate estate = new Estate(this.editText.getText().toString(), this.spinner.getSelectedEstatePosition(), USER_ID);
+//		this.estateViewModel.createEstate(estate);
+	}
+	
+	// 3 - Delete an estate
+	private void deleteEstate(Estate estate) {
+		this.estatesListViewModel.deleteEstate(estate.getId());
 	}
 	
 	// UPDATE UI
