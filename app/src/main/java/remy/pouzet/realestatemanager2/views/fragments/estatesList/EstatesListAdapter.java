@@ -35,7 +35,6 @@ public class EstatesListAdapter extends RecyclerView.Adapter<EstatesListViewHold
 		View           view     = inflater.inflate(R.layout.content_items_of_fragment_estate_list, parent, false);
 		
 		return new EstatesListViewHolder(view);
-		
 	}
 	
 	// UPDATE VIEW HOLDER
@@ -43,7 +42,6 @@ public class EstatesListAdapter extends RecyclerView.Adapter<EstatesListViewHold
 	public void onBindViewHolder(@NonNull EstatesListViewHolder viewHolder,
 	                             int position) {
 		viewHolder.updateEstates(this.estatesList.get(position));
-		
 	}
 	
 	// RETURN THE TOTAL COUNT OF ITEMS IN THE LIST

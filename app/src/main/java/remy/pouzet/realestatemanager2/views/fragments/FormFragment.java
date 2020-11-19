@@ -36,5 +36,25 @@ public class FormFragment extends Fragment {
 				.get(FormViewModel.class);
 		// TODO: Use the ViewModel
 	}
+
+//	// 3 - Update an estate (selected or not)
+//	private void updateEstate(Estate estate) {
+//
+////		estate.setSelected(!estate.getSelected());
+//
+//		this.estatesListViewModel.updateEstate(estate);
+//	}
+//
+//	// 3 - Create a new estate
+//	private void createEstate() {
+//
+////		Estate estate = new Estate(this.editText.getText().toString(), this.spinner.getSelectedEstatePosition(), USER_ID);
+////		this.estateViewModel.createEstate(estate);
+//	}
+//
+//	// 3 - Delete an estate
+//	private void deleteEstate(Estate estate) {
+//		this.estatesListViewModel.deleteEstate(estate.getId());
+//	}
 	
 }

@@ -37,4 +37,11 @@ public class SearchFragment extends Fragment {
 		// TODO: Use the ViewModel
 	}
 	
+	// Get estate
+	private void getEstate(int id) {
+//		this.estatesListViewModel
+//				.getEstate(id)
+//				.observe(this, this::);
+	}
+	
 }

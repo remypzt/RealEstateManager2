@@ -57,7 +57,6 @@ public class EstatesListFragment extends Fragment {
 	private EstatesListViewModel estatesListViewModel;
 	private EstatesListAdapter   estatesListAdapter;
 	private List<Estate>         estatesList;
-	private int                  position;
 	//------------------------------------------------------//
 	// ------------------   LifeCycle   ------------------- //
 	//------------------------------------------------------//
@@ -69,20 +68,11 @@ public class EstatesListFragment extends Fragment {
 		mRecyclerView               = mFragmentEstatesListBinding.fragmentMainRecyclerView;
 		
 		this.configureViewModel();
-		this.configureRecyclerView(); // -  Call during UI creation
+		this.configureRecyclerView();
 		getAllEstates();
 		
 		return mFragmentEstatesListBinding.getRoot();
 	}
-	
-//	@Override
-//	public void onViewCreated(@NonNull View view,
-//	                          @Nullable Bundle savedInstanceState) {
-//		super.onViewCreated(view, savedInstanceState);
-//		estatesListViewModel = new EstatesListViewModel();
-//
-//
-//	}
 	
 	@Override
 	public void onDestroy() {
@@ -92,61 +82,10 @@ public class EstatesListFragment extends Fragment {
 	//------------------------------------------------------//
 	// ------------------   Functions   ------------------- //
 	//------------------------------------------------------//
-	
-	//  - Configure RecyclerView, Adapter, LayoutManager & glue it together
-	private void configureRecyclerView() {
-		//  - Reset list
-		this.estatesList = new ArrayList<>();
-		estatesList.add(new Estate("test", "test", 1, null, 1, "test", 2, 2, "test", null, null));
-		
-		//  - Create adapter passing the list of users
-		this.estatesListAdapter = new EstatesListAdapter(this.estatesList);
-		//  - Attach the adapter to the recyclerview to populate estates
-		this.mRecyclerView.setAdapter(this.estatesListAdapter);
-		// - Set layout manager to position the estates
-		this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-	}
-	
-	// 2 - Configuring ViewModel
-	private void configureViewModel() {
-		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
-		this.estatesListViewModel = ViewModelProviders
-				.of(this, mViewModelFactory)
-				.get(EstatesListViewModel.class);
-	}
-	
-	// 3 - Get all estates
 	private void getAllEstates() {
 		this.estatesListViewModel
 				.getAllEstates()
 				.observe(getViewLifecycleOwner(), this::updateList);
-	}
-	
-	// Get estate
-	private void getEstate(int id) {
-//		this.estatesListViewModel
-//				.getEstate(id)
-//				.observe(this, this::);
-	}
-	
-	// 3 - Update an estate (selected or not)
-	private void updateEstate(Estate estate) {
-
-//		estate.setSelected(!estate.getSelected());
-		
-		this.estatesListViewModel.updateEstate(estate);
-	}
-	
-	// 3 - Create a new estate
-	private void createEstate() {
-
-//		Estate estate = new Estate(this.editText.getText().toString(), this.spinner.getSelectedEstatePosition(), USER_ID);
-//		this.estateViewModel.createEstate(estate);
-	}
-	
-	// 3 - Delete an estate
-	private void deleteEstate(Estate estate) {
-		this.estatesListViewModel.deleteEstate(estate.getId());
 	}
 	
 	// UPDATE UI
@@ -158,4 +97,27 @@ public class EstatesListFragment extends Fragment {
 			estatesListAdapter.notifyDataSetChanged();
 		}
 	}
+//------------------------------------------------------//
+// ----------------- Navigation, Menu, UI ------------- //
+//------------------------------------------------------//
+	
+	//  - Configure RecyclerView, Adapter, LayoutManager & glue it together
+	private void configureRecyclerView() {
+		//  - Reset list
+		this.estatesList = new ArrayList<>();
+		//  - Create adapter passing the list of users
+		this.estatesListAdapter = new EstatesListAdapter(this.estatesList);
+		//  - Attach the adapter to the recyclerview to populate estates
+		this.mRecyclerView.setAdapter(this.estatesListAdapter);
+		// - Set layout manager to position the estates
+		this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+	}
+	
+	private void configureViewModel() {
+		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
+		this.estatesListViewModel = ViewModelProviders
+				.of(this, mViewModelFactory)
+				.get(EstatesListViewModel.class);
+	}
+	
 }

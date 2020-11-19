@@ -37,6 +37,8 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
 	
 	public void updateEstates(Estate estate) {
 		typeEstate.setText(estate.getType());
+		cityLocationEstate.setText(estate.getCity());
+		priceEstate.setText(estate.getPrice());
 		constraintLayout.setOnClickListener((Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_details, null)));
 	}
 }

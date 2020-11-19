@@ -13,17 +13,11 @@ public class Estate {
 	
 	@ColumnInfo(name = "type") private String mType;
 	@Nullable private                  String mCity;
-	
 	private int mPrice;
-	
 	@PrimaryKey(autoGenerate = true) private long mId;
-	
 	@Nullable private String mMainPicture;
-	
 	@Nullable private String mDescription;
-	
 	private int mSurface;
-	
 	private           int    mRooms;
 	@Nullable private String mAdress;
 	@Nullable private String mStatus;
