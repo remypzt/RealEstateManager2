@@ -11,15 +11,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import remy.pouzet.realestatemanager2.R;
+import remy.pouzet.realestatemanager2.datas.models.Estate;
+import remy.pouzet.realestatemanager2.injections.Injection;
+import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.FormViewModel;
 
 public class FormFragment extends Fragment {
 	
-	private FormViewModel mViewModel;
+	//------------------------------------------------------//
+// ------------------   Variables   ------------------- //
+//------------------------------------------------------//
 	
-	public static FormFragment newInstance() {
-		return new FormFragment();
-	}
+	private FormViewModel formViewModel;
+	
+	//------------------------------------------------------//
+// ------------------   LifeCycle   ------------------- //
+//------------------------------------------------------//
 	
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater,
@@ -31,30 +38,34 @@ public class FormFragment extends Fragment {
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mViewModel = ViewModelProviders
-				.of(this)
-				.get(FormViewModel.class);
-		// TODO: Use the ViewModel
+		this.configureViewModel();
 	}
-
-//	// 3 - Update an estate (selected or not)
-//	private void updateEstate(Estate estate) {
-//
-////		estate.setSelected(!estate.getSelected());
-//
-//		this.estatesListViewModel.updateEstate(estate);
-//	}
-//
-//	// 3 - Create a new estate
-//	private void createEstate() {
-//
-////		Estate estate = new Estate(this.editText.getText().toString(), this.spinner.getSelectedEstatePosition(), USER_ID);
-////		this.estateViewModel.createEstate(estate);
-//	}
-//
-//	// 3 - Delete an estate
-//	private void deleteEstate(Estate estate) {
-//		this.estatesListViewModel.deleteEstate(estate.getId());
-//	}
+	
+	private void configureViewModel() {
+		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
+		this.formViewModel = ViewModelProviders
+				.of(this, mViewModelFactory)
+				.get(FormViewModel.class);
+	}
+	
+	//------------------------------------------------------//
+// ------------------   Functions   ------------------- //
+//------------------------------------------------------//
+	private void updateEstate(Estate estate) {
+		//TODO
+//		estate.setSelected(!estate.getSelected());
+		this.formViewModel.updateEstate(estate);
+	}
+	
+	private void createEstate() {
+//		Estate estate = new Estate(
+//				//TODO get edit info
+//		);
+//		this.formViewModel.createEstate(estate);
+	}
+	
+	private void deleteEstate(Estate estate) {
+		this.formViewModel.deleteEstate(estate.getId());
+	}
 	
 }

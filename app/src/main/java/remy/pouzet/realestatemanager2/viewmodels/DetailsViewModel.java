@@ -1,19 +1,27 @@
 package remy.pouzet.realestatemanager2.viewmodels;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import java.util.concurrent.Executor;
+
+import remy.pouzet.realestatemanager2.datas.models.Estate;
+import remy.pouzet.realestatemanager2.repositories.EstateRepository;
 
 public class DetailsViewModel extends ViewModel {
 	
-	private MutableLiveData<String> mText;
+	// REPOSITORIES
+	private final EstateRepository estateDataSource;
+	private final Executor         executor;
+	public        long             id;
 	
-	public DetailsViewModel() {
-		mText = new MutableLiveData<>();
-		mText.setValue("This is gallery fragment");
+	public DetailsViewModel(EstateRepository estateDataSource,
+	                        Executor executor) {
+		this.estateDataSource = estateDataSource;
+		this.executor         = executor;
 	}
 	
-	public LiveData<String> getText() {
-		return mText;
+	public LiveData<Estate> getEstate() {
+		return estateDataSource.getEstate(id);
 	}
 }

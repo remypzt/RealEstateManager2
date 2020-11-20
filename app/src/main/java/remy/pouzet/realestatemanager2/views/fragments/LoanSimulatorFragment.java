@@ -17,18 +17,22 @@ import remy.pouzet.realestatemanager2.viewmodels.LoanSimulatorViewModel;
 
 public class LoanSimulatorFragment extends Fragment {
 	
+	//------------------------------------------------------//
+	// ------------------   Variables   ------------------- //
+	// ------------------------------------------------------//
+	
 	private LoanSimulatorViewModel       mLoanSimulatorViewModel;
 	private FragmentLoanSimulatorBinding mFragmentLoanSimulatorBinding;
+	
+	//------------------------------------------------------//
+	// ------------------   LifeCycle   ------------------- //
+	//------------------------------------------------------//
 	
 	public View onCreateView(@NonNull LayoutInflater inflater,
 	                         ViewGroup container,
 	                         Bundle savedInstanceState) {
 		mFragmentLoanSimulatorBinding = FragmentLoanSimulatorBinding.inflate(inflater, container, false);
-		
-		mLoanSimulatorViewModel = ViewModelProviders
-				.of(this)
-				.get(LoanSimulatorViewModel.class);
-		
+		this.configureViewModel();
 		final TextView textView = mFragmentLoanSimulatorBinding.textLoanSimulator;
 		mLoanSimulatorViewModel
 				.getText()
@@ -40,6 +44,15 @@ public class LoanSimulatorFragment extends Fragment {
 				});
 		
 		return mFragmentLoanSimulatorBinding.getRoot();
-		
+	}
+	
+	//------------------------------------------------------//
+// ----------------- Navigation, Menu, UI ------------- //
+//------------------------------------------------------//
+	
+	public void configureViewModel() {
+		mLoanSimulatorViewModel = ViewModelProviders
+				.of(this)
+				.get(LoanSimulatorViewModel.class);
 	}
 }

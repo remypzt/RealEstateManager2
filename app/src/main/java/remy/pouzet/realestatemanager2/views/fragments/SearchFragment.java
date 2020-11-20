@@ -10,16 +10,28 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.util.List;
+
 import remy.pouzet.realestatemanager2.R;
+import remy.pouzet.realestatemanager2.datas.models.Estate;
+import remy.pouzet.realestatemanager2.injections.Injection;
+import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.SearchViewModel;
+import remy.pouzet.realestatemanager2.views.fragments.estatesList.EstatesListAdapter;
 
 public class SearchFragment extends Fragment {
 	
-	private SearchViewModel mViewModel;
+	//------------------------------------------------------//
+	// ------------------   Variables   ------------------- //
+	// ------------------------------------------------------//
 	
-	public static SearchFragment newInstance() {
-		return new SearchFragment();
-	}
+	private SearchViewModel    searchViewModel;
+	private List<Estate>       estatesList;
+	private EstatesListAdapter estatesListAdapter;
+	
+	//------------------------------------------------------//
+	// ------------------   LifeCycle   ------------------- //
+	//------------------------------------------------------//
 	
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater,
@@ -31,17 +43,44 @@ public class SearchFragment extends Fragment {
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mViewModel = ViewModelProviders
-				.of(this)
-				.get(SearchViewModel.class);
-		// TODO: Use the ViewModel
+		this.configureViewModel();
+		
 	}
-	
-	// Get estate
-	private void getEstate(int id) {
-//		this.estatesListViewModel
+	//------------------------------------------------------//
+	// ------------------   Functions   ------------------- //
+	//------------------------------------------------------//
+//	private void getAllEstates() {
+//		this.searchViewModel
+//				.getAllEstates()
+//				.observe(getViewLifecycleOwner(), this::updateList);
+//	}
+
+//	// Get estate
+//	private void getEstate(int id) {
+//		this.searchViewModel
 //				.getEstate(id)
-//				.observe(this, this::);
+//				.observe(this, th);
+//	}
+	
+	// UPDATE UI
+//	//updateListOfArticles still in Fragments cause I must call the adapter and I cannot do it in viewmodel
+//	public void updateList(List<Estate> estatesList) {
+//		this.estatesList.clear();
+//		if (estatesList != null) {
+//			this.estatesList.addAll(estatesList);
+//			estatesListAdapter.notifyDataSetChanged();
+//		}
+//	}
+	
+	//------------------------------------------------------//
+// ----------------- Navigation, Menu, UI ------------- //
+//------------------------------------------------------//
+	
+	private void configureViewModel() {
+		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
+		this.searchViewModel = ViewModelProviders
+				.of(this, mViewModelFactory)
+				.get(SearchViewModel.class);
 	}
 	
 }
