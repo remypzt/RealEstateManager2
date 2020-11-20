@@ -44,21 +44,31 @@ public abstract class EstateDatabase extends RoomDatabase {
 			@Override
 			public void onCreate(@NonNull SupportSQLiteDatabase db) {
 				super.onCreate(db);
+				ContentValues contentValues1 = new ContentValues();
+				contentValues1.put("type", "prepopulate type");
+				contentValues1.put("mCity", "prepopulate city");
+				contentValues1.put("mPrice", 0);
+				contentValues1.put("mMainPicture", "prepopulate");
+				contentValues1.put("mSurface", "prepopulate");
+				contentValues1.put("mRooms", 1);
+				contentValues1.put("mDescription", 1);
+				contentValues1.put("mStatus", "prepopulate");
+				contentValues1.put("mAgent", "prepopulate");
+				contentValues1.put("mAdress", "prepopulate");
+				db.insert("Estate", OnConflictStrategy.IGNORE, contentValues1);
 				
-				ContentValues contentValues = new ContentValues();
-				contentValues.put("mId", 1);
-				contentValues.put("type", "prepopulate type");
-				contentValues.put("mCity", "prepopulate city");
-				contentValues.put("mPrice", 0);
-				contentValues.put("mMainPicture", "test");
-				contentValues.put("mSurface", "test");
-				contentValues.put("mRooms", 1);
-				contentValues.put("mDescription", 1);
-				contentValues.put("mStatus", "test");
-				contentValues.put("mAgent", "test");
-				contentValues.put("mAdress", "test");
-				
-				db.insert("Estate", OnConflictStrategy.IGNORE, contentValues);
+				ContentValues contentValues2 = new ContentValues();
+				contentValues2.put("type", "prepopulate type 2");
+				contentValues2.put("mCity", "prepopulate city 2");
+				contentValues2.put("mPrice", 0);
+				contentValues2.put("mMainPicture", "prepopulate 2");
+				contentValues2.put("mSurface", "prepopulate 2");
+				contentValues2.put("mRooms", 1);
+				contentValues2.put("mDescription", 1);
+				contentValues2.put("mStatus", "prepopulate 2");
+				contentValues2.put("mAgent", "prepopulate 2");
+				contentValues2.put("mAdress", "prepopulate 2");
+				db.insert("Estate", OnConflictStrategy.IGNORE, contentValues2);
 			}
 		};
 	}

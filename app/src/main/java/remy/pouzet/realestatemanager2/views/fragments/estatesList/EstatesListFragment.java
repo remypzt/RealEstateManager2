@@ -110,7 +110,7 @@ public class EstatesListFragment extends Fragment {
 		//  - Attach the adapter to the recyclerview to populate estates
 		this.mRecyclerView.setAdapter(this.estatesListAdapter);
 		// - Set layout manager to position the estates
-		this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+		this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 	}
 	
 	private void configureViewModel() {

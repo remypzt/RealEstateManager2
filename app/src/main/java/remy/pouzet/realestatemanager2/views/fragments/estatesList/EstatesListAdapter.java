@@ -22,7 +22,6 @@ public class EstatesListAdapter extends RecyclerView.Adapter<EstatesListViewHold
 	
 	// CONSTRUCTOR
 	public EstatesListAdapter(List<Estate> estatesList) {
-		
 		this.estatesList = estatesList;
 	}
 	
@@ -33,7 +32,6 @@ public class EstatesListAdapter extends RecyclerView.Adapter<EstatesListViewHold
 		// CREATE VIEW HOLDER AND INFLATING ITS XML LAYOUT
 		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 		View           view     = inflater.inflate(R.layout.content_items_of_fragment_estate_list, parent, false);
-		
 		return new EstatesListViewHolder(view);
 	}
 	
