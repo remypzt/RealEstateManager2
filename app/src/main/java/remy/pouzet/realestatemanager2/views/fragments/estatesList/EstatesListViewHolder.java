@@ -1,5 +1,6 @@
 package remy.pouzet.realestatemanager2.views.fragments.estatesList;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,7 +40,15 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
 		typeEstate.setText(estate.getType());
 		cityLocationEstate.setText(estate.getCity());
 		priceEstate.setText((estate.getPrice() + "€"));
-		constraintLayout.setOnClickListener((Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_details, null)));
+		constraintLayout.setOnClickListener(
+				//TODO put id inside bundle
+				(Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_details, saveEstateId(estate))));
+	}
+	
+	public Bundle saveEstateId(Estate estate) {
+		Bundle bundle = new Bundle();
+		bundle.putLong("id", estate.getId());
+		return bundle;
 	}
 }
 

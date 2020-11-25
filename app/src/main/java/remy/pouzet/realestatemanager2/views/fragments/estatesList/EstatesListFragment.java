@@ -66,7 +66,6 @@ public class EstatesListFragment extends Fragment {
 	                         Bundle savedInstanceState) {
 		mFragmentEstatesListBinding = FragmentEstatesListBinding.inflate(inflater, container, false);
 		mRecyclerView               = mFragmentEstatesListBinding.fragmentMainRecyclerView;
-		
 		this.configureViewModel();
 		this.configureRecyclerView();
 		getAllEstates();

@@ -1,13 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.fragments.SearchFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/consign_search_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You must make your research by complete at least one of this following items :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/description_title_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="words inside description"
+        app:layout_constraintStart_toStartOf="@+id/consign_search_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/consign_search_fragment" />
+
+    <EditText
+        android:id="@+id/content_description_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/content_description"
+        app:layout_constraintStart_toStartOf="@+id/description_title_fragment_search"
+        app:layout_constraintTop_toBottomOf="@+id/description_title_fragment_search" />
+
+
+    <TextView
+        android:id="@+id/estate_type_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:text="@string/type"
+        app:layout_constraintStart_toStartOf="@+id/consign_search_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/content_description_fragment_search"></TextView>
+
+    <Spinner
+        android:id="@+id/value_of_estate_type_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/estate_type_fragment_search"
+        app:layout_constraintTop_toBottomOf="@+id/estate_type_fragment_search"></Spinner>
+
+    <TextView
+        android:id="@+id/estate_city_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/city"
+        app:layout_constraintStart_toStartOf="@+id/estate_maximum_rooms_number_fragment_search"
+        app:layout_constraintTop_toTopOf="@+id/estate_type_fragment_search" />
+
+    <EditText
+        android:id="@+id/value_of_estate_city_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="City"
+        app:layout_constraintStart_toStartOf="@+id/estate_city_fragment_search"
+        app:layout_constraintTop_toBottomOf="@+id/estate_city_fragment_search"></EditText>
+
+    <TextView
+        android:id="@+id/estate_minimum_price_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Minimum price"
+        app:layout_constraintStart_toStartOf="@+id/value_of_estate_type_fragment_search"
+        app:layout_constraintTop_toBottomOf="@+id/value_of_estate_type_fragment_search" />
+
+    <EditText
+        android:id="@+id/value_of_estate_minimum_price_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="€"
+        app:layout_constraintStart_toStartOf="@+id/estate_minimum_price_fragment_search"
+        app:layout_constraintTop_toBottomOf="@+id/estate_minimum_price_fragment_search"></EditText>
+
+    <TextView
+        android:id="@+id/estate_maximum_price_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Maximum price"
+        app:layout_constraintStart_toStartOf="@+id/estate_maximum_rooms_number_fragment_search"
+        app:layout_constraintTop_toTopOf="@+id/estate_minimum_price_fragment_search" />
+
+    <EditText
+        android:id="@+id/value_of_estate_maximum_price_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="€"
+        app:layout_constraintStart_toStartOf="@+id/estate_maximum_price_fragment_search"
+        app:layout_constraintTop_toBottomOf="@+id/estate_maximum_price_fragment_search"></EditText>
+
+    <TextView
+        android:id="@+id/estate_minimum_surface_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Minimum surface"
+        app:layout_constraintStart_toStartOf="@+id/value_of_estate_type_fragment_search"
+        app:layout_constraintTop_toBottomOf="@+id/value_of_estate_minimum_price_fragment_search" />
+
+    <EditText
+        android:id="@+id/value_of_estate_minimum_surface_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/estate_minimum_surface_fragment_search"
+        app:layout_constraintTop_toBottomOf="@+id/estate_minimum_surface_fragment_search"></EditText>
+
+    <TextView
+        android:id="@+id/estate_maximum_surface_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Maximum surface"
+        app:layout_constraintStart_toStartOf="@+id/estate_maximum_rooms_number_fragment_search"
+        app:layout_constraintTop_toTopOf="@+id/estate_minimum_surface_fragment_search" />
+
+    <EditText
+        android:id="@+id/value_of_estate_maximum_surface_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/estate_maximum_surface_fragment_search"
+        app:layout_constraintTop_toBottomOf="@+id/estate_maximum_surface_fragment_search"></EditText>
+
+    <TextView
+        android:id="@+id/estate_minimum_rooms_number_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Minimum rooms number"
+        app:layout_constraintStart_toStartOf="@+id/value_of_estate_type_fragment_search"
+        app:layout_constraintTop_toBottomOf="@+id/value_of_estate_minimum_surface_fragment_search" />
+
+    <EditText
+        android:id="@+id/value_of_estate_minimum_rooms_number_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/estate_minimum_rooms_number_fragment_search"
+        app:layout_constraintTop_toBottomOf="@+id/estate_minimum_rooms_number_fragment_search"></EditText>
+
+    <TextView
+        android:id="@+id/estate_maximum_rooms_number_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:text="Maximum rooms number"
+        app:layout_constraintStart_toEndOf="@+id/estate_minimum_rooms_number_fragment_search"
+        app:layout_constraintTop_toTopOf="@+id/estate_minimum_rooms_number_fragment_search" />
+
+    <EditText
+        android:id="@+id/value_of_estate_maximum_rooms_number_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/estate_maximum_rooms_number_fragment_search"
+        app:layout_constraintTop_toBottomOf="@+id/estate_maximum_rooms_number_fragment_search"></EditText>
+
+
+    <TextView
+        android:id="@+id/contact_title_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contact"
+        app:layout_constraintStart_toStartOf="@+id/estate_minimum_price_fragment_search"
+        app:layout_constraintTop_toBottomOf="@id/value_of_estate_minimum_rooms_number_fragment_search" />
+
+    <Spinner
+        android:id="@+id/contact_value_fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="contact value"
+        app:layout_constraintStart_toStartOf="@+id/contact_title_fragment_search"
+        app:layout_constraintTop_toBottomOf="@+id/contact_title_fragment_search" />
+
+    <ImageButton
+        android:id="@+id/validate_research_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contact_value_fragment_search"></ImageButton>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

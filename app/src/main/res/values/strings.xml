@@ -18,5 +18,20 @@
     <string name="media">Media</string>
     <string name="description">Description</string>
     <string name="content_description">content description</string>
+    <string name="city">City</string>
     <string name="type">Type</string>
+    <string name="main_picture">Main picture</string>
+    <string name="price">Price</string>
+    <string name="contact">Contact</string>
+
+    <string-array name="planets_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
 </resources>

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".views.fragments.DetailsFragment">
 
-
     <TextView
         android:id="@+id/media_title_fragment_details"
         android:layout_width="wrap_content"

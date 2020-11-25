@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
 				Navigation
 						.findNavController(this, R.id.nav_host_fragment)
 						.navigate(R.id.action_nav_details_to_nav_form);
+				//TODO  modify
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

@@ -13,7 +13,6 @@ public class DetailsViewModel extends ViewModel {
 	// REPOSITORIES
 	private final EstateRepository estateDataSource;
 	private final Executor         executor;
-	public        long             id;
 	
 	public DetailsViewModel(EstateRepository estateDataSource,
 	                        Executor executor) {
@@ -21,7 +20,7 @@ public class DetailsViewModel extends ViewModel {
 		this.executor         = executor;
 	}
 	
-	public LiveData<Estate> getEstate() {
+	public LiveData<Estate> getEstate(long id) {
 		return estateDataSource.getEstate(id);
 	}
 }
