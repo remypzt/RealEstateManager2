@@ -43,6 +43,15 @@
         app:layout_constraintStart_toStartOf="@id/estate_type_of_content_item_of_fragment_estate_list"
         app:layout_constraintTop_toBottomOf="@+id/estate_city_location_of_content_item_of_fragment_estate_list" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:text="Selled or not"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />)
+
     <View
         android:id="@+id/separation"
         android:layout_width="match_parent"

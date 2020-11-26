@@ -1,5 +1,6 @@
 package remy.pouzet.realestatemanager2.viewmodels;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.concurrent.Executor;
@@ -17,6 +18,10 @@ public class FormViewModel extends ViewModel {
 	                     Executor executor) {
 		this.estateDataSource = estateDataSource;
 		this.executor         = executor;
+	}
+	
+	public LiveData<Estate> getEstate(long id) {
+		return estateDataSource.getEstate(id);
 	}
 	
 	public void createEstate(Estate estate) {

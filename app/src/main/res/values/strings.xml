@@ -24,14 +24,11 @@
     <string name="price">Price</string>
     <string name="contact">Contact</string>
 
-    <string-array name="planets_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+    <string-array name="estate_type">
+        <item>Loft</item>
+        <item>House</item>
+        <item>Duplex</item>
+        <item>Field</item>
+        <item>Store</item>
     </string-array>
 </resources>
