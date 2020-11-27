@@ -15,7 +15,7 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.injections.Injection;
 import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.DetailsViewModel;
-import remy.pouzet.realestatemanager2.views.Bases.BaseFragment;
+import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
 public class DetailsFragment extends BaseFragment {
 	

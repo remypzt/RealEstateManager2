@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import remy.pouzet.realestatemanager2.databinding.FragmentLoanSimulatorBinding;
 import remy.pouzet.realestatemanager2.viewmodels.LoanSimulatorViewModel;
-import remy.pouzet.realestatemanager2.views.Bases.BaseFragment;
+import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
 public class LoanSimulatorFragment extends BaseFragment {
 	

@@ -27,7 +27,7 @@ import remy.pouzet.realestatemanager2.injections.Injection;
 import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.utils.Utils;
 import remy.pouzet.realestatemanager2.viewmodels.FormViewModel;
-import remy.pouzet.realestatemanager2.views.Bases.BaseFragment;
+import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
 public class FormFragment extends BaseFragment {
 	

@@ -1,4 +1,4 @@
-package remy.pouzet.realestatemanager2.views.fragments.estatesList;
+package remy.pouzet.realestatemanager2.views.fragments.estateslist;
 
 import android.os.Bundle;
 import android.view.View;

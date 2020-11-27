@@ -1,4 +1,4 @@
-package remy.pouzet.realestatemanager2.views.Bases;
+package remy.pouzet.realestatemanager2.views.bases;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

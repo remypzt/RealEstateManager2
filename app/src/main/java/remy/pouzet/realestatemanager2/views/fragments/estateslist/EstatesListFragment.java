@@ -1,4 +1,4 @@
-package remy.pouzet.realestatemanager2.views.fragments.estatesList;
+package remy.pouzet.realestatemanager2.views.fragments.estateslist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,7 +18,7 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.injections.Injection;
 import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.EstatesListViewModel;
-import remy.pouzet.realestatemanager2.views.Bases.BaseFragment;
+import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
 //------------------------------------------------------//
 // ------------------    Binding    ------------------- //
@@ -47,8 +47,6 @@ public class EstatesListFragment extends BaseFragment {
 	// ------------------    Binding    ------------------- //
 	//------------------------------------------------------//
 	
-	private FragmentEstatesListBinding mFragmentEstatesListBinding;
-	
 	//------------------------------------------------------//
 	// ------------------   Variables   ------------------- //
 	// ------------------------------------------------------//
@@ -61,16 +59,17 @@ public class EstatesListFragment extends BaseFragment {
 	// ------------------   LifeCycle   ------------------- //
 	//------------------------------------------------------//
 	
+	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater,
 	                         ViewGroup container,
 	                         Bundle savedInstanceState) {
-		mFragmentEstatesListBinding = FragmentEstatesListBinding.inflate(inflater, container, false);
-		mRecyclerView               = mFragmentEstatesListBinding.fragmentMainRecyclerView;
+		remy.pouzet.realestatemanager2.databinding.FragmentEstatesListBinding localFragmentEstatesListBinding = FragmentEstatesListBinding.inflate(inflater, container, false);
+		mRecyclerView = localFragmentEstatesListBinding.fragmentMainRecyclerView;
 		this.configureViewModel();
 		this.configureRecyclerView();
 		getAllEstates();
 		
-		return mFragmentEstatesListBinding.getRoot();
+		return localFragmentEstatesListBinding.getRoot();
 	}
 	
 	@Override
@@ -80,10 +79,6 @@ public class EstatesListFragment extends BaseFragment {
 		return null;
 	}
 	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
 	
 	//------------------------------------------------------//
 	// ------------------   Functions   ------------------- //

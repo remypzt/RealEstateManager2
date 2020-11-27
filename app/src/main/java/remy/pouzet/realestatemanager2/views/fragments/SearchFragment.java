@@ -16,8 +16,8 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.injections.Injection;
 import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.SearchViewModel;
-import remy.pouzet.realestatemanager2.views.Bases.BaseFragment;
-import remy.pouzet.realestatemanager2.views.fragments.estatesList.EstatesListAdapter;
+import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
+import remy.pouzet.realestatemanager2.views.fragments.estateslist.EstatesListAdapter;
 
 public class SearchFragment extends BaseFragment {
 	
