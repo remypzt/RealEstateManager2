@@ -14,10 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,8 +27,9 @@ import remy.pouzet.realestatemanager2.injections.Injection;
 import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.utils.Utils;
 import remy.pouzet.realestatemanager2.viewmodels.FormViewModel;
+import remy.pouzet.realestatemanager2.views.Bases.BaseFragment;
 
-public class FormFragment extends Fragment {
+public class FormFragment extends BaseFragment {
 	//------------------------------------------------------//
 // ------------------   Variables   ------------------- //
 //------------------------------------------------------//
@@ -63,6 +61,13 @@ public class FormFragment extends Fragment {
 		mFragmentFormBinding = FragmentFormBinding.inflate(inflater, container, false);
 		viewBindingManagement();
 		return mFragmentFormBinding.getRoot();
+	}
+	
+	@Override
+	public View provideYourFragmentView(LayoutInflater inflater,
+	                                    ViewGroup parent,
+	                                    Bundle savedInstanceState) {
+		return null;
 	}
 	
 	@Override
@@ -240,7 +245,7 @@ public class FormFragment extends Fragment {
 			if (selledDateButton
 					    .getText()
 					    .length() < 1) {
-				ShowSnackBar("Sell date cannot be null");
+				ShowSnackBar(mFragmentFormBinding.getRoot(), "sell date cannot be null");
 				return false;
 			}
 		}
@@ -268,20 +273,4 @@ public class FormFragment extends Fragment {
 		this.formViewModel.updateEstate(estate);
 	}
 	
-	public void ShowSnackBar(String message) {
-		if (message == null || message
-				.trim()
-				.equals("")) {
-			message = "Please enter text to show";
-		}
-		Snackbar
-				.make(mFragmentFormBinding.getRoot(), message, Snackbar.LENGTH_INDEFINITE)
-				.setAction("CLOSE", new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-					}
-				})
-				.setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
-				.show();
-	}
 }
