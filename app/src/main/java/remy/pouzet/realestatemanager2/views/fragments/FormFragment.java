@@ -7,13 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,22 +32,24 @@ import remy.pouzet.realestatemanager2.utils.Utils;
 import remy.pouzet.realestatemanager2.viewmodels.FormViewModel;
 
 public class FormFragment extends Fragment {
-	
+	//------------------------------------------------------//
+// ------------------   Variables   ------------------- //
+//------------------------------------------------------//
 	public                            ImageButton      createNewEstateButton;
 	private                           FormViewModel    formViewModel;
 	public                            ImageButton      editEstateButton;
 	public                            Button           lastModificationDateButton;
 	public                            Button           selledDateButton;
 	public                            Date             dateBackEndFormat;
+	public                            CheckBox         isItSellCheckBox;
+	public                            TextView         sellTitleTextView;
 	//-- Dates variables --//
 	@SuppressLint("SimpleDateFormat") SimpleDateFormat formatterUIFormat = new SimpleDateFormat("dd/MM/yyyy");
 	Calendar c    = Calendar.getInstance();
 	int      year = c.get(Calendar.YEAR), month = c.get(Calendar.MONTH), day = c.get(Calendar.DAY_OF_MONTH);
 	String updateDateInRightFormat;
 	String selledDateInRightFormat;
-	//------------------------------------------------------//
-// ------------------   Variables   ------------------- //
-//------------------------------------------------------//
+	
 	private FragmentFormBinding mFragmentFormBinding;
 	
 	//------------------------------------------------------//
@@ -54,14 +60,8 @@ public class FormFragment extends Fragment {
 	public View onCreateView(@NonNull LayoutInflater inflater,
 	                         @Nullable ViewGroup container,
 	                         @Nullable Bundle savedInstanceState) {
-		mFragmentFormBinding       = FragmentFormBinding.inflate(inflater, container, false);
-		lastModificationDateButton = mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton;
-		selledDateButton           = mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton;
-		
-		datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
-		datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
-		
-		validationButtonManagement();
+		mFragmentFormBinding = FragmentFormBinding.inflate(inflater, container, false);
+		viewBindingManagement();
 		return mFragmentFormBinding.getRoot();
 	}
 	
@@ -69,6 +69,10 @@ public class FormFragment extends Fragment {
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		this.configureViewModel();
+		isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
+		datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
+		datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
+		validationButtonManagement();
 	}
 	
 	private void configureViewModel() {
@@ -81,6 +85,26 @@ public class FormFragment extends Fragment {
 	//------------------------------------------------------//
 // ------------------   Functions   ------------------- //
 //------------------------------------------------------//
+	
+	public boolean sellStatusManagement() {
+		boolean checked = ((isItSellCheckBox)).isChecked();
+		if (checked) {
+			selledDateButton.setVisibility(View.VISIBLE);
+			sellTitleTextView.setText("Sell date");
+			return true;
+		} else {
+			selledDateButton.setVisibility(View.INVISIBLE);
+			sellTitleTextView.setText("Is it Sell ?");
+			return false;
+		}
+	}
+	
+	public void viewBindingManagement() {
+		lastModificationDateButton = mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton;
+		selledDateButton           = mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton;
+		isItSellCheckBox           = mFragmentFormBinding.isSellCheckbox;
+		sellTitleTextView          = mFragmentFormBinding.sellTitleFragmentForm;
+	}
 	
 	public void datePickerButtonsManagement(Button button1,
 	                                        Button button2) {
@@ -193,6 +217,7 @@ public class FormFragment extends Fragment {
 	
 	private void createNewEstateManagement() {
 		if (checkFormData()) {
+			//TODO ternaire surface and value could be null
 			Estate estate = new Estate("todo type", mFragmentFormBinding.valueOfEstateCityFragmentForm
 					.getText()
 					.toString(), Integer.parseInt(mFragmentFormBinding.valueOfEstatePriceFragmentForm
@@ -211,6 +236,15 @@ public class FormFragment extends Fragment {
 	}
 	
 	public boolean checkFormData() {
+		if (sellStatusManagement()) {
+			if (selledDateButton
+					    .getText()
+					    .length() < 1) {
+				ShowSnackBar("Sell date cannot be null");
+				return false;
+			}
+		}
+//		else if (){}
 //		String type, notnull
 //		String city, notnull
 //		int price, notnull
@@ -232,5 +266,22 @@ public class FormFragment extends Fragment {
 		//TODO
 //		estate.setSelected(!estate.getSelected());
 		this.formViewModel.updateEstate(estate);
+	}
+	
+	public void ShowSnackBar(String message) {
+		if (message == null || message
+				.trim()
+				.equals("")) {
+			message = "Please enter text to show";
+		}
+		Snackbar
+				.make(mFragmentFormBinding.getRoot(), message, Snackbar.LENGTH_INDEFINITE)
+				.setAction("CLOSE", new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+					}
+				})
+				.setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+				.show();
 	}
 }
