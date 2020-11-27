@@ -68,6 +68,9 @@ public class DetailsFragment extends BaseFragment {
 	}
 	
 	private void updateUI(Estate estate) {
+		//TODO if (mFragmentFormBinding.contentDescriptionFragmentForm.getText().length() <1){
+		//			mFragmentFormBinding.contentDescriptionFragmentForm.setText("Aucune description n'a été renseignée pour le moment");
+		//		}
 		mTextView.setText(estate.getType());
 	}
 	

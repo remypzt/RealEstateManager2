@@ -52,7 +52,8 @@ public abstract class EstateDatabase extends RoomDatabase {
 				contentValues1.put("mSurface", "prepopulate");
 				contentValues1.put("mRooms", 1);
 				contentValues1.put("mDescription", 1);
-				contentValues1.put("mStatus", "prepopulate");
+				contentValues1.put("mSellDate", "prepopulate");
+				contentValues1.put("mUpdateDate", "prepulate");
 				contentValues1.put("mAgent", "prepopulate");
 				contentValues1.put("mAdress", "prepopulate");
 				db.insert("Estate", OnConflictStrategy.IGNORE, contentValues1);
@@ -65,7 +66,8 @@ public abstract class EstateDatabase extends RoomDatabase {
 				contentValues2.put("mSurface", "prepopulate 2");
 				contentValues2.put("mRooms", 1);
 				contentValues2.put("mDescription", 1);
-				contentValues2.put("mStatus", "prepopulate 2");
+				contentValues1.put("mSellDate", "prepopulate2");
+				contentValues1.put("mUpdateDate", "prepulate2");
 				contentValues2.put("mAgent", "prepopulate 2");
 				contentValues2.put("mAdress", "prepopulate 2");
 				db.insert("Estate", OnConflictStrategy.IGNORE, contentValues2);

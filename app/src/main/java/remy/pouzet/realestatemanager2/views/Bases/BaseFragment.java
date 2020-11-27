@@ -29,8 +29,26 @@ public abstract class BaseFragment extends Fragment {
 	                                             ViewGroup parent,
 	                                             Bundle savedInstanceState);
 	
-	public void ShowSnackBar(View view,
-	                         String message) {
+	public void ShowIndefiniteSnackBar(View view,
+	                                   String message) {
+		if (message == null || message
+				.trim()
+				.equals("")) {
+			message = "Please enter text to show";
+		}
+		Snackbar
+				.make(view, message, Snackbar.LENGTH_INDEFINITE)
+				.setAction("CLOSE", new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+					}
+				})
+				.setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+				.show();
+	}
+	
+	public void ShowLongSnackBar(View view,
+	                             String message) {
 		if (message == null || message
 				.trim()
 				.equals("")) {

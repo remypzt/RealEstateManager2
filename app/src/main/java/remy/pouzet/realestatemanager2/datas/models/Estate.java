@@ -11,21 +11,20 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Estate {
 	
-	@ColumnInfo(name = "type") private String mType;
-	@Nullable private                  String mCity;
-	private int mPrice;
-	@PrimaryKey(autoGenerate = true) private long mId;
-	@Nullable private String mMainPicture;
-	@Nullable private String mDescription;
-	private int mSurface;
-	private           int    mRooms;
-	@Nullable private String mAdress;
-	@Nullable private String mStatus;
-	@Nullable private String mAgent;
+	@ColumnInfo(name = "type") private       String mType;
+	@Nullable private                        String mCity;
+	private                                  int    mPrice;
+	@PrimaryKey(autoGenerate = true) private long   mId;
+	@Nullable private                        String mMainPicture;
+	@Nullable private                        String mDescription;
+	private                                  int    mSurface;
+	private                                  int    mRooms;
+	@Nullable private                        String mAdress;
+	@Nullable private                        String mAgent;
+	@Nullable private                        String mUpdateDate;
+	@Nullable private                        String mSellDate;
 	
 	//	private List<String> mPOI;
-//	private Date         mEntranceDate;
-//	private Date         mSelledDate;
 	
 	public Estate(String type,
 	              String city,
@@ -36,11 +35,12 @@ public class Estate {
 	              int surface,
 	              int rooms,
 	              String adress,
-	              String status,
-	              String agent
+	              String agent,
+	              String updateDate,
+	              String sellDate
 //	              List<String> pOI,
-//	              Date entranceDate,
-//	              Date selledDate,
+//
+	
 	             ) {
 		mId          = id;
 		mType        = type;
@@ -51,11 +51,10 @@ public class Estate {
 		mSurface     = surface;
 		mRooms       = rooms;
 		mAdress      = adress;
-		mStatus      = status;
 		mAgent       = agent;
+		mUpdateDate  = updateDate;
+		mSellDate    = sellDate;
 //		mPOI          = pOI;
-//		mEntranceDate = entranceDate;
-//		mSelledDate   = selledDate;
 	
 	}
 	
@@ -67,38 +66,22 @@ public class Estate {
 		mId = parameterId;
 	}
 	
-	public String getStatus() {
-		return mStatus;
+	@Nullable
+	public String getSellDate() {
+		return mSellDate;
 	}
 	
-	public void setStatus(String parameterStatus) {
-		mStatus = parameterStatus;
+	public void setSellDate(@Nullable String parameterSellDate) {
+		mSellDate = parameterSellDate;
 	}
-
-//	public List<String> getPOI() {
-//		return mPOI;
-//	}
-//
-//	public void setPOI(List<String> parameterPOI) {
-//		mPOI = parameterPOI;
-//	}
-//
-//
-//	public Date getEntranceDate() {
-//		return mEntranceDate;
-//	}
-//
-//	public void setEntranceDate(Date parameterEntranceDate) {
-//		mEntranceDate = parameterEntranceDate;
-//	}
-//
-//	public Date getSelledDate() {
-//		return mSelledDate;
-//	}
-//
-//	public void setSelledDate(Date parameterSelledDate) {
-//		mSelledDate = parameterSelledDate;
-//	}
+	
+	public String getUpdateDate() {
+		return mUpdateDate;
+	}
+	
+	public void setUpdateDate(String parameterUpdateDate) {
+		mUpdateDate = parameterUpdateDate;
+	}
 	
 	public String getAgent() {
 		return mAgent;

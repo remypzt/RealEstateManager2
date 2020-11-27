@@ -245,7 +245,7 @@
             android:id="@+id/sell_title_fragment_form"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Sell Date"
+            android:text="Is it sell ?"
             app:layout_constraintStart_toStartOf="@+id/update_date_value_fragment_form_date_picker_button"
             app:layout_constraintTop_toBottomOf="@+id/update_date_value_fragment_form_date_picker_button" />
 

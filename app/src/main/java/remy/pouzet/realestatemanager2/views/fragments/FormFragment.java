@@ -30,17 +30,25 @@ import remy.pouzet.realestatemanager2.viewmodels.FormViewModel;
 import remy.pouzet.realestatemanager2.views.Bases.BaseFragment;
 
 public class FormFragment extends BaseFragment {
+	
+	//------------------------------------------------------//
+// ------------------   Binding   ------------------- //
+//------------------------------------------------------//
+	
+	public  ImageButton   createNewEstateButton;
+	private FormViewModel formViewModel;
+	public  ImageButton   editEstateButton;
+	public  Button        lastModificationDateButton;
+	public  Button        selledDateButton;
+	public  Date          dateBackEndFormat;
+	public  CheckBox      isItSellCheckBox;
+	public  TextView      sellTitleTextView;
+	
 	//------------------------------------------------------//
 // ------------------   Variables   ------------------- //
 //------------------------------------------------------//
-	public                            ImageButton      createNewEstateButton;
-	private                           FormViewModel    formViewModel;
-	public                            ImageButton      editEstateButton;
-	public                            Button           lastModificationDateButton;
-	public                            Button           selledDateButton;
-	public                            Date             dateBackEndFormat;
-	public                            CheckBox         isItSellCheckBox;
-	public                            TextView         sellTitleTextView;
+	public int fakeboolean;
+	
 	//-- Dates variables --//
 	@SuppressLint("SimpleDateFormat") SimpleDateFormat formatterUIFormat = new SimpleDateFormat("dd/MM/yyyy");
 	Calendar c    = Calendar.getInstance();
@@ -222,45 +230,82 @@ public class FormFragment extends BaseFragment {
 	
 	private void createNewEstateManagement() {
 		if (checkFormData()) {
-			//TODO ternaire surface and value could be null
-			Estate estate = new Estate("todo type", mFragmentFormBinding.valueOfEstateCityFragmentForm
-					.getText()
-					.toString(), Integer.parseInt(mFragmentFormBinding.valueOfEstatePriceFragmentForm
-							                              .getText()
-							                              .toString()), "todo mainpicture", 0, mFragmentFormBinding.contentDescriptionFragmentForm
+			Estate estate = new Estate(mFragmentFormBinding.valueOfEstateTypeFragmentForm
+					                           .getSelectedItem()
+					                           .toString(), mFragmentFormBinding.valueOfEstateCityFragmentForm
+					                           .getText()
+					                           .toString(), Integer.parseInt(mFragmentFormBinding.valueOfEstatePriceFragmentForm
+							                                                         .getText()
+							                                                         .toString()), "todo mainpicture", 0, mFragmentFormBinding.contentDescriptionFragmentForm
 					                           .getText()
 					                           .toString(), Integer.parseInt(mFragmentFormBinding.surfaceValueFragmentForm
 							                                                         .getText()
 							                                                         .toString()), Integer.parseInt(mFragmentFormBinding.roomsValueFragmentForm
+									
 									                                                                                        .getText()
-									                                                                                        .toString()), "todo adress", "todo status", "todo contact"
-//				mFragmentFormBinding.contactValueFragmentForm.getText().toString()
-			);
+									                                                                                        .toString()),
+			
+			                           mFragmentFormBinding.locationValueFragmentForm
+					                           .getText()
+					                           .toString(), mFragmentFormBinding.contactValueFragmentForm
+					                           .getText()
+					                           .toString(), mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton
+					                           .getText()
+					                           .toString(), mFragmentFormBinding.isSellCheckbox.isChecked()
+			                                                ? mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton
+							                                        .getText()
+							                                        .toString()
+			                                                : null);
 			this.formViewModel.createEstate(estate);
+			ShowLongSnackBar(mFragmentFormBinding.getRoot(), "Success");
 		}
 	}
 	
 	public boolean checkFormData() {
+		fakeboolean = 1;
 		if (sellStatusManagement()) {
 			if (selledDateButton
 					    .getText()
 					    .length() < 1) {
-				ShowSnackBar(mFragmentFormBinding.getRoot(), "sell date cannot be null");
-				return false;
+				ShowIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "sell date cannot be null");
+				fakeboolean = 0;
 			}
 		}
-//		else if (){}
-//		String type, notnull
-//		String city, notnull
-//		int price, notnull
+		if (mFragmentFormBinding.valueOfEstateCityFragmentForm
+				    .getText()
+				    .length() < 3) {
+			ShowIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "city name lenght must be superior at 3 letters");
+			fakeboolean = 0;
+		}
+		if (mFragmentFormBinding.valueOfEstatePriceFragmentForm
+				    .getText()
+				    .length() < 1) {
+			ShowIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "estate price cannot be null");
+			fakeboolean = 0;
+		}
+		if (mFragmentFormBinding.surfaceValueFragmentForm
+				    .getText()
+				    .length() < 1) {
+			ShowIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "surface value cannot be null");
+			fakeboolean = 0;
+		}
+		if (mFragmentFormBinding.roomsValueFragmentForm
+				    .getText()
+				    .length() < 1) {
+			ShowIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "rooms value cannot be null");
+			fakeboolean = 0;
+		}
+		if (mFragmentFormBinding.contactValueFragmentForm
+				    .getText()
+				    .length() < 1) {
+			ShowIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "contact value cannot be null");
+			fakeboolean = 0;
+		}
+		return fakeboolean != 0;
 //		String mainPicture, ?
-//		String description, ifnull
 //		String adress, ?
-//		String status, ?
 //		String agent, notnull
 //	              List<String> pOI, ?
-		//TODO check form
-		return true;
 	}
 	
 	private void getEstate(long id) {
