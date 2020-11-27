@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import remy.pouzet.realestatemanager2.databinding.FragmentDetailsBinding;
@@ -16,8 +15,9 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.injections.Injection;
 import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.DetailsViewModel;
+import remy.pouzet.realestatemanager2.views.Bases.BaseFragment;
 
-public class DetailsFragment extends Fragment {
+public class DetailsFragment extends BaseFragment {
 	
 	//------------------------------------------------------//
 	// ------------------   Variables   ------------------- //
@@ -42,6 +42,13 @@ public class DetailsFragment extends Fragment {
 				                                         .toString());
 		getEstate(id);
 		return mFragmentDetailsBinding.getRoot();
+	}
+	
+	@Override
+	public View provideYourFragmentView(LayoutInflater inflater,
+	                                    ViewGroup parent,
+	                                    Bundle savedInstanceState) {
+		return null;
 	}
 	
 	@Override

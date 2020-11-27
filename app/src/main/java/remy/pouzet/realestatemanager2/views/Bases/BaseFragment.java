@@ -46,4 +46,5 @@ public abstract class BaseFragment extends Fragment {
 				.setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
 				.show();
 	}
+	
 }

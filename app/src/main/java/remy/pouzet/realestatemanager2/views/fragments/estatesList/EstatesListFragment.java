@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +18,7 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.injections.Injection;
 import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.EstatesListViewModel;
+import remy.pouzet.realestatemanager2.views.Bases.BaseFragment;
 
 //------------------------------------------------------//
 // ------------------    Binding    ------------------- //
@@ -42,7 +42,7 @@ import remy.pouzet.realestatemanager2.viewmodels.EstatesListViewModel;
 // ----------------- Navigation, Menu, UI ------------- //
 //------------------------------------------------------//
 
-public class EstatesListFragment extends Fragment {
+public class EstatesListFragment extends BaseFragment {
 	//------------------------------------------------------//
 	// ------------------    Binding    ------------------- //
 	//------------------------------------------------------//
@@ -71,6 +71,13 @@ public class EstatesListFragment extends Fragment {
 		getAllEstates();
 		
 		return mFragmentEstatesListBinding.getRoot();
+	}
+	
+	@Override
+	public View provideYourFragmentView(LayoutInflater inflater,
+	                                    ViewGroup parent,
+	                                    Bundle savedInstanceState) {
+		return null;
 	}
 	
 	@Override

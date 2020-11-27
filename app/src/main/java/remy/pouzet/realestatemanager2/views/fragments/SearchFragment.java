@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import java.util.List;
@@ -17,9 +16,10 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.injections.Injection;
 import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.SearchViewModel;
+import remy.pouzet.realestatemanager2.views.Bases.BaseFragment;
 import remy.pouzet.realestatemanager2.views.fragments.estatesList.EstatesListAdapter;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends BaseFragment {
 	
 	//------------------------------------------------------//
 	// ------------------   Variables   ------------------- //
@@ -38,6 +38,13 @@ public class SearchFragment extends Fragment {
 	                         @Nullable ViewGroup container,
 	                         @Nullable Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_search, container, false);
+	}
+	
+	@Override
+	public View provideYourFragmentView(LayoutInflater inflater,
+	                                    ViewGroup parent,
+	                                    Bundle savedInstanceState) {
+		return null;
 	}
 	
 	@Override
