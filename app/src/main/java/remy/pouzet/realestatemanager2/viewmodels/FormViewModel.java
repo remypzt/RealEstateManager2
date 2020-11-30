@@ -14,8 +14,7 @@ public class FormViewModel extends ViewModel {
 	private final EstateRepository estateDataSource;
 	private final Executor         executor;
 	
-	public FormViewModel(EstateRepository estateDataSource,
-	                     Executor executor) {
+	public FormViewModel(EstateRepository estateDataSource, Executor executor) {
 		this.estateDataSource = estateDataSource;
 		this.executor         = executor;
 	}

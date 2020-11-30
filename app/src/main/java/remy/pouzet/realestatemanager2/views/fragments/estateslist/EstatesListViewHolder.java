@@ -28,7 +28,8 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
 	
 	public EstatesListViewHolder(@NonNull View itemView) {
 		super(itemView);
-		mContentItemsOfFragmentEstateListBinding = ContentItemsOfFragmentEstateListBinding.bind(itemView);
+		mContentItemsOfFragmentEstateListBinding = ContentItemsOfFragmentEstateListBinding.bind(
+				itemView);
 		mainPictureEstate                        = mContentItemsOfFragmentEstateListBinding.estateMainPictureOfContentItemOfFragmentEstateList;
 		typeEstate                               = mContentItemsOfFragmentEstateListBinding.estateTypeOfContentItemOfFragmentEstateList;
 		cityLocationEstate                       = mContentItemsOfFragmentEstateListBinding.estateCityLocationOfContentItemOfFragmentEstateList;
@@ -42,7 +43,8 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
 		priceEstate.setText((estate.getPrice() + "€"));
 		constraintLayout.setOnClickListener(
 				//TODO put id inside bundle
-				(Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_details, saveEstateId(estate))));
+				(Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_details,
+				                                          saveEstateId(estate))));
 	}
 	
 	public Bundle saveEstateId(Estate estate) {

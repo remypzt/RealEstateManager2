@@ -14,21 +14,15 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 /**
  * Created by Remy Pouzet on 12/11/2020.
  */
-@Dao
-public interface EstateDao {
+@Dao public interface EstateDao {
 	
-	@Query("SELECT * FROM Estate ")
-	LiveData<List<Estate>> getAllEstates();
+	@Query("SELECT * FROM Estate ") LiveData<List<Estate>> getAllEstates();
 	
-	@Query("SELECT * FROM Estate  WHERE mId = :id")
-	LiveData<Estate> getEstate(long id);
+	@Query("SELECT * FROM Estate  WHERE mId = :id") LiveData<Estate> getEstate(long id);
 	
-	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	long createEstate(Estate estate);
+	@Insert(onConflict = OnConflictStrategy.REPLACE) long createEstate(Estate estate);
 	
-	@Update
-	int updateEstate(Estate estate);
+	@Update int updateEstate(Estate estate);
 	
-	@Query("DELETE FROM Estate  WHERE mId = :id")
-	int deleteEstate(long id);
+	@Query("DELETE FROM Estate  WHERE mId = :id") int deleteEstate(long id);
 }

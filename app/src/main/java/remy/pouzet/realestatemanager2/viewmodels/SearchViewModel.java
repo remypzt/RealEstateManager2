@@ -16,8 +16,7 @@ public class SearchViewModel extends ViewModel {
 	private final Executor         executor;
 	private       long             id;
 	
-	public SearchViewModel(EstateRepository estateDataSource,
-	                       Executor executor) {
+	public SearchViewModel(EstateRepository estateDataSource, Executor executor) {
 		this.estateDataSource = estateDataSource;
 		this.executor         = executor;
 	}

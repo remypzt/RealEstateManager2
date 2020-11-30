@@ -19,14 +19,12 @@ public class ViewModelsFactory implements ViewModelProvider.Factory {
 	private final EstateRepository estateDataSource;
 	private final Executor         executor;
 	
-	public ViewModelsFactory(EstateRepository estateDataSource,
-	                         Executor executor) {
+	public ViewModelsFactory(EstateRepository estateDataSource, Executor executor) {
 		this.estateDataSource = estateDataSource;
 		this.executor         = executor;
 	}
 	
-	@Override
-	public <T extends ViewModel> T create(Class<T> modelClass) {
+	@Override public <T extends ViewModel> T create(Class<T> modelClass) {
 		if (modelClass.isAssignableFrom(EstatesListViewModel.class)) {
 			return (T) new EstatesListViewModel(estateDataSource, executor);
 		}

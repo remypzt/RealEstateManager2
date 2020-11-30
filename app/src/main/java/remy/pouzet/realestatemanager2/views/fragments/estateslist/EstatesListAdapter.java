@@ -25,26 +25,22 @@ public class EstatesListAdapter extends RecyclerView.Adapter<EstatesListViewHold
 		this.estatesList = estatesList;
 	}
 	
-	@NonNull
-	@Override
-	public EstatesListViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-	                                                int viewType) {
+	@NonNull @Override
+	public EstatesListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		// CREATE VIEW HOLDER AND INFLATING ITS XML LAYOUT
 		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-		View           view     = inflater.inflate(R.layout.content_items_of_fragment_estate_list, parent, false);
+		View view = inflater.inflate(R.layout.content_items_of_fragment_estate_list, parent, false);
 		return new EstatesListViewHolder(view);
 	}
 	
 	// UPDATE VIEW HOLDER
-	@Override
-	public void onBindViewHolder(@NonNull EstatesListViewHolder viewHolder,
-	                             int position) {
+	@Override public void onBindViewHolder(@NonNull EstatesListViewHolder viewHolder,
+	                                       int position) {
 		viewHolder.updateEstates(this.estatesList.get(position));
 	}
 	
 	// RETURN THE TOTAL COUNT OF ITEMS IN THE LIST
-	@Override
-	public int getItemCount() {
+	@Override public int getItemCount() {
 		return this.estatesList.size();
 	}
 }

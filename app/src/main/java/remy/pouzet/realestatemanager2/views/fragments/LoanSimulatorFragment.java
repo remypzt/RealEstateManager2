@@ -21,21 +21,19 @@ public class LoanSimulatorFragment extends BaseFragment {
 	// ------------------   Variables   ------------------- //
 	// ------------------------------------------------------//
 	
-	private LoanSimulatorViewModel       mLoanSimulatorViewModel;
+	private LoanSimulatorViewModel mLoanSimulatorViewModel;
 	
 	//------------------------------------------------------//
 	// ------------------   LifeCycle   ------------------- //
 	//------------------------------------------------------//
-	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater,
-	                         ViewGroup container,
-	                         Bundle savedInstanceState) {
-		remy.pouzet.realestatemanager2.databinding.FragmentLoanSimulatorBinding localFragmentLoanSimulatorBinding = FragmentLoanSimulatorBinding.inflate(inflater, container, false);
+	@Override public View onCreateView(@NonNull LayoutInflater inflater,
+	                                   ViewGroup container,
+	                                   Bundle savedInstanceState) {
+		remy.pouzet.realestatemanager2.databinding.FragmentLoanSimulatorBinding localFragmentLoanSimulatorBinding = FragmentLoanSimulatorBinding
+				.inflate(inflater, container, false);
 		this.configureViewModel();
 		final TextView textView = localFragmentLoanSimulatorBinding.textLoanSimulator;
-		mLoanSimulatorViewModel
-				.getText()
-				.observe(getViewLifecycleOwner(), textView::setText);
+		mLoanSimulatorViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 		
 		return localFragmentLoanSimulatorBinding.getRoot();
 	}
@@ -53,6 +51,7 @@ public class LoanSimulatorFragment extends BaseFragment {
 	
 	public void configureViewModel() {
 		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
-		mLoanSimulatorViewModel = new ViewModelProvider(this, mViewModelFactory).get(LoanSimulatorViewModel.class);
+		mLoanSimulatorViewModel = new ViewModelProvider(this, mViewModelFactory).get(
+				LoanSimulatorViewModel.class);
 	}
 }

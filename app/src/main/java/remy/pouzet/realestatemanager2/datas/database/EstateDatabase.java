@@ -29,7 +29,9 @@ public abstract class EstateDatabase extends RoomDatabase {
 			synchronized (EstateDatabase.class) {
 				if (instance == null) {
 					instance = Room
-							.databaseBuilder(context.getApplicationContext(), EstateDatabase.class, "MyDatabase.db")
+							.databaseBuilder(context.getApplicationContext(),
+							                 EstateDatabase.class,
+							                 "MyDatabase.db")
 							.addCallback(prepopulateDatabase())
 							.build();
 				}
@@ -43,8 +45,7 @@ public abstract class EstateDatabase extends RoomDatabase {
 			static final String PREPOPULATE = "prepopulate";
 			static final String PREPOPULATE_2 = "prepopulate 2";
 			
-			@Override
-			public void onCreate(@NonNull SupportSQLiteDatabase db) {
+			@Override public void onCreate(@NonNull SupportSQLiteDatabase db) {
 				super.onCreate(db);
 				ContentValues contentValues1 = new ContentValues();
 				contentValues1.put("type", PREPOPULATE + "type");

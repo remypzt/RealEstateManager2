@@ -20,7 +20,7 @@ public class SearchFragment extends BaseFragment {
 	//------------------------------------------------------//
 	// ------------------   Variables   ------------------- //
 	// ------------------------------------------------------//
-
+	
 	//------------------------------------------------------//
 	// ------------------   LifeCycle   ------------------- //
 	//------------------------------------------------------//
@@ -39,8 +39,7 @@ public class SearchFragment extends BaseFragment {
 		return null;
 	}
 	
-	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		this.configureViewModel();
 		

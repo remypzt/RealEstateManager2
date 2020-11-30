@@ -74,23 +74,24 @@ public class Utils {
 	 */
 	
 	public static Boolean isNetworkAvailable(Context context) {
-		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(
+				Context.CONNECTIVITY_SERVICE);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 			Network nw = connectivityManager.getActiveNetwork();
 			if (nw == null) {
 				return false;
 			}
 			NetworkCapabilities actNw = connectivityManager.getNetworkCapabilities(nw);
-			return actNw != null && (actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
+			return actNw != null && (actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || actNw
+					.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || actNw.hasTransport(
+					NetworkCapabilities.TRANSPORT_ETHERNET));
 		} else {
 			NetworkInfo nwInfo = connectivityManager.getActiveNetworkInfo();
 			return nwInfo != null && nwInfo.isConnected();
 		}
 	}
 	
-	public static String uIformat(int dayOfMonth,
-	                              int monthOfYear,
-	                              int year) {
+	public static String uIformat(int dayOfMonth, int monthOfYear, int year) {
 		
 		String dateInUIformat;
 		
@@ -99,9 +100,7 @@ public class Utils {
 		return dateInUIformat;
 	}
 	
-	public static String bEformat(int dayOfMonth,
-	                              int monthOfYear,
-	                              int year) {
+	public static String bEformat(int dayOfMonth, int monthOfYear, int year) {
 		
 		String dateInBEformat;
 		
@@ -110,9 +109,7 @@ public class Utils {
 		return dateInBEformat;
 	}
 	
-	public static String bEformatException(int dayOfMonth,
-	                                       int monthOfYear,
-	                                       int year) {
+	public static String bEformatException(int dayOfMonth, int monthOfYear, int year) {
 		
 		String dateInBEformatException;
 		

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 public class LoanSimulatorViewModel extends ViewModel {
 	
-	private MutableLiveData<String> mText;
+	private final MutableLiveData<String> mText;
 	
 	public LoanSimulatorViewModel() {
 		mText = new MutableLiveData<>();

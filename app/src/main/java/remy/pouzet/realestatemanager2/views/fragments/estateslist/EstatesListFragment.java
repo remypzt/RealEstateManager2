@@ -63,7 +63,8 @@ public class EstatesListFragment extends BaseFragment {
 	public View onCreateView(@NonNull LayoutInflater inflater,
 	                         ViewGroup container,
 	                         Bundle savedInstanceState) {
-		remy.pouzet.realestatemanager2.databinding.FragmentEstatesListBinding localFragmentEstatesListBinding = FragmentEstatesListBinding.inflate(inflater, container, false);
+		remy.pouzet.realestatemanager2.databinding.FragmentEstatesListBinding localFragmentEstatesListBinding = FragmentEstatesListBinding
+				.inflate(inflater, container, false);
 		mRecyclerView = localFragmentEstatesListBinding.fragmentMainRecyclerView;
 		this.configureViewModel();
 		this.configureRecyclerView();
@@ -79,6 +80,21 @@ public class EstatesListFragment extends BaseFragment {
 		return null;
 	}
 	
+	private void configureViewModel() {
+		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
+		this.estatesListViewModel = new ViewModelProvider(this, mViewModelFactory).get(
+				EstatesListViewModel.class);
+	}
+	
+	private void configureRecyclerView() {
+		this.estatesList        = new ArrayList<>();
+		this.estatesListAdapter = new EstatesListAdapter(this.estatesList);
+		this.mRecyclerView.setAdapter(this.estatesListAdapter);
+		this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+	}
+//------------------------------------------------------//
+// ----------------- Navigation, Menu, UI ------------- //
+//------------------------------------------------------//
 	
 	//------------------------------------------------------//
 	// ------------------   Functions   ------------------- //
@@ -97,21 +113,6 @@ public class EstatesListFragment extends BaseFragment {
 			this.estatesList.addAll(estatesList);
 			estatesListAdapter.notifyDataSetChanged();
 		}
-	}
-//------------------------------------------------------//
-// ----------------- Navigation, Menu, UI ------------- //
-//------------------------------------------------------//
-	
-	private void configureRecyclerView() {
-		this.estatesList = new ArrayList<>();
-		this.estatesListAdapter = new EstatesListAdapter(this.estatesList);
-		this.mRecyclerView.setAdapter(this.estatesListAdapter);
-		this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-	}
-	
-	private void configureViewModel() {
-		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
-		this.estatesListViewModel = new ViewModelProvider(this, mViewModelFactory).get(EstatesListViewModel.class);
 	}
 	
 }

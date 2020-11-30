@@ -26,9 +26,7 @@ public class StorageUtils {
 	
 	//----
 	public static String getTextFromStorage(File rootDestination,
-	                                        Context context,
-	                                        String fileName,
-	                                        String folderName) {
+	                                        Context context, String fileName, String folderName) {
 		File file = createOrGetFile(rootDestination, fileName, folderName);
 		return readOnFile(context, file);
 	}
@@ -37,17 +35,14 @@ public class StorageUtils {
 	// READ & WRITE ON STORAGE
 	// ----------------------------------
 	
-	private static File createOrGetFile(File destination,
-	                                    String fileName,
-	                                    String folderName) {
+	private static File createOrGetFile(File destination, String fileName, String folderName) {
 		File folder = new File(destination, folderName);
 		return new File(folder, fileName);
 	}
 	
 	// ---
 	
-	private static String readOnFile(Context context,
-	                                 File file) {
+	private static String readOnFile(Context context, File file) {
 		
 		String result = null;
 		if (file.exists()) {
@@ -70,7 +65,9 @@ public class StorageUtils {
 			}
 			catch (IOException e) {
 				Toast
-						.makeText(context, context.getString(R.string.error_happened), Toast.LENGTH_LONG)
+						.makeText(context,
+						          context.getString(R.string.error_happened),
+						          Toast.LENGTH_LONG)
 						.show();
 			}
 		}
@@ -87,23 +84,17 @@ public class StorageUtils {
 		writeOnFile(context, text, file);
 	}
 	
-	private static void writeOnFile(Context context,
-	                                String text,
-	                                File file) {
+	private static void writeOnFile(Context context, String text, File file) {
 		
 		try {
-			file
-					.getParentFile()
-					.mkdirs();
+			file.getParentFile().mkdirs();
 			FileOutputStream fos = new FileOutputStream(file);
 			Writer           w   = new BufferedWriter(new OutputStreamWriter(fos));
 			
 			try {
 				w.write(text);
 				w.flush();
-				fos
-						.getFD()
-						.sync();
+				fos.getFD().sync();
 			}
 			finally {
 				w.close();
@@ -114,8 +105,7 @@ public class StorageUtils {
 			
 		}
 		catch (IOException e) {
-			Toast
-					.makeText(context, context.getString(R.string.error_happened), Toast.LENGTH_LONG)
+			Toast.makeText(context, context.getString(R.string.error_happened), Toast.LENGTH_LONG)
 					.show();
 		}
 	}
@@ -131,7 +121,8 @@ public class StorageUtils {
 	
 	public static boolean isExternalStorageReadable() {
 		String state = Environment.getExternalStorageState();
-		return (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state));
+		return (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(
+				state));
 	}
 	
 }

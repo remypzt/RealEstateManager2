@@ -15,8 +15,7 @@ public class EstatesListViewModel extends ViewModel {
 	private final EstateRepository estateDataSource;
 	private final Executor         executor;
 	
-	public EstatesListViewModel(EstateRepository estateDataSource,
-	                            Executor executor) {
+	public EstatesListViewModel(EstateRepository estateDataSource, Executor executor) {
 		this.estateDataSource = estateDataSource;
 		this.executor         = executor;
 	}

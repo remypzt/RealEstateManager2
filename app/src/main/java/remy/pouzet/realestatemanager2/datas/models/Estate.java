@@ -8,8 +8,7 @@ import androidx.room.PrimaryKey;
 /**
  * Created by Remy Pouzet on 03/11/2020.
  */
-@Entity
-public class Estate {
+@Entity public class Estate {
 	
 	@ColumnInfo(name = "type") private       String mType;
 	@Nullable private                        String mCity;
@@ -66,8 +65,7 @@ public class Estate {
 		mId = parameterId;
 	}
 	
-	@Nullable
-	public String getSellDate() {
+	@Nullable public String getSellDate() {
 		return mSellDate;
 	}
 	
