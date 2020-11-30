@@ -14,13 +14,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.FragmentFormBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.injections.Injection;
@@ -35,19 +36,13 @@ public class FormFragment extends BaseFragment {
 // ------------------   Binding   ------------------- //
 //------------------------------------------------------//
 	
-	public  ImageButton   createNewEstateButton;
 	private FormViewModel formViewModel;
-	public  ImageButton   editEstateButton;
-	public  Button        lastModificationDateButton;
-	public  Button        selledDateButton;
-	public  Date          dateBackEndFormat;
-	public  CheckBox      isItSellCheckBox;
-	public  TextView      sellTitleTextView;
-	
-	//------------------------------------------------------//
-// ------------------   Variables   ------------------- //
-//------------------------------------------------------//
-	public int fakeboolean;
+	private ImageButton   editEstateButton;
+	private Button        lastModificationDateButton;
+	private Button        selledDateButton;
+	private Date          dateBackEndFormat;
+	private CheckBox      isItSellCheckBox;
+	private TextView      sellTitleTextView;
 	
 	//-- Dates variables --//
 	@SuppressLint("SimpleDateFormat") SimpleDateFormat formatterUIFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -90,34 +85,12 @@ public class FormFragment extends BaseFragment {
 	
 	private void configureViewModel() {
 		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
-		this.formViewModel = ViewModelProviders
-				.of(this, mViewModelFactory)
-				.get(FormViewModel.class);
+		this.formViewModel = new ViewModelProvider(this, mViewModelFactory).get(FormViewModel.class);
 	}
 	
 	//------------------------------------------------------//
 // ------------------   Functions   ------------------- //
 //------------------------------------------------------//
-	
-	public boolean sellStatusManagement() {
-		boolean checked = ((isItSellCheckBox)).isChecked();
-		if (checked) {
-			selledDateButton.setVisibility(View.VISIBLE);
-			sellTitleTextView.setText("Sell date");
-			return true;
-		} else {
-			selledDateButton.setVisibility(View.INVISIBLE);
-			sellTitleTextView.setText("Is it Sell ?");
-			return false;
-		}
-	}
-	
-	public void viewBindingManagement() {
-		lastModificationDateButton = mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton;
-		selledDateButton           = mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton;
-		isItSellCheckBox           = mFragmentFormBinding.isSellCheckbox;
-		sellTitleTextView          = mFragmentFormBinding.sellTitleFragmentForm;
-	}
 	
 	public void datePickerButtonsManagement(Button button1,
 	                                        Button button2) {
@@ -125,15 +98,15 @@ public class FormFragment extends BaseFragment {
 		button1.setOnClickListener(v -> {
 			DatePickerDialog dd = new DatePickerDialog(requireContext(), (view, year, monthOfYear, dayOfMonth) -> {
 				try {
-					String dateInStringUIFormat = Utils.UIformat(dayOfMonth, monthOfYear, year);
+					String dateInStringUIFormat = Utils.uIformat(dayOfMonth, monthOfYear, year);
 					
 					Date dateUIFormat = formatterUIFormat.parse(dateInStringUIFormat);
 					
 					if (dayOfMonth > 9) {
-						String dateInStringBEformat = Utils.BEformat(dayOfMonth, monthOfYear, year);
+						String dateInStringBEformat = Utils.bEformat(dayOfMonth, monthOfYear, year);
 						dateBackEndFormat = formatterBackEndFormat.parse(dateInStringBEformat);
 					} else {
-						String dateInStringBEformatException = Utils.BEformatException(dayOfMonth, monthOfYear, year);
+						String dateInStringBEformatException = Utils.bEformatException(dayOfMonth, monthOfYear, year);
 						dateBackEndFormat = formatterBackEndFormat.parse(dateInStringBEformatException);
 					}
 					
@@ -170,10 +143,50 @@ public class FormFragment extends BaseFragment {
 		});
 	}
 	
+	public void viewBindingManagement() {
+		lastModificationDateButton = mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton;
+		selledDateButton           = mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton;
+		isItSellCheckBox           = mFragmentFormBinding.isSellCheckbox;
+		sellTitleTextView          = mFragmentFormBinding.sellTitleFragmentForm;
+	}
+	
 	public void validationButtonManagement() {
 		//TODO condition create or edit
-		createNewEstateButton = mFragmentFormBinding.validateFormButton;
-		createNewEstateButton.setOnClickListener(v -> createNewEstateManagement());
+		ImageButton localCreateNewEstateButton = mFragmentFormBinding.validateFormButton;
+		localCreateNewEstateButton.setOnClickListener(v -> createNewEstateManagement());
+	}
+	
+	private void createNewEstateManagement() {
+		if (checkFormData()) {
+			Estate estate = new Estate(mFragmentFormBinding.valueOfEstateTypeFragmentForm
+					                           .getSelectedItem()
+					                           .toString(), mFragmentFormBinding.valueOfEstateCityFragmentForm
+					                           .getText()
+					                           .toString(), Integer.parseInt(mFragmentFormBinding.valueOfEstatePriceFragmentForm
+							                                                         .getText()
+							                                                         .toString()), "todo mainpicture", 0, mFragmentFormBinding.contentDescriptionFragmentForm
+					                           .getText()
+					                           .toString(), Integer.parseInt(mFragmentFormBinding.surfaceValueFragmentForm
+							                                                         .getText()
+							                                                         .toString()), Integer.parseInt(mFragmentFormBinding.roomsValueFragmentForm
+									
+									                                                                                        .getText()
+									                                                                                        .toString()),
+			
+			                           mFragmentFormBinding.locationValueFragmentForm
+					                           .getText()
+					                           .toString(), mFragmentFormBinding.contactValueFragmentForm
+					                           .getText()
+					                           .toString(), mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton
+					                           .getText()
+					                           .toString(), mFragmentFormBinding.isSellCheckbox.isChecked()
+			                                                ? mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton
+							                                        .getText()
+							                                        .toString()
+			                                                : null);
+			this.formViewModel.createEstate(estate);
+			showLongSnackBar(mFragmentFormBinding.getRoot(), "Success");
+		}
 	}
 	
 	public void checkDateBetweenThem(Button button1,
@@ -228,84 +241,67 @@ public class FormFragment extends BaseFragment {
 		}
 	}
 	
-	private void createNewEstateManagement() {
-		if (checkFormData()) {
-			Estate estate = new Estate(mFragmentFormBinding.valueOfEstateTypeFragmentForm
-					                           .getSelectedItem()
-					                           .toString(), mFragmentFormBinding.valueOfEstateCityFragmentForm
-					                           .getText()
-					                           .toString(), Integer.parseInt(mFragmentFormBinding.valueOfEstatePriceFragmentForm
-							                                                         .getText()
-							                                                         .toString()), "todo mainpicture", 0, mFragmentFormBinding.contentDescriptionFragmentForm
-					                           .getText()
-					                           .toString(), Integer.parseInt(mFragmentFormBinding.surfaceValueFragmentForm
-							                                                         .getText()
-							                                                         .toString()), Integer.parseInt(mFragmentFormBinding.roomsValueFragmentForm
-									
-									                                                                                        .getText()
-									                                                                                        .toString()),
-			
-			                           mFragmentFormBinding.locationValueFragmentForm
-					                           .getText()
-					                           .toString(), mFragmentFormBinding.contactValueFragmentForm
-					                           .getText()
-					                           .toString(), mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton
-					                           .getText()
-					                           .toString(), mFragmentFormBinding.isSellCheckbox.isChecked()
-			                                                ? mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton
-							                                        .getText()
-							                                        .toString()
-			                                                : null);
-			this.formViewModel.createEstate(estate);
-			ShowLongSnackBar(mFragmentFormBinding.getRoot(), "Success");
-		}
-	}
-	
 	public boolean checkFormData() {
-		fakeboolean = 1;
-		if (sellStatusManagement()) {
-			if (selledDateButton
-					    .getText()
-					    .length() < 1) {
-				ShowIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "sell date cannot be null");
-				fakeboolean = 0;
-			}
+		int localTrue         = 1;
+		int localFalse        = 0;
+		int nullEquivalent    = 1;
+		int minimalWordLenght = 3;
+		int localFakeboolean  = localTrue;
+		
+		if (sellStatusManagement() && selledDateButton
+				                              .getText()
+				                              .length() < nullEquivalent) {
+			showIndefiniteSnackBar(mFragmentFormBinding.getRoot(), getString(R.string.sell_date_cannot_be_null));
+			localFakeboolean = localFalse;
 		}
 		if (mFragmentFormBinding.valueOfEstateCityFragmentForm
 				    .getText()
-				    .length() < 3) {
-			ShowIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "city name lenght must be superior at 3 letters");
-			fakeboolean = 0;
+				    .length() < minimalWordLenght) {
+			showIndefiniteSnackBar(mFragmentFormBinding.getRoot(), getString(R.string.minimal_words_lenght));
+			localFakeboolean = localFalse;
 		}
 		if (mFragmentFormBinding.valueOfEstatePriceFragmentForm
 				    .getText()
-				    .length() < 1) {
-			ShowIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "estate price cannot be null");
-			fakeboolean = 0;
+				    .length() < nullEquivalent) {
+			showIndefiniteSnackBar(mFragmentFormBinding.getRoot(), getString(R.string.estate_price_cannot_be_null));
+			localFakeboolean = localFalse;
 		}
 		if (mFragmentFormBinding.surfaceValueFragmentForm
 				    .getText()
-				    .length() < 1) {
-			ShowIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "surface value cannot be null");
-			fakeboolean = 0;
+				    .length() < nullEquivalent) {
+			showIndefiniteSnackBar(mFragmentFormBinding.getRoot(), getString(R.string.surface_value_cannot_be_null));
+			localFakeboolean = localFalse;
 		}
 		if (mFragmentFormBinding.roomsValueFragmentForm
 				    .getText()
-				    .length() < 1) {
-			ShowIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "rooms value cannot be null");
-			fakeboolean = 0;
+				    .length() < nullEquivalent) {
+			showIndefiniteSnackBar(mFragmentFormBinding.getRoot(), getString(R.string.rooms_value_cannot_be_null));
+			localFakeboolean = localFalse;
 		}
 		if (mFragmentFormBinding.contactValueFragmentForm
 				    .getText()
-				    .length() < 1) {
-			ShowIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "contact value cannot be null");
-			fakeboolean = 0;
+				    .length() < nullEquivalent) {
+			showIndefiniteSnackBar(mFragmentFormBinding.getRoot(), getString(R.string.contact_value_cannot_be_null));
+			localFakeboolean = localFalse;
 		}
-		return fakeboolean != 0;
+		return localFakeboolean != localFalse;
 //		String mainPicture, ?
 //		String adress, ?
 //		String agent, notnull
 //	              List<String> pOI, ?
+	}
+	
+	public boolean sellStatusManagement() {
+		boolean checked = (isItSellCheckBox).isChecked();
+		if (checked) {
+			selledDateButton.setVisibility(View.VISIBLE);
+			sellTitleTextView.setText("Sell date");
+			return true;
+		} else {
+			selledDateButton.setVisibility(View.INVISIBLE);
+			sellTitleTextView.setText("Is it Sell ?");
+			return false;
+		}
 	}
 	
 	private void getEstate(long id) {

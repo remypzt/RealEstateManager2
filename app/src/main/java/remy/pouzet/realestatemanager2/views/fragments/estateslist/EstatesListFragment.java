@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -102,23 +102,16 @@ public class EstatesListFragment extends BaseFragment {
 // ----------------- Navigation, Menu, UI ------------- //
 //------------------------------------------------------//
 	
-	//  - Configure RecyclerView, Adapter, LayoutManager & glue it together
 	private void configureRecyclerView() {
-		//  - Reset list
 		this.estatesList = new ArrayList<>();
-		//  - Create adapter passing the list of users
 		this.estatesListAdapter = new EstatesListAdapter(this.estatesList);
-		//  - Attach the adapter to the recyclerview to populate estates
 		this.mRecyclerView.setAdapter(this.estatesListAdapter);
-		// - Set layout manager to position the estates
 		this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 	}
 	
 	private void configureViewModel() {
 		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
-		this.estatesListViewModel = ViewModelProviders
-				.of(this, mViewModelFactory)
-				.get(EstatesListViewModel.class);
+		this.estatesListViewModel = new ViewModelProvider(this, mViewModelFactory).get(EstatesListViewModel.class);
 	}
 	
 }

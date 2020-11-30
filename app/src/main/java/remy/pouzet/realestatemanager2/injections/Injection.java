@@ -13,6 +13,10 @@ import remy.pouzet.realestatemanager2.repositories.EstateRepository;
  */
 public class Injection {
 	
+	private Injection() {
+		throw new IllegalStateException("Injection class");
+	}
+	
 	public static ViewModelsFactory provideViewModelFactory(Context context) {
 		EstateRepository dataSourceEstate = provideEstateSource(context);
 		Executor         executor         = provideExecutor();

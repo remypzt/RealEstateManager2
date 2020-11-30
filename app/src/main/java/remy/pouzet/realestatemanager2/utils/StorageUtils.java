@@ -19,6 +19,11 @@ import remy.pouzet.realestatemanager2.R;
  * Created by Remy Pouzet on 06/11/2020.
  */
 public class StorageUtils {
+	
+	private StorageUtils() {
+		throw new IllegalStateException("Utility Class");
+	}
+	
 	//----
 	public static String getTextFromStorage(File rootDestination,
 	                                        Context context,

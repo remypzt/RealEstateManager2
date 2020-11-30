@@ -23,9 +23,9 @@ public class Estate {
 	@Nullable private                        String mAgent;
 	@Nullable private                        String mUpdateDate;
 	@Nullable private                        String mSellDate;
-	
 	//	private List<String> mPOI;
 	
+	//Why there is a max of 7 parameters authorized and how can I change it ?
 	public Estate(String type,
 	              String city,
 	              int price,

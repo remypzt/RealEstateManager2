@@ -20,11 +20,11 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 public class EstatesListViewHolder extends RecyclerView.ViewHolder {
 	
 	private final ContentItemsOfFragmentEstateListBinding mContentItemsOfFragmentEstateListBinding;
-	public        ImageView                               mainPictureEstate;
-	public        TextView                                typeEstate;
-	public        TextView                                cityLocationEstate;
-	public        TextView                                priceEstate;
-	public        ConstraintLayout                        constraintLayout;
+	private final ImageView                               mainPictureEstate;
+	private final TextView                                typeEstate;
+	private final TextView                                cityLocationEstate;
+	private final TextView                                priceEstate;
+	private final ConstraintLayout                        constraintLayout;
 	
 	public EstatesListViewHolder(@NonNull View itemView) {
 		super(itemView);

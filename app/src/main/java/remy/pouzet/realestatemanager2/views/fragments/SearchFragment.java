@@ -7,28 +7,20 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
-
-import java.util.List;
+import androidx.lifecycle.ViewModelProvider;
 
 import remy.pouzet.realestatemanager2.R;
-import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.injections.Injection;
 import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.SearchViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
-import remy.pouzet.realestatemanager2.views.fragments.estateslist.EstatesListAdapter;
 
 public class SearchFragment extends BaseFragment {
 	
 	//------------------------------------------------------//
 	// ------------------   Variables   ------------------- //
 	// ------------------------------------------------------//
-	
-	private SearchViewModel    searchViewModel;
-	private List<Estate>       estatesList;
-	private EstatesListAdapter estatesListAdapter;
-	
+
 	//------------------------------------------------------//
 	// ------------------   LifeCycle   ------------------- //
 	//------------------------------------------------------//
@@ -85,9 +77,7 @@ public class SearchFragment extends BaseFragment {
 	
 	private void configureViewModel() {
 		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
-		this.searchViewModel = ViewModelProviders
-				.of(this, mViewModelFactory)
-				.get(SearchViewModel.class);
+		new ViewModelProvider(this, mViewModelFactory).get(SearchViewModel.class);
 	}
 	
 }

@@ -6,10 +6,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 	// ------------------   Variables   ------------------- //
 	//------------------------------------------------------//
 	private AppBarConfiguration mAppBarConfiguration;
-	public  int                 navigateToNavSearch;
+	private int                 navigateToNavSearch;
 	//------------------------------------------------------//
 	// ------------------    Binding    ------------------- //
 	//------------------------------------------------------//
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 		// Passing each menu ID as a set of Ids because each
 		// menu should be considered as top level destinations.
 		mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_estates_list, R.id.nav_loan_simulator)
-				.setDrawerLayout(mActivityMainBinding.drawerLayout)
+				.setOpenableLayout(mActivityMainBinding.drawerLayout)
 				.build();
 	}
 	
@@ -124,19 +122,14 @@ public class MainActivity extends AppCompatActivity {
 		NavigationUI.setupWithNavController(mActivityMainBinding.navView, navController);
 		
 		/* Set items visibility depends navigation position*/
-		navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-			@Override
-			public void onDestinationChanged(@NonNull NavController controller,
-			                                 @NonNull NavDestination destination,
-			                                 @Nullable Bundle arguments) {
-				if (destination.getId() != R.id.nav_estates_list) {
-					mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
-				} else {
-					mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
-				}
-				searchActionButton.setVisible(destination.getId() == R.id.nav_details || destination.getId() == R.id.nav_estates_list);
-				modifyActionButton.setVisible(destination.getId() == R.id.nav_details);
+		navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+			if (destination.getId() != R.id.nav_estates_list) {
+				mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
+			} else {
+				mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
 			}
+			searchActionButton.setVisible(destination.getId() == R.id.nav_details || destination.getId() == R.id.nav_estates_list);
+			modifyActionButton.setVisible(destination.getId() == R.id.nav_details);
 		});
 		Navigation.setViewNavController(mActivityMainBinding.mainToolbar.fab, Navigation.findNavController(this, R.id.nav_host_fragment));
 		mActivityMainBinding.mainToolbar.fab.setOnClickListener((Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_form, null)));

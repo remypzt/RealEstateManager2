@@ -5,31 +5,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+
+import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE;
 
 /**
  * Created by Remy Pouzet on 27/11/2020.
  */
 public abstract class BaseFragment extends Fragment {
 	
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-	
+	@Override
 	public View onCreateView(LayoutInflater inflater,
 	                         ViewGroup parent,
 	                         Bundle savedInstanseState) {
-		View view = provideYourFragmentView(inflater, parent, savedInstanseState);
-		return view;
+		return provideYourFragmentView(inflater, parent, savedInstanseState);
 	}
 	
 	public abstract View provideYourFragmentView(LayoutInflater inflater,
 	                                             ViewGroup parent,
 	                                             Bundle savedInstanceState);
 	
-	public void ShowIndefiniteSnackBar(View view,
+	public void showIndefiniteSnackBar(View view,
 	                                   String message) {
 		if (message == null || message
 				.trim()
@@ -37,17 +37,15 @@ public abstract class BaseFragment extends Fragment {
 			message = "Please enter text to show";
 		}
 		Snackbar
-				.make(view, message, Snackbar.LENGTH_INDEFINITE)
-				.setAction("CLOSE", new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-					}
+				.make(view, message, LENGTH_INDEFINITE)
+				.setAction("CLOSE", view1 -> {
+					//Do nothing because it's close automatically
 				})
-				.setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+				.setActionTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_light))
 				.show();
 	}
 	
-	public void ShowLongSnackBar(View view,
+	public void showLongSnackBar(View view,
 	                             String message) {
 		if (message == null || message
 				.trim()
@@ -55,13 +53,11 @@ public abstract class BaseFragment extends Fragment {
 			message = "Please enter text to show";
 		}
 		Snackbar
-				.make(view, message, Snackbar.LENGTH_INDEFINITE)
-				.setAction("CLOSE", new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-					}
+				.make(view, message, BaseTransientBottomBar.LENGTH_LONG)
+				.setAction("CLOSE", view1 -> {
+					//Do nothing because it's close automatically
 				})
-				.setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+				.setActionTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_light))
 				.show();
 	}
 	

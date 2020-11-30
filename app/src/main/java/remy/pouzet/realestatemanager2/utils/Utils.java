@@ -30,6 +30,10 @@ import java.util.Date;
 
 public class Utils {
 	
+	private Utils() {
+		throw new IllegalStateException("Utility class");
+	}
+	
 	/**
 	 * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
 	 * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
@@ -84,7 +88,7 @@ public class Utils {
 		}
 	}
 	
-	public static String UIformat(int dayOfMonth,
+	public static String uIformat(int dayOfMonth,
 	                              int monthOfYear,
 	                              int year) {
 		
@@ -95,7 +99,7 @@ public class Utils {
 		return dateInUIformat;
 	}
 	
-	public static String BEformat(int dayOfMonth,
+	public static String bEformat(int dayOfMonth,
 	                              int monthOfYear,
 	                              int year) {
 		
@@ -106,7 +110,7 @@ public class Utils {
 		return dateInBEformat;
 	}
 	
-	public static String BEformatException(int dayOfMonth,
+	public static String bEformatException(int dayOfMonth,
 	                                       int monthOfYear,
 	                                       int year) {
 		

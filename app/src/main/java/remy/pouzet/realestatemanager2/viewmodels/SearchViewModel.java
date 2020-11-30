@@ -14,7 +14,7 @@ public class SearchViewModel extends ViewModel {
 	// REPOSITORIES
 	private final EstateRepository estateDataSource;
 	private final Executor         executor;
-	public        long             id;
+	private       long             id;
 	
 	public SearchViewModel(EstateRepository estateDataSource,
 	                       Executor executor) {

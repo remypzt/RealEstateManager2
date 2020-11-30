@@ -8,40 +8,38 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
-import remy.pouzet.realestatemanager2.databinding.FragmentDetailsBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.injections.Injection;
 import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.DetailsViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
+
 public class DetailsFragment extends BaseFragment {
-	
 	//------------------------------------------------------//
 	// ------------------   Variables   ------------------- //
 	// ------------------------------------------------------//
 	
-	private DetailsViewModel       detailsViewModel;
-	private FragmentDetailsBinding mFragmentDetailsBinding;
-	public  long                   id;
-	private TextView               mTextView;
+	public  long     id;
+	private TextView mTextView;
 	
 	//------------------------------------------------------//
 	// ------------------   LifeCycle   ------------------- //
 	//------------------------------------------------------//
 	
+	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater,
 	                         ViewGroup container,
 	                         Bundle savedInstanceState) {
-		mFragmentDetailsBinding = remy.pouzet.realestatemanager2.databinding.FragmentDetailsBinding.inflate(inflater, container, false);
-		mTextView               = mFragmentDetailsBinding.surfaceTitleFragmentDetails;
-		id                      = Long.parseLong(getArguments()
-				                                         .get("id")
-				                                         .toString());
+		remy.pouzet.realestatemanager2.databinding.FragmentDetailsBinding localFragmentDetailsBinding = remy.pouzet.realestatemanager2.databinding.FragmentDetailsBinding.inflate(inflater, container, false);
+		mTextView = localFragmentDetailsBinding.surfaceTitleFragmentDetails;
+		id        = Long.parseLong(getArguments()
+				                           .get("id")
+				                           .toString());
 		getEstate(id);
-		return mFragmentDetailsBinding.getRoot();
+		return localFragmentDetailsBinding.getRoot();
 	}
 	
 	@Override
@@ -80,8 +78,6 @@ public class DetailsFragment extends BaseFragment {
 	
 	private void configureViewModel() {
 		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
-		this.detailsViewModel = ViewModelProviders
-				.of(this, mViewModelFactory)
-				.get(DetailsViewModel.class);
+		new ViewModelProvider(this, mViewModelFactory).get(DetailsViewModel.class);
 	}
 }
