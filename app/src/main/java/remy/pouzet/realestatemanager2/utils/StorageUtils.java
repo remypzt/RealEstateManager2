@@ -26,7 +26,9 @@ public class StorageUtils {
 	
 	//----
 	public static String getTextFromStorage(File rootDestination,
-	                                        Context context, String fileName, String folderName) {
+	                                        Context context,
+	                                        String fileName,
+	                                        String folderName) {
 		File file = createOrGetFile(rootDestination, fileName, folderName);
 		return readOnFile(context, file);
 	}
@@ -105,7 +107,10 @@ public class StorageUtils {
 			
 		}
 		catch (IOException e) {
-			Toast.makeText(context, context.getString(R.string.error_happened), Toast.LENGTH_LONG)
+			Toast
+					.makeText(context,
+					          context.getString(R.string.error_happened),
+					          Toast.LENGTH_LONG)
 					.show();
 		}
 	}
