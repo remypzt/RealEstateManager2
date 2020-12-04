@@ -21,10 +21,11 @@ public class SearchViewModel extends ViewModel {
 		this.estateDataSource = estateDataSource;
 		this.executor         = executor;
 	}
-	
-	public LiveData<List<Estate>> getAllEstates() {
+
+	//NOT USED
+	/*public LiveData<List<Estate>> getAllEstates() {
 		return estateDataSource.getAllEstates();
-	}
+	}*/
 	
 	public LiveData<Estate> getEstate() {
 		return estateDataSource.getEstate(id);

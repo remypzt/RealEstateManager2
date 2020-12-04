@@ -16,19 +16,19 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
  */
 @Dao
 public interface EstateDao {
-	
-	@Query("SELECT * FROM Estate ")
-	LiveData<List<Estate>> getAllEstates();
-	
-	@Query("SELECT * FROM Estate  WHERE mId = :id")
-	LiveData<Estate> getEstate(long id);
-	
-	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	long createEstate(Estate estate);
-	
-	@Update
-	int updateEstate(Estate estate);
-	
-	@Query("DELETE FROM Estate  WHERE mId = :id")
-	int deleteEstate(long id);
+
+    @Query("SELECT * FROM Estate ")
+    List<Estate> getAllEstates();
+
+    @Query("SELECT * FROM Estate  WHERE mId = :id")
+    LiveData<Estate> getEstate(long id);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long createEstate(Estate estate);
+
+    @Update
+    int updateEstate(Estate estate);
+
+    @Query("DELETE FROM Estate  WHERE mId = :id")
+    int deleteEstate(long id);
 }

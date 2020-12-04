@@ -19,9 +19,9 @@ public class EstateRepository {
 	}
 	
 	// --- GET ---
-	public LiveData<List<Estate>> getAllEstates() {
+	/*public LiveData<List<Estate>> getAllEstates() {
 		return this.estateDao.getAllEstates();
-	}
+	}*/
 	
 	public LiveData<Estate> getEstate(long id) {
 		return this.estateDao.getEstate(id);
