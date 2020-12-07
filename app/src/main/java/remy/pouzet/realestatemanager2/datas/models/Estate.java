@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
  */
 @Entity public class Estate {
 	
-	@ColumnInfo(name = "type") private                                String type;
+	@ColumnInfo(name = "type") @Nullable                              String type;
 	@ColumnInfo(name = "city") @Nullable private                      String city;
 	@ColumnInfo(name = "price") private                               int    price;
 	@ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) private long   id;
@@ -37,8 +37,6 @@ import androidx.room.PrimaryKey;
 	              @org.jetbrains.annotations.Nullable String updateDate,
 	              @org.jetbrains.annotations.Nullable String sellDate
 //	              List<String> pOI,
-//
-	
 	             ) {
 		this.id          = id;
 		this.type        = type;

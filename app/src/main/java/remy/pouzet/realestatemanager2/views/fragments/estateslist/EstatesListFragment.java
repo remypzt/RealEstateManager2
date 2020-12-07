@@ -15,8 +15,6 @@ import java.util.List;
 
 import remy.pouzet.realestatemanager2.databinding.FragmentEstatesListBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
-import remy.pouzet.realestatemanager2.injections.Injection;
-import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.EstatesListViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
@@ -51,7 +49,7 @@ public class EstatesListFragment extends BaseFragment {
 	// ------------------   Variables   ------------------- //
 	// ------------------------------------------------------//
 	
-	RecyclerView mRecyclerView;
+	private RecyclerView         recyclerView;
 	private EstatesListViewModel estatesListViewModel;
 	private EstatesListAdapter   estatesListAdapter;
 	private List<Estate>         estatesList;
@@ -59,13 +57,12 @@ public class EstatesListFragment extends BaseFragment {
 	// ------------------   LifeCycle   ------------------- //
 	//------------------------------------------------------//
 	
-	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater,
-	                         ViewGroup container,
+	@Override public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		remy.pouzet.realestatemanager2.databinding.FragmentEstatesListBinding localFragmentEstatesListBinding = FragmentEstatesListBinding
 				.inflate(inflater, container, false);
-		mRecyclerView = localFragmentEstatesListBinding.fragmentMainRecyclerView;
+		recyclerView = localFragmentEstatesListBinding.fragmentMainRecyclerView;
+		
 		this.configureViewModel();
 		this.configureRecyclerView();
 		getAllEstates();
@@ -75,34 +72,28 @@ public class EstatesListFragment extends BaseFragment {
 	
 	@Override
 	public View provideYourFragmentView(LayoutInflater inflater,
-	                                    ViewGroup parent,
-	                                    Bundle savedInstanceState) {
+	                                    ViewGroup parent, Bundle savedInstanceState) {
 		return null;
 	}
 	
+	//------------------------------------------------------//
+	// ------------------   Functions   ------------------- //
+	//------------------------------------------------------//
+	
 	private void configureViewModel() {
-		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
-		this.estatesListViewModel = new ViewModelProvider(this, mViewModelFactory).get(
-				EstatesListViewModel.class);
+		estatesListViewModel = new ViewModelProvider(this).get(EstatesListViewModel.class);
 	}
 	
 	private void configureRecyclerView() {
 		this.estatesList        = new ArrayList<>();
 		this.estatesListAdapter = new EstatesListAdapter(this.estatesList);
-		this.mRecyclerView.setAdapter(this.estatesListAdapter);
-		this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		this.recyclerView.setAdapter(this.estatesListAdapter);
+		this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 	}
-//------------------------------------------------------//
-// ----------------- Navigation, Menu, UI ------------- //
-//------------------------------------------------------//
 	
-	//------------------------------------------------------//
-	// ------------------   Functions   ------------------- //
-	//------------------------------------------------------//
 	private void getAllEstates() {
-		this.estatesListViewModel
-				.getAllEstates()
-				.observe(getViewLifecycleOwner(), this::updateList);
+		estatesListViewModel.getAllEstates();
+		estatesListViewModel.observeAllEstates().observe(getViewLifecycleOwner(), this::updateList);
 	}
 	
 	// UPDATE UI

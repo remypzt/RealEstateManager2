@@ -7,7 +7,6 @@ import java.util.concurrent.Executor;
 
 import remy.pouzet.realestatemanager2.repositories.EstateRepository;
 import remy.pouzet.realestatemanager2.viewmodels.DetailsViewModel;
-import remy.pouzet.realestatemanager2.viewmodels.EstatesListViewModel;
 import remy.pouzet.realestatemanager2.viewmodels.FormViewModel;
 import remy.pouzet.realestatemanager2.viewmodels.SearchViewModel;
 
@@ -25,9 +24,10 @@ public class ViewModelsFactory implements ViewModelProvider.Factory {
 	}
 	
 	@Override public <T extends ViewModel> T create(Class<T> modelClass) {
-		if (modelClass.isAssignableFrom(EstatesListViewModel.class)) {
-			return (T) new EstatesListViewModel(estateDataSource, executor);
-		}
+//		if (modelClass.isAssignableFrom(EstatesListViewModel.class)) {
+//			return (T) new EstatesListViewModel(estateDataSource, executor);
+//		}
+		
 		if (modelClass.isAssignableFrom(FormViewModel.class)) {
 			return (T) new FormViewModel(estateDataSource, executor);
 		}

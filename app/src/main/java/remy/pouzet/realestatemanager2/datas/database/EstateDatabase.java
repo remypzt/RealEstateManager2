@@ -28,12 +28,11 @@ public abstract class EstateDatabase extends RoomDatabase {
 		if (instance == null) {
 			synchronized (EstateDatabase.class) {
 				if (instance == null) {
-					instance = Room
-							.databaseBuilder(context.getApplicationContext(),
-							                 EstateDatabase.class,
-							                 "MyDatabase.db")
-							.addCallback(prepopulateDatabase())
-							.build();
+					instance = Room.databaseBuilder(context.getApplicationContext(),
+					                                EstateDatabase.class,
+					                                "MyDatabase.db")
+					               .addCallback(prepopulateDatabase())
+					               .build();
 				}
 			}
 		}
@@ -79,5 +78,5 @@ public abstract class EstateDatabase extends RoomDatabase {
 	}
 	
 	// --- DAO ---
-	public abstract EstateDao mEstateDao();
+	public abstract EstateDao estateDao();
 }

@@ -25,7 +25,7 @@ public class Injection {
 	
 	public static EstateRepository provideEstateSource(Context context) {
 		EstateDatabase database = EstateDatabase.getInstance(context);
-		return new EstateRepository(database.mEstateDao());
+		return new EstateRepository(database.estateDao());
 	}
 	
 	public static Executor provideExecutor() {

@@ -3,7 +3,6 @@ package remy.pouzet.realestatemanager2.viewmodels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.List;
 import java.util.concurrent.Executor;
 
 import remy.pouzet.realestatemanager2.datas.models.Estate;
@@ -20,10 +19,10 @@ public class SearchViewModel extends ViewModel {
 		this.estateDataSource = estateDataSource;
 		this.executor         = executor;
 	}
-	
-	public LiveData<List<Estate>> getAllEstates() {
-		return estateDataSource.getAllEstates();
-	}
+
+//	public LiveData<List<Estate>> getAllEstates() {
+//		return estateDataSource.getAllEstates();
+//	}
 	
 	public LiveData<Estate> getEstate() {
 		return estateDataSource.getEstate(id);

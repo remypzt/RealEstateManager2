@@ -38,11 +38,11 @@ public class ItemDaoTest {
 	@Before
 	public void initDb() throws
 	                     Exception {
-		this.database   = Room
-				.inMemoryDatabaseBuilder(InstrumentationRegistry.getTargetContext(), EstateDatabase.class)
-				.allowMainThreadQueries()
-				.build();
-		this.mEstateDao = this.database.mEstateDao();
+		this.database   = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getTargetContext(),
+		                                               EstateDatabase.class)
+		                      .allowMainThreadQueries()
+		                      .build();
+		this.mEstateDao = this.database.estateDao();
 	}
 	
 	@After
@@ -55,12 +55,10 @@ public class ItemDaoTest {
 	public void createAndGetEstateTest() throws
 	                                     InterruptedException {
 //		BEFORE : Adding a new user
-		this.database
-				.mEstateDao()
+		this.database.estateDao()
 				.createEstate(ESTATE_DEMO);
 		// TEST
-		Estate localEstate = LiveDataTestUtil.getValue(this.database
-				                                               .mEstateDao()
+		Estate localEstate = LiveDataTestUtil.getValue(this.database.estateDao()
 				                                               .getEstate(1));
 		assertEquals(localEstate.getId(), ESTATE_DEMO.getId());
 		assertEquals(localEstate.getId(), 1);
@@ -69,11 +67,9 @@ public class ItemDaoTest {
 	@Test
 	public void insertAndGetAllEstatesTest() throws
 	                                         Exception {
-		this.database
-				.mEstateDao()
+		this.database.estateDao()
 				.createEstate(ESTATE_DEMO);
-		this.database
-				.mEstateDao()
+		this.database.estateDao()
 				.createEstate(ESTATE_DEMO_2);
 		List<Estate> allEstates = LiveDataTestUtil.getValue(mEstateDao.getAllEstates());
 		assertEquals(allEstates.size(), 2);
@@ -83,8 +79,7 @@ public class ItemDaoTest {
 	@Test
 	public void deleteEstateTest() throws
 	                               Exception {
-		this.database
-				.mEstateDao()
+		this.database.estateDao()
 				.createEstate(ESTATE_DEMO);
 		mEstateDao.deleteEstate(1);
 		List<Estate> allEstates = LiveDataTestUtil.getValue(mEstateDao.getAllEstates());
@@ -94,15 +89,12 @@ public class ItemDaoTest {
 	@Test
 	public void updateEstateTest() throws
 	                               Exception {
-		this.database
-				.mEstateDao()
+		this.database.estateDao()
 				.createEstate(ESTATE_DEMO);
 		ESTATE_DEMO.setType("TypeModified");
-		this.database
-				.mEstateDao()
+		this.database.estateDao()
 				.updateEstate(ESTATE_DEMO);
-		Estate localEstate = LiveDataTestUtil.getValue(this.database
-				                                               .mEstateDao()
+		Estate localEstate = LiveDataTestUtil.getValue(this.database.estateDao()
 				                                               .getEstate(1));
 		assertEquals(localEstate.getType(), ESTATE_DEMO.getType());
 	}

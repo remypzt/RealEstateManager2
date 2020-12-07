@@ -2,8 +2,6 @@ package remy.pouzet.realestatemanager2.repositories;
 
 import androidx.lifecycle.LiveData;
 
-import java.util.List;
-
 import remy.pouzet.realestatemanager2.datas.database.dao.EstateDao;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 
@@ -19,9 +17,9 @@ public class EstateRepository {
 	}
 	
 	// --- GET ---
-	public LiveData<List<Estate>> getAllEstates() {
-		return this.estateDao.getAllEstates();
-	}
+//	public LiveData<List<Estate>> getAllEstates() {
+//		return this.estateDao.getAllEstates();
+//	}
 	
 	public LiveData<Estate> getEstate(long id) {
 		return this.estateDao.getEstate(id);
