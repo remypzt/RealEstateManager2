@@ -48,37 +48,35 @@ public abstract class EstateDatabase extends RoomDatabase {
 			@Override public void onCreate(@NonNull SupportSQLiteDatabase db) {
 				super.onCreate(db);
 				ContentValues contentValues1 = new ContentValues();
-				contentValues1.put("type", PREPOPULATE + "type");
-				contentValues1.put("mCity", PREPOPULATE + "city");
-				contentValues1.put("mPrice", 0);
-				contentValues1.put("mMainPicture", PREPOPULATE);
-				contentValues1.put("mSurface", PREPOPULATE);
-				contentValues1.put("mRooms", 1);
-				contentValues1.put("mDescription", 1);
-				contentValues1.put("mSellDate", PREPOPULATE);
-				contentValues1.put("mUpdateDate", "prepulate");
-				contentValues1.put("mAgent", PREPOPULATE);
-				contentValues1.put("mAdress", PREPOPULATE);
+				contentValues1.put("type", PREPOPULATE + " type");
+				contentValues1.put("city", PREPOPULATE + " city");
+				contentValues1.put("price", 0);
+				contentValues1.put("mainPicture", PREPOPULATE);
+				contentValues1.put("surface", PREPOPULATE);
+				contentValues1.put("rooms", 1);
+				contentValues1.put("description", 1);
+				contentValues1.put("sellDate", PREPOPULATE);
+				contentValues1.put("updateDate", "prepulate");
+				contentValues1.put("agent", PREPOPULATE);
+				contentValues1.put("adress", PREPOPULATE);
 				db.insert("Estate", OnConflictStrategy.IGNORE, contentValues1);
 				
 				ContentValues contentValues2 = new ContentValues();
 				contentValues2.put("type", PREPOPULATE_2 + "type");
-				contentValues2.put("mCity", PREPOPULATE_2 + "city");
-				contentValues2.put("mPrice", 0);
-				contentValues2.put("mMainPicture", PREPOPULATE_2);
-				contentValues2.put("mSurface", PREPOPULATE_2);
-				contentValues2.put("mRooms", 1);
-				contentValues2.put("mDescription", 1);
-				contentValues1.put("mSellDate", PREPOPULATE_2);
-				contentValues1.put("mUpdateDate", PREPOPULATE_2);
-				contentValues2.put("mAgent", PREPOPULATE_2);
-				contentValues2.put("mAdress", PREPOPULATE_2);
+				contentValues2.put("city", PREPOPULATE_2 + "city");
+				contentValues2.put("price", 0);
+				contentValues2.put("mainPicture", PREPOPULATE_2);
+				contentValues2.put("surface", PREPOPULATE_2);
+				contentValues2.put("rooms", 1);
+				contentValues2.put("description", 1);
+				contentValues1.put("sellDate", PREPOPULATE_2);
+				contentValues1.put("updateDate", PREPOPULATE_2);
+				contentValues2.put("agent", PREPOPULATE_2);
+				contentValues2.put("adress", PREPOPULATE_2);
 				db.insert("Estate", OnConflictStrategy.IGNORE, contentValues2);
 			}
 		};
 	}
-	
-	// ---
 	
 	// --- DAO ---
 	public abstract EstateDao mEstateDao();
