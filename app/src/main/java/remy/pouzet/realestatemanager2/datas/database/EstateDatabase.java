@@ -22,6 +22,7 @@ public abstract class EstateDatabase extends RoomDatabase {
 	
 	// --- SINGLETON ---
 	private static volatile EstateDatabase instance;
+	public final static     String         DATABASE_NAME = "MyDatabase.db";
 	
 	// --- INSTANCE ---
 	public static EstateDatabase getInstance(Context context) {
@@ -30,7 +31,7 @@ public abstract class EstateDatabase extends RoomDatabase {
 				if (instance == null) {
 					instance = Room.databaseBuilder(context.getApplicationContext(),
 					                                EstateDatabase.class,
-					                                "MyDatabase.db")
+					                                DATABASE_NAME)
 					               .addCallback(prepopulateDatabase())
 					               .build();
 				}
@@ -39,6 +40,7 @@ public abstract class EstateDatabase extends RoomDatabase {
 		return instance;
 	}
 	
+	//TODO make this function a usecase or delete in production version
 	private static Callback prepopulateDatabase() {
 		return new Callback() {
 			static final String PREPOPULATE = "prepopulate";

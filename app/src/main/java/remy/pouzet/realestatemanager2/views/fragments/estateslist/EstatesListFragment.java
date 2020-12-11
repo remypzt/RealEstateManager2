@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,6 +54,7 @@ public class EstatesListFragment extends BaseFragment {
 	private EstatesListViewModel estatesListViewModel;
 	private EstatesListAdapter   estatesListAdapter;
 	private List<Estate>         estatesList;
+
 	//------------------------------------------------------//
 	// ------------------   LifeCycle   ------------------- //
 	//------------------------------------------------------//
@@ -65,6 +67,7 @@ public class EstatesListFragment extends BaseFragment {
 		
 		this.configureViewModel();
 		this.configureRecyclerView();
+		
 		getAllEstates();
 		
 		return localFragmentEstatesListBinding.getRoot();
@@ -92,18 +95,14 @@ public class EstatesListFragment extends BaseFragment {
 	}
 	
 	private void getAllEstates() {
-		estatesListViewModel.getAllEstates();
-		estatesListViewModel.observeAllEstates().observe(getViewLifecycleOwner(), this::updateList);
-	}
-	
-	// UPDATE UI
-	//updateListOfArticles still in Fragments cause I must call the adapter and I cannot do it in viewmodel
-	public void updateList(List<Estate> estatesList) {
-		this.estatesList.clear();
-		if (estatesList != null) {
-			this.estatesList.addAll(estatesList);
-			estatesListAdapter.notifyDataSetChanged();
-		}
+		final Observer<List<Estate>> getAllEstatesObserver = new Observer<List<Estate>>() {
+			@Override public void onChanged(List<Estate> parameterListLiveData) {
+				estatesList.addAll(parameterListLiveData);
+			}
+		};
+		estatesListViewModel.getAllEstates()
+		                    .observe(getViewLifecycleOwner(), getAllEstatesObserver);
+//		estatesListViewModel.observeAllEstates().observe(getViewLifecycleOwner(), getAllEstatesObserver);
 	}
 	
 }
