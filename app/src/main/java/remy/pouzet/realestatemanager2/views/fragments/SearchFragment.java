@@ -16,37 +16,38 @@ import remy.pouzet.realestatemanager2.viewmodels.SearchViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
 public class SearchFragment extends BaseFragment {
-	
-	//------------------------------------------------------//
-	// ------------------   Variables   ------------------- //
-	// ------------------------------------------------------//
-	
-	//------------------------------------------------------//
-	// ------------------   LifeCycle   ------------------- //
-	//------------------------------------------------------//
-	
-	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater,
-	                         @Nullable ViewGroup container,
-	                         @Nullable Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_search, container, false);
-	}
-	
-	@Override
-	public View provideYourFragmentView(LayoutInflater inflater,
-	                                    ViewGroup parent,
-	                                    Bundle savedInstanceState) {
-		return null;
-	}
-	
-	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		this.configureViewModel();
-		
-	}
-	//------------------------------------------------------//
-	// ------------------   Functions   ------------------- //
-	//------------------------------------------------------//
+
+    //------------------------------------------------------//
+    // ------------------   Variables   ------------------- //
+    // ------------------------------------------------------//
+
+    //------------------------------------------------------//
+    // ------------------   LifeCycle   ------------------- //
+    //------------------------------------------------------//
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_search, container, false);
+    }
+
+    @Override
+    public View provideYourFragmentView(LayoutInflater inflater,
+                                        ViewGroup parent,
+                                        Bundle savedInstanceState) {
+        return null;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        this.configureViewModel();
+
+    }
+    //------------------------------------------------------//
+    // ------------------   Functions   ------------------- //
+    //------------------------------------------------------//
 //	private void getAllEstates() {
 //		this.searchViewModel
 //				.getAllEstates()
@@ -59,8 +60,8 @@ public class SearchFragment extends BaseFragment {
 //				.getEstate(id)
 //				.observe(this, th);
 //	}
-	
-	// UPDATE UI
+
+    // UPDATE UI
 //	//updateListOfArticles still in Fragments cause I must call the adapter and I cannot do it in viewmodel
 //	public void updateList(List<Estate> estatesList) {
 //		this.estatesList.clear();
@@ -69,14 +70,14 @@ public class SearchFragment extends BaseFragment {
 //			estatesListAdapter.notifyDataSetChanged();
 //		}
 //	}
-	
-	//------------------------------------------------------//
+
+    //------------------------------------------------------//
 // ----------------- Navigation, Menu, UI ------------- //
 //------------------------------------------------------//
-	
-	private void configureViewModel() {
-		ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
-		new ViewModelProvider(this, mViewModelFactory).get(SearchViewModel.class);
-	}
-	
+
+    private void configureViewModel() {
+        ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
+        new ViewModelProvider(this, mViewModelFactory).get(SearchViewModel.class);
+    }
+
 }

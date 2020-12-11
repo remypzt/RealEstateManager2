@@ -10,42 +10,37 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import remy.pouzet.realestatemanager2.datas.models.Estate;
+import remy.pouzet.realestatemanager2.domain.usecases.estate.GetAllEstatesUseCase;
 
 public class EstatesListViewModel extends AndroidViewModel {
-	
-	///////////////////////////////////////////////////////////////////////////
-	// DATA
-	///////////////////////////////////////////////////////////////////////////
-	
-	private MutableLiveData<List<Estate>> estateLiveData;
-	
-	///////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTOR
-	///////////////////////////////////////////////////////////////////////////
-	
-	public EstatesListViewModel(@NonNull Application application) {
-		super(application);
-	}
-	
-	///////////////////////////////////////////////////////////////////////////
-	// METHODS
-	///////////////////////////////////////////////////////////////////////////
-	
-	public MutableLiveData<List<Estate>> getAllEstates() {
-		if (estateLiveData == null) {
-			estateLiveData = new MutableLiveData<List<Estate>>();
-		}
-		return estateLiveData;
-	}
 
-//	public void getAllEstates() {
-//		estateLiveData.postValue(new GetAllEstatesUseCase().execute(this.getApplication()));
-//	}
-	
-	public LiveData<List<Estate>> observeAllEstates() {
-		return estateLiveData;
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    // DATA
+    ///////////////////////////////////////////////////////////////////////////
+
+    private MutableLiveData<LiveData<List<Estate>>> estateLiveData;
+
+    ///////////////////////////////////////////////////////////////////////////
+    // CONSTRUCTOR
+    ///////////////////////////////////////////////////////////////////////////
+
+    public EstatesListViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // METHODS
+    ///////////////////////////////////////////////////////////////////////////
+
+    public MutableLiveData<LiveData<List<Estate>>> getAllEstates() {
+        if (estateLiveData == null) {
+            estateLiveData = new MutableLiveData<>();
+            estateLiveData.postValue(new GetAllEstatesUseCase().execute(this.getApplication()));
+        }
+        return estateLiveData;
+    }
 }
+
 
 //
 //import androidx.lifecycle.LiveData;
