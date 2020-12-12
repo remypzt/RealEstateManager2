@@ -47,6 +47,7 @@
         android:id="@+id/value_of_estate_type_fragment_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:entries="@array/estate_type"
         app:layout_constraintStart_toStartOf="@+id/estate_type_fragment_search"
         app:layout_constraintTop_toBottomOf="@+id/estate_type_fragment_search"></Spinner>
 
