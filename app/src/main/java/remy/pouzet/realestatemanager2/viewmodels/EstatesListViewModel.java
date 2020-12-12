@@ -15,12 +15,6 @@ import remy.pouzet.realestatemanager2.domain.usecases.estate.GetAllEstatesUseCas
 public class EstatesListViewModel extends AndroidViewModel {
 
     ///////////////////////////////////////////////////////////////////////////
-    // DATA
-    ///////////////////////////////////////////////////////////////////////////
-
-    private MutableLiveData<LiveData<List<Estate>>> estateLiveData;
-
-    ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTOR
     ///////////////////////////////////////////////////////////////////////////
 
@@ -32,12 +26,8 @@ public class EstatesListViewModel extends AndroidViewModel {
     // METHODS
     ///////////////////////////////////////////////////////////////////////////
 
-    public MutableLiveData<LiveData<List<Estate>>> getAllEstates() {
-        if (estateLiveData == null) {
-            estateLiveData = new MutableLiveData<>();
-            estateLiveData.postValue(new GetAllEstatesUseCase().execute(this.getApplication()));
-        }
-        return estateLiveData;
+    public LiveData<List<Estate>> observeAllEstates() {
+        return new GetAllEstatesUseCase().execute(this.getApplication());
     }
 }
 
