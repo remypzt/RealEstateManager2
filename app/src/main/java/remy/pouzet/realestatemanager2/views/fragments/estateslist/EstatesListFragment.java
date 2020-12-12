@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import remy.pouzet.realestatemanager2.databinding.FragmentEstatesListBinding;
@@ -48,8 +47,7 @@ public class EstatesListFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
     private EstatesListViewModel estatesListViewModel;
-    private EstatesListAdapter estatesListAdapter;
-    private List<Estate> estatesList;
+    private EstatesListAdapter estatesListAdapter = new EstatesListAdapter();
 
     ///////////////////////////////////////////////////////////////////////////
     // LIFECYCLE
@@ -60,10 +58,11 @@ public class EstatesListFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         FragmentEstatesListBinding localFragmentEstatesListBinding = FragmentEstatesListBinding
                 .inflate(inflater, container, false);
+
         recyclerView = localFragmentEstatesListBinding.fragmentMainRecyclerView;
 
-        this.configureViewModel();
-        this.configureRecyclerView();
+        configureViewModel();
+        configureRecyclerView();
 
         estatesListViewModel
                 .observeAllEstates()
@@ -82,10 +81,8 @@ public class EstatesListFragment extends BaseFragment {
     ///////////////////////////////////////////////////////////////////////////
 
     private void updateList(List<Estate> estatesList) {
-        this.estatesList.clear();
         if (estatesList != null) {
-            this.estatesList.addAll(estatesList);
-            estatesListAdapter.notifyDataSetChanged();
+            estatesListAdapter.setData(estatesList);
         }
     }
 
@@ -94,9 +91,8 @@ public class EstatesListFragment extends BaseFragment {
     }
 
     private void configureRecyclerView() {
-        this.estatesList = new ArrayList<>();
-        this.estatesListAdapter = new EstatesListAdapter(this.estatesList);
+        this.estatesListAdapter = new EstatesListAdapter();
         this.recyclerView.setAdapter(this.estatesListAdapter);
-        this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
     }
 }

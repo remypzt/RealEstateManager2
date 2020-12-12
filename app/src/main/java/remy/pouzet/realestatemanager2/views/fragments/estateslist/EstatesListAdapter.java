@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import remy.pouzet.realestatemanager2.R;
@@ -18,12 +19,7 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 public class EstatesListAdapter extends RecyclerView.Adapter<EstatesListViewHolder> {
 
     // FOR DATA
-    List<Estate> estatesList;
-
-    // CONSTRUCTOR
-    public EstatesListAdapter(List<Estate> estatesList) {
-        this.estatesList = estatesList;
-    }
+    private final List<Estate> estatesList = new ArrayList<>();
 
     @NonNull
     @Override
@@ -45,5 +41,11 @@ public class EstatesListAdapter extends RecyclerView.Adapter<EstatesListViewHold
     @Override
     public int getItemCount() {
         return this.estatesList.size();
+    }
+
+    public void setData(List<Estate> estates) {
+        this.estatesList.clear();
+        this.estatesList.addAll(estates);
+        notifyDataSetChanged();
     }
 }
