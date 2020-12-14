@@ -56,36 +56,40 @@ public class EstatesListFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentEstatesListBinding localFragmentEstatesListBinding = FragmentEstatesListBinding
-                .inflate(inflater, container, false);
-
+        FragmentEstatesListBinding localFragmentEstatesListBinding = FragmentEstatesListBinding.inflate(
+                inflater,
+                container,
+                false);
+    
         recyclerView = localFragmentEstatesListBinding.fragmentMainRecyclerView;
-
         configureViewModel();
         configureRecyclerView();
-
-        estatesListViewModel
-                .observeAllEstates()
-                .observe(getViewLifecycleOwner(), this::updateList);
-
+        updateUI();
+    
         return localFragmentEstatesListBinding.getRoot();
     }
-
+    
     @Override
-    public View provideYourFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public View provideYourFragmentView(LayoutInflater inflater,
+                                        ViewGroup parent,
+                                        Bundle savedInstanceState) {
         return null;
     }
-
+    
     ///////////////////////////////////////////////////////////////////////////
     // PRIVATE METHODS
     ///////////////////////////////////////////////////////////////////////////
-
+    
+    private void updateUI() {
+        estatesListViewModel.observeAllEstates().observe(getViewLifecycleOwner(), this::updateList);
+    }
+    
     private void updateList(List<Estate> estatesList) {
         if (estatesList != null) {
             estatesListAdapter.setData(estatesList);
         }
     }
-
+    
     private void configureViewModel() {
         estatesListViewModel = new ViewModelProvider(this).get(EstatesListViewModel.class);
     }

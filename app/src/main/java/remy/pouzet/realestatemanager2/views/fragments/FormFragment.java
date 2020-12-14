@@ -24,35 +24,32 @@ import java.util.Date;
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.FragmentFormBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
-import remy.pouzet.realestatemanager2.injections.Injection;
-import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.utils.Utils;
 import remy.pouzet.realestatemanager2.viewmodels.FormViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
 public class FormFragment extends BaseFragment {
-
-    //------------------------------------------------------//
-// ------------------   Binding   ------------------- //
-//------------------------------------------------------//
-
+    
     //-- Dates variables --//
-    @SuppressLint("SimpleDateFormat")
-    SimpleDateFormat formatterUIFormat = new SimpleDateFormat(
+    @SuppressLint("SimpleDateFormat") SimpleDateFormat formatterUIFormat = new SimpleDateFormat(
             "dd/MM/yyyy");
-    Calendar c = Calendar.getInstance();
-    int year = c.get(Calendar.YEAR), month = c.get(Calendar.MONTH), day = c.get(Calendar.DAY_OF_MONTH);
+    Calendar c    = Calendar.getInstance();
+    int      year = c.get(Calendar.YEAR), month = c.get(Calendar.MONTH), day = c.get(Calendar.DAY_OF_MONTH);
     String updateDateInRightFormat;
     String selledDateInRightFormat;
-    private FormViewModel formViewModel;
-    private ImageButton editEstateButton;
-    private Button lastModificationDateButton;
-    private Button selledDateButton;
-    private Date dateBackEndFormat;
-    private CheckBox isItSellCheckBox;
-    private TextView sellTitleTextView;
+    
+    long id;
+    private Estate estate;
+    
+    private FormViewModel       formViewModel;
+    private ImageButton         editEstateButton;
+    private Button              lastModificationDateButton;
+    private Button              selledDateButton;
+    private Date                dateBackEndFormat;
+    private CheckBox            isItSellCheckBox;
+    private TextView            sellTitleTextView;
     private FragmentFormBinding mFragmentFormBinding;
-
+    
     //------------------------------------------------------//
 // ------------------   LifeCycle   ------------------- //
 //------------------------------------------------------//
@@ -63,6 +60,7 @@ public class FormFragment extends BaseFragment {
                              @Nullable Bundle savedInstanceState) {
         mFragmentFormBinding = FragmentFormBinding.inflate(inflater, container, false);
         viewBindingManagement();
+        configureViewModel();
         return mFragmentFormBinding.getRoot();
     }
 
@@ -72,34 +70,47 @@ public class FormFragment extends BaseFragment {
                                         Bundle savedInstanceState) {
         return null;
     }
-
+    
     public void viewBindingManagement() {
         lastModificationDateButton = mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton;
-        selledDateButton = mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton;
-        isItSellCheckBox = mFragmentFormBinding.isSellCheckbox;
-        sellTitleTextView = mFragmentFormBinding.sellTitleFragmentForm;
+        selledDateButton           = mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton;
+        isItSellCheckBox           = mFragmentFormBinding.isSellCheckbox;
+        sellTitleTextView          = mFragmentFormBinding.sellTitleFragmentForm;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    
+    private void configureViewModel() {
+        formViewModel = new ViewModelProvider(this).get(FormViewModel.class);
+    }
+    
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        this.configureViewModel();
+        
+        isItCreationOrModification();
         isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
         datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
         datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
         validationButtonManagement();
     }
-
+    
     //------------------------------------------------------//
 // ------------------   Functions   ------------------- //
 //------------------------------------------------------//
-
-    private void configureViewModel() {
-        ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
-        this.formViewModel = new ViewModelProvider(this,
-                mViewModelFactory).get(FormViewModel.class);
+    private void isItCreationOrModification() {
+        if (getArguments() != null)  // then it's a modification
+        {
+            id = Long.parseLong(getArguments().get("id").toString());
+            updateUI(getEstate(id));
+        }
     }
-
+    
+    //------------------------------------------------------//
+// ----------------- Navigation, Menu, UI ------------- //
+//------------------------------------------------------//
+    private void updateUI(Estate estate) {
+        // Set estate data inside form
+        
+    }
+    
     public boolean sellStatusManagement() {
         boolean checked = (isItSellCheckBox).isChecked();
         if (checked) {
@@ -239,63 +250,25 @@ public class FormFragment extends BaseFragment {
         }
         int todayCompareWithDate = dateOfToday.compareTo(date);
         if (todayCompareWithDate < 0) {
-            Toast
-                    .makeText(requireContext(),
-                            "la date sélectionnée ne peut être ultérieur à celle d'aujourd'hui",
-                            Toast.LENGTH_LONG)
-                    .show();
+            Toast.makeText(requireContext(),
+                           "la date sélectionnée ne peut être ultérieur à celle d'aujourd'hui",
+                           Toast.LENGTH_LONG).show();
             button.setText(null);
         }
     }
-
-    private void createNewEstateManagement() {
-        if (checkFormData()) {
-            Estate estate = new Estate(mFragmentFormBinding.valueOfEstateTypeFragmentForm
-                    .getSelectedItem()
-                    .toString(),
-                    mFragmentFormBinding.valueOfEstateCityFragmentForm
-                            .getText()
-                            .toString(),
-                    Integer.parseInt(mFragmentFormBinding.valueOfEstatePriceFragmentForm
-                            .getText()
-                            .toString()),
-                    "todo mainpicture",
-                    0,
-                    mFragmentFormBinding.contentDescriptionFragmentForm
-                            .getText()
-                            .toString(),
-                    Integer.parseInt(mFragmentFormBinding.surfaceValueFragmentForm
-                            .getText()
-                            .toString()),
-                    Integer.parseInt(mFragmentFormBinding.roomsValueFragmentForm
-                            .getText()
-                            .toString()),
-                    mFragmentFormBinding.locationValueFragmentForm
-                            .getText()
-                            .toString(),
-                    mFragmentFormBinding.contactValueFragmentForm
-                            .getText()
-                            .toString(),
-                    mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton
-                            .getText()
-                            .toString(),
-                    mFragmentFormBinding.isSellCheckbox.isChecked()
-                            ? mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton
-                            .getText()
-                            .toString()
-                            : null);
-            this.formViewModel.createEstate(estate);
-            showLongSnackBar(mFragmentFormBinding.getRoot(), "Success");
-        }
+    
+    private Estate getEstate(long id) {
+        estate = formViewModel.observeEstate(id).getValue();
+        return estate;
     }
-
+    
     public boolean checkFormData() {
-        int localTrue = 1;
-        int localFalse = 0;
-        int nullEquivalent = 1;
+        int localTrue         = 1;
+        int localFalse        = 0;
+        int nullEquivalent    = 1;
         int minimalWordLenght = 3;
-        int localFakeboolean = localTrue;
-
+        int localFakeboolean  = localTrue;
+        
         if (sellStatusManagement() && selledDateButton.getText().length() < nullEquivalent) {
             showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
                     getString(R.string.sell_date_cannot_be_null));
@@ -327,7 +300,7 @@ public class FormFragment extends BaseFragment {
         }
         if (mFragmentFormBinding.contactValueFragmentForm.getText().length() < nullEquivalent) {
             showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-                    getString(R.string.contact_value_cannot_be_null));
+                                   getString(R.string.contact_value_cannot_be_null));
             localFakeboolean = localFalse;
         }
         return localFakeboolean != localFalse;
@@ -336,15 +309,41 @@ public class FormFragment extends BaseFragment {
 //		String agent, notnull
 //	              List<String> pOI, ?
     }
-
-    private void getEstate(long id) {
-//		this.detailsViewModel.getEstate(id).observe(getViewLifecycleOwner(), this::updateUI);
+    
+    private void createNewEstateManagement() {
+        if (checkFormData()) {
+            Estate estate = new Estate(mFragmentFormBinding.valueOfEstateTypeFragmentForm.getSelectedItem()
+                                                                                         .toString(),
+                                       mFragmentFormBinding.valueOfEstateCityFragmentForm.getText()
+                                                                                         .toString(),
+                                       Integer.parseInt(mFragmentFormBinding.valueOfEstatePriceFragmentForm
+                                                                .getText()
+                                                                .toString()),
+                                       "todo mainpicture",
+                                       0,
+                                       mFragmentFormBinding.contentDescriptionFragmentForm.getText()
+                                                                                          .toString(),
+                                       Integer.parseInt(mFragmentFormBinding.surfaceValueFragmentForm
+                                                                .getText()
+                                                                .toString()),
+                                       Integer.parseInt(mFragmentFormBinding.roomsValueFragmentForm.getText()
+                                                                                                   .toString()),
+                                       mFragmentFormBinding.locationValueFragmentForm.getText()
+                                                                                     .toString(),
+                                       mFragmentFormBinding.contactValueFragmentForm.getText()
+                                                                                    .toString(),
+                                       mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton
+                                               .getText()
+                                               .toString(),
+                                       mFragmentFormBinding.isSellCheckbox.isChecked()
+                                       ? mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton
+                                               .getText()
+                                               .toString()
+                                       : null);
+            //TODO managecreateEstate and pass by update function if it's modification
+            formViewModel.createEstate(estate);
+//            this.formViewModel.createEstate(estate);
+            showLongSnackBar(mFragmentFormBinding.getRoot(), "Success");
+        }
     }
-
-    private void updateEstate(Estate estate) {
-        //TODO
-//		estate.setSelected(!estate.getSelected());
-        this.formViewModel.updateEstate(estate);
-    }
-
 }

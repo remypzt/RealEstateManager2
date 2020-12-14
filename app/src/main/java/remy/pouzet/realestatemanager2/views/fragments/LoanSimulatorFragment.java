@@ -10,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import remy.pouzet.realestatemanager2.databinding.FragmentLoanSimulatorBinding;
-import remy.pouzet.realestatemanager2.injections.Injection;
-import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.LoanSimulatorViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
@@ -51,8 +49,6 @@ public class LoanSimulatorFragment extends BaseFragment {
 //------------------------------------------------------//
 
     public void configureViewModel() {
-        ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
-        mLoanSimulatorViewModel = new ViewModelProvider(this, mViewModelFactory).get(
-                LoanSimulatorViewModel.class);
+        mLoanSimulatorViewModel = new ViewModelProvider(this).get(LoanSimulatorViewModel.class);
     }
 }

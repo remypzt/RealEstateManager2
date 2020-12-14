@@ -1,31 +1,21 @@
 package remy.pouzet.realestatemanager2.viewmodels;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
-import java.util.concurrent.Executor;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import remy.pouzet.realestatemanager2.datas.models.Estate;
-import remy.pouzet.realestatemanager2.repositories.EstateRepository;
+import remy.pouzet.realestatemanager2.domain.usecases.estate.GetEstateUseCase;
 
-public class SearchViewModel extends ViewModel {
-
-    // REPOSITORIES
-    private final EstateRepository estateDataSource;
-    private final Executor executor;
-    private long id;
-
-    public SearchViewModel(EstateRepository estateDataSource, Executor executor) {
-        this.estateDataSource = estateDataSource;
-        this.executor = executor;
+public class SearchViewModel extends AndroidViewModel {
+    
+    public SearchViewModel(@NonNull Application application) {
+        super(application);
     }
-
-//	public LiveData<List<Estate>> getAllEstates() {
-//		return estateDataSource.getAllEstates();
-//	}
-
-    public LiveData<Estate> getEstate() {
-        return estateDataSource.getEstate(id);
+    
+    public LiveData<Estate> observeEstate(long id) {
+        return new GetEstateUseCase().execute(this.getApplication(), id);
     }
-
 }
