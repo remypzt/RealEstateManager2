@@ -36,16 +36,18 @@ public class SearchFragment extends BaseFragment {
                                         Bundle savedInstanceState) {
         return null;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.configureViewModel();
-
+        
     }
     //------------------------------------------------------//
     // ------------------   Functions   ------------------- //
     //------------------------------------------------------//
+    
+    //TODO make it UC
+
 //	private void getAllEstates() {
 //		this.searchViewModel
 //				.getAllEstates()

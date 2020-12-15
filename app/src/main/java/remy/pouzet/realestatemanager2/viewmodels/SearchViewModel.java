@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import remy.pouzet.realestatemanager2.datas.models.Estate;
-import remy.pouzet.realestatemanager2.domain.usecases.estate.GetEstateUseCase;
+import remy.pouzet.realestatemanager2.domain.usecases.estate.GetEstateUC;
 
 public class SearchViewModel extends AndroidViewModel {
     
@@ -16,6 +16,6 @@ public class SearchViewModel extends AndroidViewModel {
     }
     
     public LiveData<Estate> observeEstate(long id) {
-        return new GetEstateUseCase().execute(this.getApplication(), id);
+        return new GetEstateUC().execute(this.getApplication(), id);
     }
 }

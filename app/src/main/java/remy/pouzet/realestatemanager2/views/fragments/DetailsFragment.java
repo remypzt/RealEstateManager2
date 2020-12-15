@@ -38,28 +38,26 @@ public class DetailsFragment extends BaseFragment {
         mTextView = localFragmentDetailsBinding.surfaceTitleFragmentDetails;
         id        = Long.parseLong(getArguments().get("id").toString());
         updateUI(getEstate(id));
-        
+    
         return localFragmentDetailsBinding.getRoot();
     }
-
+    
     @Override
     public View provideYourFragmentView(LayoutInflater inflater,
                                         ViewGroup parent,
                                         Bundle savedInstanceState) {
         return null;
     }
-
-
+    
+    @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.configureViewModel();
+        
+    }
+    
     //------------------------------------------------------//
     // ------------------   Functions   ------------------- //
     //------------------------------------------------------//
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        this.configureViewModel();
-    
-    }
     
     private void updateUI(Estate estate) {
         
