@@ -24,6 +24,7 @@ import java.util.Date;
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.FragmentFormBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
+import remy.pouzet.realestatemanager2.datas.models.EstateRaw;
 import remy.pouzet.realestatemanager2.utils.Utils;
 import remy.pouzet.realestatemanager2.viewmodels.FormViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
@@ -49,11 +50,13 @@ public class FormFragment extends BaseFragment {
     private CheckBox            isItSellCheckBox;
     private TextView            sellTitleTextView;
     private FragmentFormBinding mFragmentFormBinding;
+    public  int                 autoIncremented = 0;
+    public  int                 nullEquivalent  = 0;
     
     //------------------------------------------------------//
 // ------------------   LifeCycle   ------------------- //
 //------------------------------------------------------//
-
+    
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
@@ -109,23 +112,9 @@ public class FormFragment extends BaseFragment {
 // ----------------- Navigation, Menu, UI ------------- //
 //------------------------------------------------------//
     
-    public boolean sellStatusManagement() {
-        boolean checked        = (isItSellCheckBox).isChecked();
-        int     nullEquivalent = 1;
-        if (checked) {
-            selledDateButton.setVisibility(View.VISIBLE);
-            sellTitleTextView.setText(R.string.Is_it_sell);
-            return selledDateButton.getText().length() >= nullEquivalent;
-        } else {
-            selledDateButton.setVisibility(View.INVISIBLE);
-            sellTitleTextView.setText(R.string.Sell_date);
-    
-            return false;
-        }
-    }
-    
     //TODO make it UC
     public void datePickerButtonsManagement(Button button1, Button button2) {
+        int tens = 9;
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat formatterBackEndFormat = new SimpleDateFormat("yyyyMMdd");
         button1.setOnClickListener(v -> {
@@ -139,18 +128,18 @@ public class FormFragment extends BaseFragment {
 
                             Date dateUIFormat = formatterUIFormat
                                     .parse(dateInStringUIFormat);
-
-                            if (dayOfMonth > 9) {
-                                String dateInStringBEformat = Utils
-                                        .bEformat(dayOfMonth,
-                                                monthOfYear,
-                                                year);
-                                dateBackEndFormat = formatterBackEndFormat
-                                        .parse(dateInStringBEformat);
-                            } else {
-                                String dateInStringBEformatException = Utils
-                                        .bEformatException(
-                                                dayOfMonth,
+    
+                                                               if (dayOfMonth > tens) {
+                                                                   String dateInStringBEformat = Utils
+                                                                           .bEformat(dayOfMonth,
+                                                                                     monthOfYear,
+                                                                                     year);
+                                                                   dateBackEndFormat = formatterBackEndFormat
+                                                                           .parse(dateInStringBEformat);
+                                                               } else {
+                                                                   String dateInStringBEformatException = Utils
+                                                                           .bEformatException(
+                                                                                   dayOfMonth,
                                                 monthOfYear,
                                                 year);
                                 dateBackEndFormat = formatterBackEndFormat
@@ -161,16 +150,14 @@ public class FormFragment extends BaseFragment {
                                     dateUIFormat));
 
                             // check that dates cannot be paradoxal between them
-                            if (button1
-                                    .getText()
-                                    .toString()
-                                    .length() > 0 && button2
-                                    .getText()
-                                    .toString()
-                                    .length() > 0) {
-                                checkDateBetweenThem(button1,
-                                        button2);
-                            }
+                                                               if (button1.getText()
+                                                                          .toString()
+                                                                          .length() > nullEquivalent && button2.getText()
+                                                                                                               .toString()
+                                                                                                               .length() > nullEquivalent) {
+                                                                   checkDateBetweenThem(button1,
+                                                                                        button2);
+                                                               }
 
                             // check dates cannot be place in the future
                             if (button1 == lastModificationDateButton) {
@@ -201,15 +188,6 @@ public class FormFragment extends BaseFragment {
         });
     }
     
-    public void validationButtonManagement() {
-        //TODO condition create or edit
-        ImageButton localCreateNewEstateButton = mFragmentFormBinding.validateFormButton;
-        localCreateNewEstateButton.setOnClickListener(v ->
-                                                              //TODO I think it might not necessary to make createNewEstateManagement a UC  cause it's mainly a UI management
-//                                                              formViewModel.createNewEstateManagement()
-                                                              createNewEstateManagement());
-    }
-    
     //TODO make it UC
     public void checkDateBetweenThem(Button button1, Button button2) {
         Date dateOfBeginning = null;
@@ -225,18 +203,27 @@ public class FormFragment extends BaseFragment {
             e.printStackTrace();
         }
         int comparison = dateOfBeginning.compareTo(dateOfEnding);
-        if (comparison > 0 && button1 == lastModificationDateButton) {
+        if (comparison > nullEquivalent && button1 == lastModificationDateButton) {
             Toast.makeText(requireContext(),
                            "la date de début doit être antérieure à celle de fin",
                            Toast.LENGTH_LONG).show();
             button1.setText(null);
-        } else if (comparison < 0 && button2 != selledDateButton) {
+        } else if (comparison < nullEquivalent && button2 != selledDateButton) {
             Toast.makeText(requireContext(),
                            "la date fin doit être ultérieure à celle de début",
                            Toast.LENGTH_LONG).show();
             button1.setText(null);
-            
+        
         }
+    }
+    
+    public void validationButtonManagement() {
+        //TODO condition create or edit
+        ImageButton localCreateNewEstateButton = mFragmentFormBinding.validateFormButton;
+        localCreateNewEstateButton.setOnClickListener(v ->
+                                                              //TODO I think it might not necessary to make createNewEstateManagement a UC  cause it's mainly a UI management
+//                                                              formViewModel.createNewEstateManagement()
+                                                              createNewEstateManagement());
     }
     
     //TODO Make it UC
@@ -247,11 +234,12 @@ public class FormFragment extends BaseFragment {
         Date   dateOfToday   = null;
         try {
             dateOfToday = formatterUIFormat.parse(resultOfToday);
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
             e.printStackTrace();
         }
         int todayCompareWithDate = dateOfToday.compareTo(date);
-        if (todayCompareWithDate < 0) {
+        if (todayCompareWithDate < nullEquivalent) {
             Toast.makeText(requireContext(),
                            "la date sélectionnée ne peut être ultérieur à celle d'aujourd'hui",
                            Toast.LENGTH_LONG).show();
@@ -260,40 +248,75 @@ public class FormFragment extends BaseFragment {
     }
     
     private void createNewEstateManagement() {
-        if (formViewModel.checkFormData(mFragmentFormBinding,
-                                        requireContext(),
-                                        sellStatusManagement())) {
-            Estate estate = new Estate(mFragmentFormBinding.valueOfEstateTypeFragmentForm.getSelectedItem()
-                                                                                         .toString(),
-                                       mFragmentFormBinding.valueOfEstateCityFragmentForm.getText()
-                                                                                         .toString(),
-                                       Integer.parseInt(mFragmentFormBinding.valueOfEstatePriceFragmentForm
-                                                                .getText()
-                                                                .toString()),
-                                       "todo mainpicture",
-                                       0,
-                                       mFragmentFormBinding.contentDescriptionFragmentForm.getText()
-                                                                                          .toString(),
-                                       Integer.parseInt(mFragmentFormBinding.surfaceValueFragmentForm
-                                                                .getText()
-                                                                .toString()),
-                                       Integer.parseInt(mFragmentFormBinding.roomsValueFragmentForm.getText()
-                                                                                                   .toString()),
-                                       mFragmentFormBinding.locationValueFragmentForm.getText()
-                                                                                     .toString(),
-                                       mFragmentFormBinding.contactValueFragmentForm.getText()
-                                                                                    .toString(),
-                                       mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton
-                                               .getText()
-                                               .toString(),
-                                       mFragmentFormBinding.isSellCheckbox.isChecked()
-                                       ? mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton
-                                               .getText()
-                                               .toString()
-                                       : null);
-            //TODO managecreateEstate and pass by update function if it's modification
-            formViewModel.createEstate(estate);
-            showLongSnackBar(mFragmentFormBinding.getRoot(), "Success");
+        createEstateRaw();
+        EstateRaw estateRaw = createEstateRaw();
+        switch (formViewModel.checkFormData(estateRaw)) {
+            case IS_VALID:
+                //TODO managecreateEstate and pass by update function if it's modification
+                formViewModel.createEstate(estateRaw);
+                showLongSnackBar(mFragmentFormBinding.getRoot(), "Success");
+                break;
+            case IS_SELL:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString((R.string.sell_date_cannot_be_null)));
+                break;
+            case ERROR_MINIMAL_WORD_LENGTH:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString(R.string.minimal_words_lenght));
+                break;
+            case ERROR_PRICE_VALUE:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString(R.string.estate_price_cannot_be_null));
+                break;
+            case ERROR_SURFACE_VALUE:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString(R.string.surface_value_cannot_be_null));
+                break;
+            case ERROR_ROOMS_VALUE:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString(R.string.rooms_value_cannot_be_null));
+                break;
+            case ERROR_CONTACT_VALUE:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString(R.string.contact_value_cannot_be_null));
+                break;
+        }
+    }
+    
+    private EstateRaw createEstateRaw() {
+        
+        return new EstateRaw(sellStatusManagement(),
+                             mFragmentFormBinding.valueOfEstateTypeFragmentForm.getSelectedItem()
+                                                                               .toString(),
+                             mFragmentFormBinding.valueOfEstateCityFragmentForm.getText()
+                                                                               .toString(),
+                             mFragmentFormBinding.valueOfEstatePriceFragmentForm.getText()
+                                                                                .toString(),
+                             "TODO",
+                             autoIncremented,
+                             mFragmentFormBinding.contentDescriptionFragmentForm.getText()
+                                                                                .toString(),
+                             mFragmentFormBinding.surfaceValueFragmentForm.getText().toString(),
+                             mFragmentFormBinding.roomsValueFragmentForm.getText().toString(),
+                             "TODO",
+                             mFragmentFormBinding.contactValueFragmentForm.getText().toString(),
+                             mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.getText()
+                                                                                             .toString(),
+                             mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton.getText()
+                                                                                           .toString());
+    }
+    
+    public boolean sellStatusManagement() {
+        boolean checked = (isItSellCheckBox).isChecked();
+        if (checked) {
+            selledDateButton.setVisibility(View.VISIBLE);
+            sellTitleTextView.setText(R.string.Is_it_sell);
+            return selledDateButton.getText().length() > nullEquivalent;
+        } else {
+            selledDateButton.setVisibility(View.INVISIBLE);
+            sellTitleTextView.setText(R.string.Sell_date);
+            
+            return false;
         }
     }
     
@@ -301,56 +324,6 @@ public class FormFragment extends BaseFragment {
         estate = formViewModel.observeEstate(id).getValue();
         return estate;
     }
-    
-    //TODO erase this method if I fix string bug inside his UC
-
-//    public boolean checkFormData() {
-//        int localTrue         = 1;
-//        int localFalse        = 0;
-//        int nullEquivalent    = 1;
-//        int minimalWordLenght = 3;
-//        int localFakeboolean  = localTrue;
-
-//        if (sellStatusManagement() && selledDateButton.getText().length() < nullEquivalent) {
-//            showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-//                    getString(R.string.sell_date_cannot_be_null));
-////            localFakeboolean = localFalse;
-//        }
-//        if (mFragmentFormBinding.valueOfEstateCityFragmentForm
-//                .getText()
-//                .length() < minimalWordLenght) {
-//            showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-//                    getString(R.string.minimal_words_lenght));
-//            localFakeboolean = localFalse;
-//        }
-//        if (mFragmentFormBinding.valueOfEstatePriceFragmentForm
-//                .getText()
-//                .length() < nullEquivalent) {
-//            showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-//                    getString(R.string.estate_price_cannot_be_null));
-//            localFakeboolean = localFalse;
-//        }
-//        if (mFragmentFormBinding.surfaceValueFragmentForm.getText().length() < nullEquivalent) {
-//            showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-//                    getString(R.string.surface_value_cannot_be_null));
-//            localFakeboolean = localFalse;
-//        }
-//        if (mFragmentFormBinding.roomsValueFragmentForm.getText().length() < nullEquivalent) {
-//            showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-//                    getString(R.string.rooms_value_cannot_be_null));
-//            localFakeboolean = localFalse;
-//        }
-//        if (mFragmentFormBinding.contactValueFragmentForm.getText().length() < nullEquivalent) {
-//            showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-//                                   getString(R.string.contact_value_cannot_be_null));
-//            localFakeboolean = localFalse;
-//        }
-//        return localFakeboolean != localFalse;
-//		String mainPicture, ?
-//		String adress, ?
-//		String agent, notnull
-//	              List<String> pOI, ?
-//    }
     
     //TODO make it UC and choose where to build it : inside IsItCreationOrModificationUC OR from scratch
     private void updateUI(Estate estate) {

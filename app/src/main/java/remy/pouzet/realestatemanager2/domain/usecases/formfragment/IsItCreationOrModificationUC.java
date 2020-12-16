@@ -7,6 +7,7 @@ import remy.pouzet.realestatemanager2.viewmodels.FormViewModel;
 /**
  * Created by Remy Pouzet on 15/12/2020.
  */
+
 public class IsItCreationOrModificationUC {
 	
 	public  long          id;

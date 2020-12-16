@@ -1,72 +1,51 @@
 package remy.pouzet.realestatemanager2.domain.usecases.formfragment;
-import android.content.Context;
 
-import remy.pouzet.realestatemanager2.R;
-import remy.pouzet.realestatemanager2.databinding.FragmentFormBinding;
-import remy.pouzet.realestatemanager2.domain.usecases.utils.ShowIndefiniteSnackBarUC;
-
-import static remy.pouzet.realestatemanager2.R.string.minimal_words_lenght;
+import remy.pouzet.realestatemanager2.datas.models.EstateRaw;
 
 /**
  * Created by Remy Pouzet on 15/12/2020.
  */
+
 public class CheckFormDataUC {
 	
-	public boolean checkFormDataUC(FragmentFormBinding mFragmentFormBinding,
-	                               Context context,
-	                               Boolean sellStatus) {
-		int    localTrue         = 1;
-		int    localFalse        = 0;
-		int    nullEquivalent    = 1;
-		int    minimalWordLenght = 3;
-		int    localFakeboolean  = localTrue;
-		String message           = null;
+	private static final int MINIMAL_WORD_LENGTH = 3;
+	private static final int EMPTY               = 1;
+	
+	public EstateFormState execute(EstateRaw estateRaw) {
+		if (estateRaw.getSellStatus()) {
+			return EstateFormState.IS_SELL;
+		}
 		
-		if (sellStatus) {
-			new ShowIndefiniteSnackBarUC().showIndefiniteSnackBarUC(mFragmentFormBinding.getRoot(),
-			                                                        String.valueOf((R.string.sell_date_cannot_be_null)),
-			                                                        context);
-			localFakeboolean = localFalse;
+		if (estateRaw.getCityValue().length() < MINIMAL_WORD_LENGTH) {
+			return EstateFormState.ERROR_MINIMAL_WORD_LENGTH;
 		}
-		if (mFragmentFormBinding.valueOfEstateCityFragmentForm.getText()
-		                                                      .length() < minimalWordLenght) {
-			new ShowIndefiniteSnackBarUC().showIndefiniteSnackBarUC(mFragmentFormBinding.getRoot(),
-			                                                        String.valueOf(
-					                                                        minimal_words_lenght),
-			                                                        context);
-			
-			localFakeboolean = localFalse;
+		
+		if (estateRaw.getPriceValue().length() < EMPTY) {
+			return EstateFormState.ERROR_PRICE_VALUE;
 		}
-		if (mFragmentFormBinding.valueOfEstatePriceFragmentForm.getText()
-		                                                       .length() < nullEquivalent) {
-			new ShowIndefiniteSnackBarUC().showIndefiniteSnackBarUC(mFragmentFormBinding.getRoot(),
-			                                                        String.valueOf(R.string.estate_price_cannot_be_null),
-			                                                        context);
-			localFakeboolean = localFalse;
+		
+		if (estateRaw.getSurfaceValue().length() < EMPTY) {
+			return EstateFormState.ERROR_SURFACE_VALUE;
 		}
-		if (mFragmentFormBinding.surfaceValueFragmentForm.getText().length() < nullEquivalent) {
-			new ShowIndefiniteSnackBarUC().showIndefiniteSnackBarUC(mFragmentFormBinding.getRoot(),
-			                                                        String.valueOf(R.string.surface_value_cannot_be_null),
-			                                                        context);
-			localFakeboolean = localFalse;
+		
+		if (estateRaw.getRoomsValue().length() < EMPTY) {
+			return EstateFormState.ERROR_ROOMS_VALUE;
 		}
-		if (mFragmentFormBinding.roomsValueFragmentForm.getText().length() < nullEquivalent) {
-			new ShowIndefiniteSnackBarUC().showIndefiniteSnackBarUC(mFragmentFormBinding.getRoot(),
-			                                                        String.valueOf(R.string.rooms_value_cannot_be_null),
-			                                                        context);
-			localFakeboolean = localFalse;
+		
+		if (estateRaw.getContactValue().length() < EMPTY) {
+			return EstateFormState.ERROR_CONTACT_VALUE;
 		}
-		if (mFragmentFormBinding.contactValueFragmentForm.getText().length() < nullEquivalent) {
-			message = "pourquoi String.valueOf R.String ne fonctionne pas ?";
-			new ShowIndefiniteSnackBarUC().showIndefiniteSnackBarUC(mFragmentFormBinding.getRoot(),
-			                                                        message,
-			                                                        context);
-			localFakeboolean = localFalse;
-		}
-		return localFakeboolean != localFalse;
-//		String mainPicture, ?
-//		String adress, ?
-//		String agent, notnull
-//	              List<String> pOI, ?
+		return EstateFormState.IS_VALID;
+	}
+	
+	public enum EstateFormState {
+		IS_VALID,
+		IS_SELL,
+		ERROR_MINIMAL_WORD_LENGTH,
+		ERROR_SURFACE_VALUE,
+		ERROR_ROOMS_VALUE,
+		ERROR_PRICE_VALUE,
+		ERROR_CONTACT_VALUE,
 	}
 }
+
