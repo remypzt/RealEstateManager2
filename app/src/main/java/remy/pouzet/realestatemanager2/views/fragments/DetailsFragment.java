@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import remy.pouzet.realestatemanager2.databinding.FragmentDetailsBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.viewmodels.DetailsViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
@@ -19,10 +20,11 @@ public class DetailsFragment extends BaseFragment {
     // ------------------   Variables   ------------------- //
     // ------------------------------------------------------//
     
-    public  long             id;
-    private TextView         mTextView;
-    private DetailsViewModel detailsViewModel;
-    private Estate           estate;
+    public  long                   id;
+    private TextView               mTextView;
+    private DetailsViewModel       detailsViewModel;
+    private Estate                 estate;
+    private FragmentDetailsBinding fragmentDetailsBinding;
     
     //------------------------------------------------------//
     // ------------------   LifeCycle   ------------------- //
@@ -32,14 +34,10 @@ public class DetailsFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        remy.pouzet.realestatemanager2.databinding.FragmentDetailsBinding localFragmentDetailsBinding = remy.pouzet.realestatemanager2.databinding.FragmentDetailsBinding
-                .inflate(inflater, container, false);
-        
-        mTextView = localFragmentDetailsBinding.surfaceTitleFragmentDetails;
-        id        = Long.parseLong(getArguments().get("id").toString());
-        updateUI(getEstate(id));
-    
-        return localFragmentDetailsBinding.getRoot();
+        fragmentDetailsBinding = FragmentDetailsBinding.inflate(inflater, container, false);
+        mTextView              = fragmentDetailsBinding.contactValueFragmentDetails;
+        configureViewModel();
+        return fragmentDetailsBinding.getRoot();
     }
     
     @Override
@@ -49,10 +47,14 @@ public class DetailsFragment extends BaseFragment {
         return null;
     }
     
-    @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        this.configureViewModel();
-        
+    private void configureViewModel() {
+        detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
+    }
+    
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        id = Long.parseLong(getArguments().get("id").toString());
+        updateUI(getEstate(id));
     }
     
     //------------------------------------------------------//
@@ -75,8 +77,5 @@ public class DetailsFragment extends BaseFragment {
     //------------------------------------------------------//
 // ----------------- Navigation, Menu, UI ------------- //
 //------------------------------------------------------//
-    
-    private void configureViewModel() {
-        detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
-    }
+
 }

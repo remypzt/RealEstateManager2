@@ -1,34 +1,25 @@
 package remy.pouzet.realestatemanager2.viewmodels;
 
 import android.app.Application;
-import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import remy.pouzet.realestatemanager2.datas.database.EstateDatabase;
-import remy.pouzet.realestatemanager2.datas.database.dao.EstateDao;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.datas.models.EstateRaw;
 import remy.pouzet.realestatemanager2.domain.usecases.estate.CreateEstateUC;
 import remy.pouzet.realestatemanager2.domain.usecases.estate.GetEstateUC;
 import remy.pouzet.realestatemanager2.domain.usecases.estate.UpdateEstateUC;
 import remy.pouzet.realestatemanager2.domain.usecases.formfragment.CheckFormDataUC;
-import remy.pouzet.realestatemanager2.domain.usecases.formfragment.IsItCreationOrModificationUC;
+import remy.pouzet.realestatemanager2.domain.usecases.formfragment.IsNewEstateUC;
 
 public class FormViewModel extends AndroidViewModel {
 	
-	private final EstateDao       estateDao;
-	private final ExecutorService executorService;
+
 	
 	public FormViewModel(@NonNull Application application) {
 		super(application);
-		estateDao       = EstateDatabase.getInstance(application).estateDao();
-		executorService = Executors.newSingleThreadExecutor();
 	}
 	
 	public LiveData<Estate> observeEstate(long id) {
@@ -39,8 +30,8 @@ public class FormViewModel extends AndroidViewModel {
 		new CreateEstateUC().execute(this.getApplication(), estateRaw);
 	}
 	
-	public IsItCreationOrModificationUC.IsItCreationOrModification isItCreationOrModification(Bundle bundle) {
-		return new IsItCreationOrModificationUC().execute(bundle);
+	public boolean isNewEstateUC(long id) {
+		return new IsNewEstateUC().execute(this.getApplication(), id);
 	}
 	
 	public CheckFormDataUC.EstateFormState checkFormData(EstateRaw estateRaw) {
