@@ -16,35 +16,40 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.datas.models.EstateRaw;
 import remy.pouzet.realestatemanager2.domain.usecases.estate.CreateEstateUC;
 import remy.pouzet.realestatemanager2.domain.usecases.estate.GetEstateUC;
+import remy.pouzet.realestatemanager2.domain.usecases.estate.UpdateEstateUC;
 import remy.pouzet.realestatemanager2.domain.usecases.formfragment.CheckFormDataUC;
 import remy.pouzet.realestatemanager2.domain.usecases.formfragment.IsItCreationOrModificationUC;
 
 public class FormViewModel extends AndroidViewModel {
-    
-    private final EstateDao       estateDao;
-    private final ExecutorService executorService;
-    
-    public FormViewModel(@NonNull Application application) {
-        super(application);
-        estateDao       = EstateDatabase.getInstance(application).estateDao();
-        executorService = Executors.newSingleThreadExecutor();
-    }
-    
-    public LiveData<Estate> observeEstate(long id) {
-        return new GetEstateUC().execute(this.getApplication(), id);
-    }
-    
-    public void createEstate(EstateRaw estateRaw) {
-        new CreateEstateUC().execute(this.getApplication(), estateRaw);
-    }
-    
-    public void isItCreationOrModification(Bundle bundle) {
-        new IsItCreationOrModificationUC(bundle);
-    }
-    
-    public CheckFormDataUC.EstateFormState checkFormData(EstateRaw estateRaw) {
-        return new CheckFormDataUC().execute(estateRaw);
-    }
+	
+	private final EstateDao       estateDao;
+	private final ExecutorService executorService;
+	
+	public FormViewModel(@NonNull Application application) {
+		super(application);
+		estateDao       = EstateDatabase.getInstance(application).estateDao();
+		executorService = Executors.newSingleThreadExecutor();
+	}
+	
+	public LiveData<Estate> observeEstate(long id) {
+		return new GetEstateUC().execute(this.getApplication(), id);
+	}
+	
+	public void createEstate(EstateRaw estateRaw) {
+		new CreateEstateUC().execute(this.getApplication(), estateRaw);
+	}
+	
+	public IsItCreationOrModificationUC.IsItCreationOrModification isItCreationOrModification(Bundle bundle) {
+		return new IsItCreationOrModificationUC().execute(bundle);
+	}
+	
+	public CheckFormDataUC.EstateFormState checkFormData(EstateRaw estateRaw) {
+		return new CheckFormDataUC().execute(estateRaw);
+	}
+	
+	public void updateEstate(EstateRaw estateRaw) {
+		new UpdateEstateUC().execute(this.getApplication(), estateRaw);
+	}
 }
 
 

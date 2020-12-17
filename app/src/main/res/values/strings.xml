@@ -31,6 +31,7 @@
     <string name="contact_value_cannot_be_null">contact value cannot be null</string>
     <string name="Sell_date">Sell date</string>
     <string name="Is_it_sell">Is it Sell ?</string>
+    <string name="Success">Success</string>
 
     <string-array name="estate_type">
         <item>Loft</item>
