@@ -138,7 +138,6 @@ public class FormFragment extends BaseFragment {
     public void updateUIIfItsModification() {
         if (itsAModification()) {
             //TODO easy thing like get an ID must be UC ?
-        
             estate = getEstate(id);
             //TODO main picture
             mFragmentFormBinding.valueOfEstateTypeFragmentForm.setPrompt(estate.getType());
@@ -172,8 +171,7 @@ public class FormFragment extends BaseFragment {
             case IS_VALID:
                 if (itsAModification()) {
                     formViewModel.createEstate(estateRaw);
-                    showLongSnackBar(mFragmentFormBinding.getRoot(),
-                                     String.valueOf(R.string.Success));
+                    showLongSnackBar(mFragmentFormBinding.getRoot(), getString(R.string.Success));
                 } else if (!itsAModification()) {
                     formViewModel.updateEstate(estateRaw);
                     showLongSnackBar(mFragmentFormBinding.getRoot(),

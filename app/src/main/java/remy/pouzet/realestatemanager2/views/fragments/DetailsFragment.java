@@ -54,7 +54,8 @@ public class DetailsFragment extends BaseFragment {
     @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         id = Long.parseLong(getArguments().get("id").toString());
-        updateUI(getEstate(id));
+        detailsViewModel.observeEstate(id)
+                        .observe(getViewLifecycleOwner(), estate -> updateUI(estate));
     }
     
     //------------------------------------------------------//
@@ -62,14 +63,16 @@ public class DetailsFragment extends BaseFragment {
     //------------------------------------------------------//
     
     private void updateUI(Estate estate) {
-        
-        //TODO if (mFragmentFormBinding.contentDescriptionFragmentForm.getText().length() <1){
-        //			mFragmentFormBinding.contentDescriptionFragmentForm.setText("Aucune description n'a été renseignée pour le moment");
-        //		}
-        mTextView.setText(estate.getType());
+        if (estate != null) {
+            mTextView.setText(estate.getType());
+            //TODO if (mFragmentFormBinding.contentDescriptionFragmentForm.getText().length() <1){
+            //			mFragmentFormBinding.contentDescriptionFragmentForm.setText("Aucune description n'a été renseignée pour le moment");
+            //		}
+        }
     }
     
     private Estate getEstate(long id) {
+    
         estate = detailsViewModel.observeEstate(id).getValue();
         return estate;
     }
