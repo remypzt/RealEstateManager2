@@ -30,10 +30,11 @@ public abstract class EstateDatabase extends RoomDatabase {
             synchronized (EstateDatabase.class) {
                 if (instance == null) {
                     instance = Room.databaseBuilder(context.getApplicationContext(),
-                            EstateDatabase.class,
-                            DATABASE_NAME)
-                            .addCallback(prepopulateDatabase())
-                            .build();
+                                                    EstateDatabase.class,
+                                                    DATABASE_NAME)
+                                   .allowMainThreadQueries()
+                                   .addCallback(prepopulateDatabase())
+                                   .build();
                 }
             }
         }

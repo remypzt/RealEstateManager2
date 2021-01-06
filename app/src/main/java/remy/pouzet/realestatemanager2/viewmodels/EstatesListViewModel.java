@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import remy.pouzet.realestatemanager2.datas.models.Estate;
-import remy.pouzet.realestatemanager2.domain.usecases.estate.GetAllEstatesUseCase;
+import remy.pouzet.realestatemanager2.domain.usecases.estate.GetAllEstatesUC;
 
 public class EstatesListViewModel extends AndroidViewModel {
 
@@ -26,7 +26,7 @@ public class EstatesListViewModel extends AndroidViewModel {
     ///////////////////////////////////////////////////////////////////////////
 
     public LiveData<List<Estate>> observeAllEstates() {
-        return new GetAllEstatesUseCase().execute(this.getApplication());
+        return new GetAllEstatesUC().execute(this.getApplication());
     }
 }
 

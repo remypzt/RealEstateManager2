@@ -10,8 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import remy.pouzet.realestatemanager2.R;
-import remy.pouzet.realestatemanager2.injections.Injection;
-import remy.pouzet.realestatemanager2.injections.ViewModelsFactory;
 import remy.pouzet.realestatemanager2.viewmodels.SearchViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
@@ -20,7 +18,7 @@ public class SearchFragment extends BaseFragment {
     //------------------------------------------------------//
     // ------------------   Variables   ------------------- //
     // ------------------------------------------------------//
-
+    SearchViewModel searchViewModel;
     //------------------------------------------------------//
     // ------------------   LifeCycle   ------------------- //
     //------------------------------------------------------//
@@ -38,16 +36,18 @@ public class SearchFragment extends BaseFragment {
                                         Bundle savedInstanceState) {
         return null;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.configureViewModel();
-
+        
     }
     //------------------------------------------------------//
     // ------------------   Functions   ------------------- //
     //------------------------------------------------------//
+    
+    //TODO make it UC
+
 //	private void getAllEstates() {
 //		this.searchViewModel
 //				.getAllEstates()
@@ -76,8 +76,7 @@ public class SearchFragment extends BaseFragment {
 //------------------------------------------------------//
 
     private void configureViewModel() {
-        ViewModelsFactory mViewModelFactory = Injection.provideViewModelFactory(requireContext());
-        new ViewModelProvider(this, mViewModelFactory).get(SearchViewModel.class);
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
     }
 
 }

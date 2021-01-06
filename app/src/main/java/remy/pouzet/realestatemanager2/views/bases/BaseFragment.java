@@ -26,7 +26,7 @@ public abstract class BaseFragment extends Fragment {
     public abstract View provideYourFragmentView(LayoutInflater inflater,
                                                  ViewGroup parent,
                                                  Bundle savedInstanceState);
-
+    
     public void showIndefiniteSnackBar(View view, String message) {
         if (message == null || message.trim().equals("")) {
             message = "Please enter text to show";
