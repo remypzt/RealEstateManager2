@@ -32,6 +32,7 @@
     <string name="Sell_date">Sell date</string>
     <string name="Is_it_sell">Is it Sell ?</string>
     <string name="Success">Success</string>
+    <string name="Itemspdate">Item\'s successfully update</string>
 
     <string-array name="estate_type">
         <item>Loft</item>

@@ -170,12 +170,12 @@ public class FormFragment extends BaseFragment {
             //could be better not imbricate conditions but will not be longer a issue with kotlin
             case IS_VALID:
                 if (itsAModification()) {
-                    formViewModel.createEstate(estateRaw);
-                    showLongSnackBar(mFragmentFormBinding.getRoot(), getString(R.string.Success));
-                } else if (!itsAModification()) {
                     formViewModel.updateEstate(estateRaw);
                     showLongSnackBar(mFragmentFormBinding.getRoot(),
-                                     String.valueOf(R.string.Success));
+                                     getString(R.string.Itemspdate));
+                } else if (!itsAModification()) {
+                    formViewModel.createEstate(estateRaw);
+                    showLongSnackBar(mFragmentFormBinding.getRoot(), getString((R.string.Success)));
                 } else {
                     showIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "unknow error");
                 }
