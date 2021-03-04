@@ -12,8 +12,8 @@ public class CheckFormDataUC {
 	private static final int EMPTY               = 1;
 	
 	public EstateFormState execute(EstateRaw estateRaw) {
-		if (estateRaw.getSellStatus()) {
-			return EstateFormState.IS_SELL;
+		if (estateRaw.getSellStatus().equals(true) && estateRaw.getSellDate().length() < EMPTY) {
+			return EstateFormState.ERROR_SELL_DATE;
 		}
 		
 		if (estateRaw.getCityValue().length() < MINIMAL_WORD_LENGTH) {
@@ -35,17 +35,24 @@ public class CheckFormDataUC {
 		if (estateRaw.getContactValue().length() < EMPTY) {
 			return EstateFormState.ERROR_CONTACT_VALUE;
 		}
+		
+		if (estateRaw.getUpdateDate().length() < EMPTY) {
+			return EstateFormState.ERROR_UPDATE_DATE_VALUE;
+		}
+		
 		return EstateFormState.IS_VALID;
 	}
 	
 	public enum EstateFormState {
 		IS_VALID,
-		IS_SELL,
+		ERROR_SELL_DATE,
 		ERROR_MINIMAL_WORD_LENGTH,
 		ERROR_SURFACE_VALUE,
 		ERROR_ROOMS_VALUE,
 		ERROR_PRICE_VALUE,
 		ERROR_CONTACT_VALUE,
+		ERROR_UPDATE_DATE_VALUE,
+		
 	}
 }
 

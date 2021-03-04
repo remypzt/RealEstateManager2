@@ -18,33 +18,41 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
  * Created by Remy Pouzet on 10/11/2020.
  */
 public class EstatesListViewHolder extends RecyclerView.ViewHolder {
-
+    
     private final ContentItemsOfFragmentEstateListBinding mContentItemsOfFragmentEstateListBinding;
-    private final ImageView mainPictureEstate;
-    private final TextView typeEstate;
-    private final TextView cityLocationEstate;
-    private final TextView priceEstate;
-    private final ConstraintLayout constraintLayout;
+    private final ImageView                               mainPictureEstate;
+    private final TextView                                typeEstate;
+    private final TextView                                cityLocationEstate;
+    private final TextView                                priceEstate;
+    private final TextView                                selledStatut;
+    private final ConstraintLayout                        constraintLayout;
 
     public EstatesListViewHolder(@NonNull View itemView) {
         super(itemView);
         mContentItemsOfFragmentEstateListBinding = ContentItemsOfFragmentEstateListBinding.bind(
                 itemView);
-        mainPictureEstate = mContentItemsOfFragmentEstateListBinding.estateMainPictureOfContentItemOfFragmentEstateList;
-        typeEstate = mContentItemsOfFragmentEstateListBinding.estateTypeOfContentItemOfFragmentEstateList;
-        cityLocationEstate = mContentItemsOfFragmentEstateListBinding.estateCityLocationOfContentItemOfFragmentEstateList;
-        priceEstate = mContentItemsOfFragmentEstateListBinding.estatePriceOfContentItemOfFragmentEstateList;
-        constraintLayout = mContentItemsOfFragmentEstateListBinding.constraintLayoutOfContentItemOfFragmentEstateList;
+        selledStatut                             = mContentItemsOfFragmentEstateListBinding.selledStateFragmentEstateList;
+        mainPictureEstate                        = mContentItemsOfFragmentEstateListBinding.estateMainPictureOfContentItemOfFragmentEstateList;
+        typeEstate                               = mContentItemsOfFragmentEstateListBinding.estateTypeOfContentItemOfFragmentEstateList;
+        cityLocationEstate                       = mContentItemsOfFragmentEstateListBinding.estateCityLocationOfContentItemOfFragmentEstateList;
+        priceEstate                              = mContentItemsOfFragmentEstateListBinding.estatePriceOfContentItemOfFragmentEstateList;
+        constraintLayout                         = mContentItemsOfFragmentEstateListBinding.constraintLayoutOfContentItemOfFragmentEstateList;
     }
 
     public void updateEstates(Estate estate) {
+        if (estate.getSellDate() != null && estate.getSellDate().length() > 1) {
+            selledStatut.setVisibility(View.VISIBLE);
+        } else {
+            selledStatut.setVisibility(View.INVISIBLE);
+        }
+    
         typeEstate.setText(estate.getType());
         cityLocationEstate.setText(estate.getCity());
         priceEstate.setText((estate.getPrice() + "€"));
         constraintLayout.setOnClickListener(
                 //TODO put id inside bundle
                 (Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_details,
-                        saveEstateId(estate))));
+                                                          saveEstateId(estate))));
     }
 
     public Bundle saveEstateId(Estate estate) {
