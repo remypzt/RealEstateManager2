@@ -23,6 +23,17 @@
     <string name="main_picture">Main picture</string>
     <string name="price">Price</string>
     <string name="contact">Contact</string>
+    <string name="sell_date_cannot_be_null">sell date cannot be null</string>
+    <string name="minimal_words_lenght">city name lenght must be superior at 3 letters</string>
+    <string name="estate_price_cannot_be_null">estate price cannot be null</string>
+    <string name="surface_value_cannot_be_null">surface value cannot be null</string>
+    <string name="rooms_value_cannot_be_null">rooms value cannot be null</string>
+    <string name="contact_value_cannot_be_null">contact value cannot be null</string>
+    <string name="Sell_date">Sell date</string>
+    <string name="Is_it_sell">Is it Sell ?</string>
+    <string name="Success">Success</string>
+    <string name="Itemspdate">Item\'s successfully update</string>
+    <string name="update_date_cannot_be_null">update date cannot be null</string>
 
     <string-array name="estate_type">
         <item>Loft</item>

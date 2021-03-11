@@ -10,149 +10,183 @@ import androidx.room.PrimaryKey;
  */
 @Entity
 public class Estate {
-	
-	@ColumnInfo(name = "type") private       String mType;
-	@Nullable private                        String mCity;
-	private                                  int    mPrice;
-	@PrimaryKey(autoGenerate = true) private long   mId;
-	@Nullable private                        String mMainPicture;
-	@Nullable private                        String mDescription;
-	private                                  int    mSurface;
-	private                                  int    mRooms;
-	@Nullable private                        String mAdress;
-	@Nullable private                        String mAgent;
-	@Nullable private                        String mUpdateDate;
-	@Nullable private                        String mSellDate;
-	
-	//	private List<String> mPOI;
-	
-	public Estate(String type,
-	              String city,
-	              int price,
-	              String mainPicture,
-	              long id,
-	              String description,
-	              int surface,
-	              int rooms,
-	              String adress,
-	              String agent,
-	              String updateDate,
-	              String sellDate
+
+    @ColumnInfo(name = "type")
+    @Nullable
+    String type;
+
+    @ColumnInfo(name = "city")
+    @Nullable
+    private String city;
+
+    @ColumnInfo(name = "price")
+    private int price;
+
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+
+    @ColumnInfo(name = "mainPicture")
+    @Nullable
+    private String mainPicture;
+
+    @ColumnInfo(name = "description")
+    @Nullable
+    private String description;
+
+    @ColumnInfo(name = "surface")
+    private int surface;
+
+    @ColumnInfo(name = "rooms")
+    private int rooms;
+
+    @ColumnInfo(name = "adress")
+    @Nullable
+    private String adress;
+
+    @ColumnInfo(name = "agent")
+    @Nullable
+    private String agent;
+
+    @ColumnInfo(name = "updateDate")
+    @Nullable
+    private String updateDate;
+
+    @ColumnInfo(name = "sellDate")
+    @Nullable
+    private String sellDate;
+    //	private List<String> mPOI;
+
+    public Estate(String type,
+                  @org.jetbrains.annotations.Nullable String city,
+                  int price,
+                  @org.jetbrains.annotations.Nullable String mainPicture,
+                  long id,
+                  @org.jetbrains.annotations.Nullable String description,
+                  int surface,
+                  int rooms,
+                  @org.jetbrains.annotations.Nullable String adress,
+                  @org.jetbrains.annotations.Nullable String agent,
+                  @org.jetbrains.annotations.Nullable String updateDate,
+                  @org.jetbrains.annotations.Nullable String sellDate
 //	              List<String> pOI,
-//
-	
-	             ) {
-		mId          = id;
-		mType        = type;
-		mCity        = city;
-		mPrice       = price;
-		mMainPicture = mainPicture;
-		mDescription = description;
-		mSurface     = surface;
-		mRooms       = rooms;
-		mAdress      = adress;
-		mAgent       = agent;
-		mUpdateDate  = updateDate;
-		mSellDate    = sellDate;
+    ) {
+        this.id = id;
+        this.type = type;
+        this.city = city;
+        this.price = price;
+        this.mainPicture = mainPicture;
+        this.description = description;
+        this.surface = surface;
+        this.rooms = rooms;
+        this.adress = adress;
+        this.agent = agent;
+        this.updateDate = updateDate;
+        this.sellDate = sellDate;
 //		mPOI          = pOI;
-	
-	}
-	
-	public long getId() {
-		return mId;
-	}
-	
-	public void setId(long parameterId) {
-		mId = parameterId;
-	}
-	
-	@Nullable
-	public String getSellDate() {
-		return mSellDate;
-	}
-	
-	public void setSellDate(@Nullable String parameterSellDate) {
-		mSellDate = parameterSellDate;
-	}
-	
-	public String getUpdateDate() {
-		return mUpdateDate;
-	}
-	
-	public void setUpdateDate(String parameterUpdateDate) {
-		mUpdateDate = parameterUpdateDate;
-	}
-	
-	public String getAgent() {
-		return mAgent;
-	}
-	
-	public void setAgent(String parameterAgent) {
-		mAgent = parameterAgent;
-	}
-	
-	public String getType() {
-		return mType;
-	}
-	
-	public void setType(String parameterType) {
-		mType = parameterType;
-	}
-	
-	public String getCity() {
-		return mCity;
-	}
-	
-	public void setCity(String parameterCity) {
-		mCity = parameterCity;
-	}
-	
-	public int getPrice() {
-		return mPrice;
-	}
-	
-	public void setPrice(int parameterPrice) {
-		mPrice = parameterPrice;
-	}
-	
-	public String getMainPicture() {
-		return mMainPicture;
-	}
-	
-	public void setMainPicture(String parameterMainPicture) {
-		mMainPicture = parameterMainPicture;
-	}
-	
-	public String getDescription() {
-		return mDescription;
-	}
-	
-	public void setDescription(String parameterDescription) {
-		mDescription = parameterDescription;
-	}
-	
-	public int getSurface() {
-		return mSurface;
-	}
-	
-	public void setSurface(int parameterSurface) {
-		mSurface = parameterSurface;
-	}
-	
-	public int getRooms() {
-		return mRooms;
-	}
-	
-	public void setRooms(int parameterRooms) {
-		mRooms = parameterRooms;
-	}
-	
-	public String getAdress() {
-		return mAdress;
-	}
-	
-	public void setAdress(String parameterAdress) {
-		mAdress = parameterAdress;
-	}
-	
+
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String parameterType) {
+        type = parameterType;
+    }
+
+    @Nullable
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(@Nullable String parameterCity) {
+        city = parameterCity;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int parameterPrice) {
+        price = parameterPrice;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long parameterId) {
+        id = parameterId;
+    }
+
+    @Nullable
+    public String getMainPicture() {
+        return mainPicture;
+    }
+
+    public void setMainPicture(@Nullable String parameterMainPicture) {
+        mainPicture = parameterMainPicture;
+    }
+
+    @Nullable
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(@Nullable String parameterDescription) {
+        description = parameterDescription;
+    }
+
+    public int getSurface() {
+        return surface;
+    }
+
+    public void setSurface(int parameterSurface) {
+        surface = parameterSurface;
+    }
+
+    public int getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(int parameterRooms) {
+        rooms = parameterRooms;
+    }
+
+    @Nullable
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(@Nullable String parameterAdress) {
+        adress = parameterAdress;
+    }
+
+    @Nullable
+    public String getAgent() {
+        return agent;
+    }
+
+    public void setAgent(@Nullable String parameterAgent) {
+        agent = parameterAgent;
+    }
+
+    @Nullable
+    public String getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(@Nullable String parameterUpdateDate) {
+        updateDate = parameterUpdateDate;
+    }
+
+    @Nullable
+    public String getSellDate() {
+        return sellDate;
+    }
+
+    public void setSellDate(@Nullable String parameterSellDate) {
+        sellDate = parameterSellDate;
+    }
 }

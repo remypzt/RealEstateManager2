@@ -1,46 +1,48 @@
 package remy.pouzet.realestatemanager2.viewmodels;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
-import java.util.concurrent.Executor;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import remy.pouzet.realestatemanager2.datas.models.Estate;
-import remy.pouzet.realestatemanager2.repositories.EstateRepository;
+import remy.pouzet.realestatemanager2.datas.models.EstateRaw;
+import remy.pouzet.realestatemanager2.domain.usecases.estate.CreateEstateUC;
+import remy.pouzet.realestatemanager2.domain.usecases.estate.GetEstateUC;
+import remy.pouzet.realestatemanager2.domain.usecases.estate.UpdateEstateUC;
+import remy.pouzet.realestatemanager2.domain.usecases.formfragment.CheckFormDataUC;
+import remy.pouzet.realestatemanager2.domain.usecases.formfragment.IsNewEstateUC;
 
-public class FormViewModel extends ViewModel {
+public class FormViewModel extends AndroidViewModel {
 	
-	// REPOSITORIES
-	private final EstateRepository estateDataSource;
-	private final Executor         executor;
+
 	
-	public FormViewModel(EstateRepository estateDataSource,
-	                     Executor executor) {
-		this.estateDataSource = estateDataSource;
-		this.executor         = executor;
+	public FormViewModel(@NonNull Application application) {
+		super(application);
 	}
 	
-	public LiveData<Estate> getEstate(long id) {
-		return estateDataSource.getEstate(id);
+	public LiveData<Estate> observeEstate(long id) {
+		return new GetEstateUC().execute(this.getApplication(), id);
 	}
 	
-	public void createEstate(Estate estate) {
-		executor.execute(() -> {
-			estateDataSource.createEstate(estate);
-		});
+	public void createEstate(EstateRaw estateRaw) {
+		new CreateEstateUC().execute(this.getApplication(), estateRaw);
 	}
 	
-	public void deleteEstate(long estateId) {
-		executor.execute(() -> {
-			estateDataSource.deleteEstate(estateId);
-		});
+	public boolean isNewEstateUC(long id) {
+		return new IsNewEstateUC().execute(this.getApplication(), id);
 	}
 	
-	public void updateEstate(Estate estate) {
-		executor.execute(() -> {
-			estateDataSource.updateEstate(estate);
-		});
+	public CheckFormDataUC.EstateFormState checkFormData(EstateRaw estateRaw) {
+		return new CheckFormDataUC().execute(estateRaw);
+	}
+	
+	public void updateEstate(EstateRaw estateRaw) {
+		new UpdateEstateUC().execute(this.getApplication(), estateRaw);
 	}
 }
+
+
 	
 	

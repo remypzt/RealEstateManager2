@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModel;
  */
 
 public class MainActivityViewModel extends ViewModel {
-	
-	public MainActivityViewModel() {
-	
-	}
-	
+
+    public MainActivityViewModel() {
+        //TODO
+    }
+
 }

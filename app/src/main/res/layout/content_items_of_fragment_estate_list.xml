@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/type"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/estate_main_picture_of_content_item_of_fragment_estate_list"
         app:layout_constraintTop_toTopOf="@id/estate_main_picture_of_content_item_of_fragment_estate_list" />
@@ -40,14 +41,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="@string/textview"
+        android:textColor="#FF0000"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@id/estate_type_of_content_item_of_fragment_estate_list"
         app:layout_constraintTop_toBottomOf="@+id/estate_city_location_of_content_item_of_fragment_estate_list" />
 
     <TextView
+        android:id="@+id/selled_state_fragment_estate_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="25dp"
-        android:text="Selled or not"
+        android:layout_marginEnd="55dp"
+        android:text="SELLED"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />)

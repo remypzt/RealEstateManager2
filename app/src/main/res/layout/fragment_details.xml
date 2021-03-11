@@ -2,22 +2,57 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_details_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="25dp"
     tools:context=".views.fragments.DetailsFragment">
+
+    <TextView
+        android:id="@+id/type_title_fragment_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="type"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/estate_city_title_fragment_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="city"
+        android:textStyle="italic"
+        app:layout_constraintStart_toEndOf="@id/type_title_fragment_details"
+        app:layout_constraintTop_toTopOf="@id/type_title_fragment_details" />
+
+    <TextView
+        android:id="@+id/estate_price_fragment_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="price"
+        android:textStyle="italic"
+        app:layout_constraintStart_toEndOf="@+id/estate_city_title_fragment_details"
+        app:layout_constraintTop_toTopOf="@id/type_title_fragment_details" />
 
     <TextView
         android:id="@+id/media_title_fragment_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="@string/media"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/type_title_fragment_details" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/estate_pictures_list_fragment_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintStart_toStartOf="@+id/media_title_fragment_details"
         app:layout_constraintTop_toBottomOf="@id/media_title_fragment_details" />
 
@@ -25,7 +60,9 @@
         android:id="@+id/description_title_fragment_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="@string/description"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/media_title_fragment_details"
         app:layout_constraintTop_toBottomOf="@id/estate_pictures_list_fragment_details" />
 
@@ -43,20 +80,24 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/description_title_fragment_details">
+        app:layout_constraintTop_toBottomOf="@id/content_description_fragment_details">
 
         <ImageView
             android:id="@+id/surface_picture_fragment_details"
-            android:layout_width="5dp"
-            android:layout_height="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/settings_overscan_24px" />
 
         <TextView
             android:id="@+id/surface_title_fragment_details"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Surface"
+            android:layout_marginStart="5dp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/surface_picture_fragment_details"
             app:layout_constraintTop_toTopOf="@+id/surface_picture_fragment_details" />
 
@@ -70,16 +111,21 @@
 
         <ImageView
             android:id="@+id/rooms_picture_fragment_details"
-            android:layout_width="5dp"
-            android:layout_height="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             app:layout_constraintStart_toStartOf="@+id/surface_picture_fragment_details"
-            app:layout_constraintTop_toBottomOf="@+id/surface_value_fragment_details" />
+            app:layout_constraintTop_toBottomOf="@+id/surface_value_fragment_details"
+            app:srcCompat="@drawable/home_24px" />
 
         <TextView
             android:id="@+id/rooms_title_fragment_details"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Number of rooms"
+            android:layout_marginStart="5dp"
+            android:text="Rooms"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/rooms_picture_fragment_details"
             app:layout_constraintTop_toTopOf="@+id/rooms_picture_fragment_details" />
 
@@ -96,21 +142,25 @@
         android:id="@+id/estate_specification_second_column_constraint_layout_fragment_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         app:layout_constraintStart_toEndOf="@+id/estate_specification_constraint_layout_fragment_details"
         app:layout_constraintTop_toTopOf="@+id/estate_specification_constraint_layout_fragment_details">
 
         <ImageView
             android:id="@+id/location_picture_fragment_details"
-            android:layout_width="5dp"
-            android:layout_height="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/location_on_24px" />
 
         <TextView
             android:id="@+id/location_title_fragment_details"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Location"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/location_picture_fragment_details"
             app:layout_constraintTop_toTopOf="@+id/location_picture_fragment_details" />
 
@@ -124,16 +174,19 @@
 
         <ImageView
             android:id="@+id/contact_picture_fragment_details"
-            android:layout_width="5dp"
-            android:layout_height="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="@+id/location_picture_fragment_details"
-            app:layout_constraintTop_toBottomOf="@+id/location_value_fragment_details" />
+            app:layout_constraintTop_toBottomOf="@+id/location_value_fragment_details"
+            app:srcCompat="@drawable/contact_support_24" />
 
         <TextView
             android:id="@+id/contact_title_fragment_details"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="contact"
+            android:text="Contact"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/contact_picture_fragment_details"
             app:layout_constraintTop_toTopOf="@+id/contact_picture_fragment_details" />
 
@@ -146,7 +199,9 @@
             app:layout_constraintTop_toBottomOf="@+id/contact_title_fragment_details" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <ImageView
+        android:id="@+id/location_position_on_map_image_view_fragment_details"
         android:layout_width="25dp"
         android:layout_height="25dp"
         app:layout_constraintStart_toEndOf="@+id/estate_specification_second_column_constraint_layout_fragment_details"
@@ -169,6 +224,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Last update"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -185,6 +241,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Selled Date"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/update_date_value_fragment_details"
             app:layout_constraintTop_toBottomOf="@+id/update_date_value_fragment_details" />
 
