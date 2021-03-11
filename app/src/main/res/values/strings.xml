@@ -34,6 +34,7 @@
     <string name="Success">Success</string>
     <string name="Itemspdate">Item\'s successfully update</string>
     <string name="update_date_cannot_be_null">update date cannot be null</string>
+    <string name="map">Map</string>
 
     <string-array name="estate_type">
         <item>Loft</item>
