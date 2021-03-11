@@ -67,7 +67,16 @@ public class FormFragment extends BaseFragment {
     // ------------------   LifeCycle   ------------------- //
     //------------------------------------------------------//
     
-    //TODO  make it UC ?
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
+        mFragmentFormBinding = FragmentFormBinding.inflate(inflater, container, false);
+        viewBindingManagement();
+        configureViewModel();
+        return mFragmentFormBinding.getRoot();
+    }
+    
     public static void setHideKeyboardOnTouch(final Context context, View view) {
         //Set up touch listener for non-text box views to hide keyboard.
         try {
@@ -96,21 +105,14 @@ public class FormFragment extends BaseFragment {
         }
     }
     
-    @Override
-    public View provideYourFragmentView(LayoutInflater inflater,
-                                        ViewGroup parent,
-                                        Bundle savedInstanceState) {
-        return null;
-    }
-    
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
-        mFragmentFormBinding = FragmentFormBinding.inflate(inflater, container, false);
-        viewBindingManagement();
-        configureViewModel();
-        return mFragmentFormBinding.getRoot();
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHideKeyboardOnTouch(requireContext(), getView());
+        updateUIIfItsModification();
+        isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
+        datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
+        datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
+        validationButtonManagement();
     }
     
     //------------------------------------------------------//
@@ -129,31 +131,15 @@ public class FormFragment extends BaseFragment {
         formViewModel = new ViewModelProvider(this).get(FormViewModel.class);
     }
     
-    //why Bundle is allways null in this fragment ?
-    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHideKeyboardOnTouch(requireContext(), getView());
-        itsAModification();
-        updateUIIfItsModification();
-        isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
-        datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
-        datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
-        validationButtonManagement();
-    }
-    
-    public boolean itsAModification() {
-        if (getArguments() != null) {
-            id = Long.parseLong(getArguments().get("id").toString());
-            formViewModel.isNewEstateUC(id);
-            return formViewModel.isNewEstateUC(id);
-        } else {
-            return false;
-        }
+    @Override
+    public View provideYourFragmentView(LayoutInflater inflater,
+                                        ViewGroup parent,
+                                        Bundle savedInstanceState) {
+        return null;
     }
     
     public void updateUIIfItsModification() {
         if (itsAModification()) {
-            //TODO easy thing like get an ID must be UC ?
             estate = getEstate(id);
             //TODO main picture
             mFragmentFormBinding.valueOfEstateTypeFragmentForm.setPrompt(estate.getType());
@@ -177,6 +163,15 @@ public class FormFragment extends BaseFragment {
             } else {
                 mFragmentFormBinding.isSellCheckbox.setChecked(false);
             }
+        }
+    }
+    
+    public boolean itsAModification() {
+        if (getArguments() != null) {
+            id = Long.parseLong(getArguments().get("id").toString());
+            return formViewModel.isNewEstateUC(id);
+        } else {
+            return false;
         }
     }
     
@@ -419,7 +414,7 @@ public class FormFragment extends BaseFragment {
     }
     
     private Estate getEstate(long id) {
-        estate = formViewModel.observeEstate(id).getValue();
+        formViewModel.observeEstate(id).getValue();
         return estate;
     }
 }

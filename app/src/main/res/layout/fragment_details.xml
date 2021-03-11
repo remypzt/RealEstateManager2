@@ -51,6 +51,8 @@
         android:id="@+id/estate_pictures_list_fragment_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintStart_toStartOf="@+id/media_title_fragment_details"
         app:layout_constraintTop_toBottomOf="@id/media_title_fragment_details" />
 
@@ -197,7 +199,9 @@
             app:layout_constraintTop_toBottomOf="@+id/contact_title_fragment_details" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <ImageView
+        android:id="@+id/location_position_on_map_image_view_fragment_details"
         android:layout_width="25dp"
         android:layout_height="25dp"
         app:layout_constraintStart_toEndOf="@+id/estate_specification_second_column_constraint_layout_fragment_details"

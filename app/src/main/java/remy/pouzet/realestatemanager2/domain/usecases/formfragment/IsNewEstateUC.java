@@ -14,6 +14,6 @@ public class IsNewEstateUC {
 		                                    .estateDao()
 		                                    .getEstate(id)
 		                                    .getValue();
-		return estate != null;
+		return estate == null;
 	}
 }
