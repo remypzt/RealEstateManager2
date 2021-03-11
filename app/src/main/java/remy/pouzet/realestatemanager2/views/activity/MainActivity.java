@@ -9,11 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.ActivityMainBinding;
+import remy.pouzet.realestatemanager2.views.fragments.DetailsFragment;
 //------------------------------------------------------//
 // ------------------    Binding    ------------------- //
 //------------------------------------------------------//
@@ -41,10 +43,11 @@ public class MainActivity extends AppCompatActivity {
     // ------------------   Variables   ------------------- //
     //------------------------------------------------------//
     private AppBarConfiguration mAppBarConfiguration;
-    private int navigateToNavSearch;
-    //------------------------------------------------------//
-    // ------------------    Binding    ------------------- //
-    //------------------------------------------------------//
+    private int                 navigateToNavSearch;
+    public  long                id;
+	//------------------------------------------------------//
+	// ------------------    Binding    ------------------- //
+	//------------------------------------------------------//
     private ActivityMainBinding mActivityMainBinding;
 
     //------------------------------------------------------//
@@ -97,19 +100,27 @@ public class MainActivity extends AppCompatActivity {
             navigateToNavSearch = R.id.action_nav_details_to_action_search_button;
         }
         switch (item.getItemId()) {
-            case R.id.action_search_button:
-                Navigation
-                        .findNavController(this, R.id.nav_host_fragment)
-                        .navigate(navigateToNavSearch);
-                return true;
-            case R.id.action_modify_button:
-                Navigation
-                        .findNavController(this, R.id.nav_host_fragment)
-                        .navigate(R.id.action_nav_details_to_nav_form);
-                //TODO  modify
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+	        case R.id.action_search_button:
+		        Navigation.findNavController(this, R.id.nav_host_fragment)
+		                  .navigate(navigateToNavSearch);
+		        return true;
+	        case R.id.action_modify_button:
+		        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(
+				        R.id.nav_host_fragment);
+		        DetailsFragment detailsFragment = (DetailsFragment) navHostFragment.getChildFragmentManager()
+		                                                                           .getFragments()
+		                                                                           .get(0);
+		
+		        id = detailsFragment.id;
+		        Bundle bundle = new Bundle();
+		        bundle.putLong("id", id);
+		
+		        Navigation.findNavController(this, R.id.nav_host_fragment)
+		                  .navigate(R.id.action_nav_details_to_nav_form, bundle);
+		
+		        return true;
+	        default:
+		        return super.onOptionsItemSelected(item);
         }
     }
 

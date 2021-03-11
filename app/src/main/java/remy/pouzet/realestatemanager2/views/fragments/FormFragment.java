@@ -37,6 +37,10 @@ import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
 public class FormFragment extends BaseFragment {
     
+    //------------------------------------------------------//
+    // ------------------   Variables   ------------------- //
+    // ------------------------------------------------------//
+    
     //-- Dates variables --//
     @SuppressLint("SimpleDateFormat") SimpleDateFormat formatterUIFormat = new SimpleDateFormat(
             "dd/MM/yyyy");
@@ -45,7 +49,7 @@ public class FormFragment extends BaseFragment {
     String updateDateInRightFormat;
     String selledDateInRightFormat;
     
-    Long id;
+    public  Long                id;
     private Estate              estate;
     private ConstraintLayout    constraintLayout;
     private FormViewModel       formViewModel;
@@ -65,19 +69,12 @@ public class FormFragment extends BaseFragment {
     
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         mFragmentFormBinding = FragmentFormBinding.inflate(inflater, container, false);
         viewBindingManagement();
         configureViewModel();
         return mFragmentFormBinding.getRoot();
-    }
-    
-    @Override
-    public View provideYourFragmentView(LayoutInflater inflater,
-                                        ViewGroup parent,
-                                        Bundle savedInstanceState) {
-        return null;
     }
     
     public static void setHideKeyboardOnTouch(final Context context, View view) {
@@ -108,9 +105,19 @@ public class FormFragment extends BaseFragment {
         }
     }
     
-    private void configureViewModel() {
-        formViewModel = new ViewModelProvider(this).get(FormViewModel.class);
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHideKeyboardOnTouch(requireContext(), getView());
+        updateUIIfItsModification();
+        isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
+        datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
+        datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
+        validationButtonManagement();
     }
+    
+    //------------------------------------------------------//
+    // ------------------   Functions   ------------------- //
+    //------------------------------------------------------//
     
     public void viewBindingManagement() {
         lastModificationDateButton = mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton;
@@ -120,24 +127,19 @@ public class FormFragment extends BaseFragment {
         constraintLayout           = mFragmentFormBinding.parentFragmentForm;
     }
     
-    //------------------------------------------------------//
-    // ------------------   Functions   ------------------- //
-    //------------------------------------------------------//
+    private void configureViewModel() {
+        formViewModel = new ViewModelProvider(this).get(FormViewModel.class);
+    }
     
-    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHideKeyboardOnTouch(requireContext(), getView());
-        itsAModification();
-        updateUIIfItsModification();
-        isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
-        datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
-        datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
-        validationButtonManagement();
+    @Override
+    public View provideYourFragmentView(LayoutInflater inflater,
+                                        ViewGroup parent,
+                                        Bundle savedInstanceState) {
+        return null;
     }
     
     public void updateUIIfItsModification() {
         if (itsAModification()) {
-            //TODO easy thing like get an ID must be UC ?
             estate = getEstate(id);
             //TODO main picture
             mFragmentFormBinding.valueOfEstateTypeFragmentForm.setPrompt(estate.getType());
@@ -164,26 +166,37 @@ public class FormFragment extends BaseFragment {
         }
     }
     
+    public boolean itsAModification() {
+        if (getArguments() != null) {
+            id = Long.parseLong(getArguments().get("id").toString());
+            return formViewModel.isNewEstateUC(id);
+        } else {
+            return false;
+        }
+    }
+    
     private void createNewEstateManagement() {
         EstateRaw estateRaw = createEstateRaw();
         switch (formViewModel.checkFormData(estateRaw)) {
             //could be better not imbricate conditions but will not be longer a issue with kotlin
             case IS_VALID:
                 if (itsAModification()) {
-                    formViewModel.createEstate(estateRaw);
-                    showLongSnackBar(mFragmentFormBinding.getRoot(), getString(R.string.Success));
-                } else if (!itsAModification()) {
                     formViewModel.updateEstate(estateRaw);
                     showLongSnackBar(mFragmentFormBinding.getRoot(),
-                                     String.valueOf(R.string.Success));
+                                     getString(R.string.Itemspdate));
+                } else if (!itsAModification()) {
+                    formViewModel.createEstate(estateRaw);
+                    showLongSnackBar(mFragmentFormBinding.getRoot(), getString((R.string.Success)));
                 } else {
                     showIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "unknow error");
                 }
                 break;
-            case IS_SELL:
+    
+            case ERROR_SELL_DATE:
                 showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
                                        getString((R.string.sell_date_cannot_be_null)));
                 break;
+    
             case ERROR_MINIMAL_WORD_LENGTH:
                 showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
                                        getString(R.string.minimal_words_lenght));
@@ -203,6 +216,11 @@ public class FormFragment extends BaseFragment {
             case ERROR_CONTACT_VALUE:
                 showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
                                        getString(R.string.contact_value_cannot_be_null));
+                break;
+    
+            case ERROR_UPDATE_DATE_VALUE:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString(R.string.update_date_cannot_be_null));
                 break;
         }
     }
@@ -279,10 +297,6 @@ public class FormFragment extends BaseFragment {
         });
     }
     
-    public void validationButtonManagement() {
-        ImageButton localCreateNewEstateButton = mFragmentFormBinding.validateFormButton;
-        localCreateNewEstateButton.setOnClickListener(v -> createNewEstateManagement());
-    }
     
     //TODO make it UC ?
     public void checkDateBetweenThem(Button button1, Button button2) {
@@ -334,14 +348,9 @@ public class FormFragment extends BaseFragment {
         }
     }
     
-    public boolean itsAModification() {
-        if (getArguments() != null) {
-            id = Long.parseLong(getArguments().get("id").toString());
-            formViewModel.isNewEstateUC(id);
-            return formViewModel.isNewEstateUC(id);
-        } else {
-            return false;
-        }
+    public void validationButtonManagement() {
+        ImageButton localCreateNewEstateButton = mFragmentFormBinding.validateFormButton;
+        localCreateNewEstateButton.setOnClickListener(v -> createNewEstateManagement());
     }
     
     private EstateRaw createEstateRaw() {
@@ -393,17 +402,19 @@ public class FormFragment extends BaseFragment {
         if (checked) {
             selledDateButton.setVisibility(View.VISIBLE);
             sellTitleTextView.setText(R.string.Is_it_sell);
-            return selledDateButton.getText().length() > nullEquivalent;
+            return true
+//                    selledDateButton.getText().length() > nullEquivalent
+                    ;
         } else {
             selledDateButton.setVisibility(View.INVISIBLE);
             sellTitleTextView.setText(R.string.Sell_date);
-            
+            // TODO sell status
             return false;
         }
     }
     
     private Estate getEstate(long id) {
-        estate = formViewModel.observeEstate(id).getValue();
+        formViewModel.observeEstate(id).getValue();
         return estate;
     }
 }
