@@ -98,18 +98,22 @@ public class DetailsFragment extends BaseFragment {
             }
             
             surfaceValueTextView.setText(String.valueOf(estate.getSurface()));
-            
+    
             roomsValueTextView.setText(String.valueOf(estate.getRooms()));
             contactValueTextView.setText(estate.getAgent());
             lastUpdateValueTextView.setText(estate.getUpdateDate());
-            
+    
             if (estate.getSellDate().isEmpty()) {
                 sellDateValueTextView.setVisibility(View.INVISIBLE);
                 sellDateTitleTextView.setVisibility(View.INVISIBLE);
             } else {
                 sellDateValueTextView.setText(estate.getSellDate());
             }
-            // TODO locationValueTextView.setText(estate);
+    
+            if (!estate.getAdress().contentEquals("location value")) {
+                locationValueTextView.setText(estate.getAdress());
+            }
+    
         }
     }
     

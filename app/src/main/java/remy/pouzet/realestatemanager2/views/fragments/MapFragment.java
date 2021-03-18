@@ -36,21 +36,20 @@ public class MapFragment extends Fragment {
 	
 	private static final int              PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 	public               LocationCallback locationCallback                         = new LocationCallback() {
-		@SuppressLint("CommitPrefEdits") @Override
-		public void onLocationResult(LocationResult locationResult) {
+		@SuppressLint("CommitPrefEdits") @Override public void onLocationResult(LocationResult locationResult) {
 			if (locationResult == null) {
 				return;
 			}
+
 //			for (Location location : locationResult.getLocations()) {
 //				if (location != null) {
 //					Log.e("MapViewFragment", "latitude: " + location.getLatitude() + " - longitude: " + location.getLongitude());
 //					latitude  = location.getLatitude();
 //					longitude = location.getLongitude();
 //					mMap.clear();
-//
 //				}
-		}
 //		}
+		}
 	};
 	FusedLocationProviderClient mFusedLocationClient;
 	private double latitude, longitude;

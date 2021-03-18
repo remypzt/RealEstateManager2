@@ -77,6 +77,22 @@ public class FormFragment extends BaseFragment {
         return mFragmentFormBinding.getRoot();
     }
     
+
+    
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHideKeyboardOnTouch(requireContext(), getView());
+        updateUIIfItsModification();
+        isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
+        datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
+        datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
+        validationButtonManagement();
+    }
+    
+    //------------------------------------------------------//
+    // ------------------   Functions   ------------------- //
+    //------------------------------------------------------//
+    
     public static void setHideKeyboardOnTouch(final Context context, View view) {
         //Set up touch listener for non-text box views to hide keyboard.
         try {
@@ -105,20 +121,6 @@ public class FormFragment extends BaseFragment {
         }
     }
     
-    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHideKeyboardOnTouch(requireContext(), getView());
-        updateUIIfItsModification();
-        isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
-        datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
-        datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
-        validationButtonManagement();
-    }
-    
-    //------------------------------------------------------//
-    // ------------------   Functions   ------------------- //
-    //------------------------------------------------------//
-    
     public void viewBindingManagement() {
         lastModificationDateButton = mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton;
         selledDateButton           = mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton;
@@ -140,29 +142,7 @@ public class FormFragment extends BaseFragment {
     
     public void updateUIIfItsModification() {
         if (itsAModification()) {
-            estate = getEstate(id);
-            //TODO main picture
-            mFragmentFormBinding.valueOfEstateTypeFragmentForm.setPrompt(estate.getType());
-            mFragmentFormBinding.valueOfEstateCityFragmentForm.setText(estate.getCity());
-            mFragmentFormBinding.valueOfEstatePriceFragmentForm.setText(estate.getPrice());
-            //TODO picture list
-            if (estate.getDescription() != null) {
-                mFragmentFormBinding.contentDescriptionFragmentForm.setText(estate.getDescription());
-            }
-            mFragmentFormBinding.surfaceValueFragmentForm.setText(estate.getSurface());
-            if (estate.getAdress() != null) {
-                mFragmentFormBinding.locationValueFragmentForm.setText(estate.getAdress());
-                //TODO adress picture
-            }
-            mFragmentFormBinding.roomsValueFragmentForm.setText(estate.getRooms());
-            mFragmentFormBinding.contactValueFragmentForm.setText(estate.getAgent());
-            mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.setText(estate.getUpdateDate());
-            if (estate.getSellDate() != null) {
-                mFragmentFormBinding.isSellCheckbox.setChecked(true);
-                mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.setText(estate.getSellDate());
-            } else {
-                mFragmentFormBinding.isSellCheckbox.setChecked(false);
-            }
+            getEstate(id);
         }
     }
     
@@ -225,7 +205,6 @@ public class FormFragment extends BaseFragment {
         }
     }
     
-    //TODO make it UC ?
     public void datePickerButtonsManagement(Button button1, Button button2) {
         int tens = 9;
         @SuppressLint("SimpleDateFormat")
@@ -298,7 +277,6 @@ public class FormFragment extends BaseFragment {
     }
     
     
-    //TODO make it UC ?
     public void checkDateBetweenThem(Button button1, Button button2) {
         Date dateOfBeginning = null;
         try {
@@ -328,7 +306,6 @@ public class FormFragment extends BaseFragment {
         }
     }
     
-    //TODO Make it UC ?
     public void checkDateWithToday(Date date, Button button) {
         Date   today         = new Date();
         String resultOfToday = formatterUIFormat.format(today);
@@ -353,31 +330,10 @@ public class FormFragment extends BaseFragment {
         localCreateNewEstateButton.setOnClickListener(v -> createNewEstateManagement());
     }
     
-    private EstateRaw createEstateRaw() {
-        return new EstateRaw(sellStatusManagement(),
-                             mFragmentFormBinding.valueOfEstateTypeFragmentForm.getSelectedItem()
-                                                                               .toString(),
-                             mFragmentFormBinding.valueOfEstateCityFragmentForm.getText()
-                                                                               .toString(),
-                             mFragmentFormBinding.valueOfEstatePriceFragmentForm.getText()
-                                                                                .toString(),
-                             //TODO
-                             "mainpicturevalue",
-                             autoIncremented,
-                             mFragmentFormBinding.contentDescriptionFragmentForm.getText()
-                                                                                .toString(),
-                             mFragmentFormBinding.surfaceValueFragmentForm.getText().toString(),
-                             mFragmentFormBinding.roomsValueFragmentForm.getText().toString(),
-                             //TODO
-                             "adressvalue",
-                             mFragmentFormBinding.contactValueFragmentForm.getText().toString(),
-                             updateDateManagement(),
-
-                             mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton.getText()
-                                                                                           .toString());
+    private void getEstate(long id) {
+        formViewModel.observeEstate(id).observe(getViewLifecycleOwner(), this::receiveEstate);
     }
     
-    //TODO make it UC ? check it
     public String updateDateManagement() {
         Date   today         = new Date();
         String resultOfToday = formatterUIFormat.format(today);
@@ -413,8 +369,52 @@ public class FormFragment extends BaseFragment {
         }
     }
     
-    private Estate getEstate(long id) {
-        formViewModel.observeEstate(id).getValue();
-        return estate;
+    private void receiveEstate(Estate estate) {
+        //TODO main picture
+        mFragmentFormBinding.valueOfEstateTypeFragmentForm.setPrompt(estate.getType());
+        mFragmentFormBinding.valueOfEstateCityFragmentForm.setText(estate.getCity());
+        mFragmentFormBinding.valueOfEstatePriceFragmentForm.setText(Long.toString(estate.getPrice()));
+        //TODO picture list
+        if (estate.getDescription() != null) {
+            mFragmentFormBinding.contentDescriptionFragmentForm.setText(estate.getDescription());
+        }
+        mFragmentFormBinding.surfaceValueFragmentForm.setText(Long.toString(estate.getSurface()));
+        if (estate.getAdress() != null) {
+            mFragmentFormBinding.locationValueFragmentForm.setText(estate.getAdress());
+            //TODO adress picture
+        }
+        mFragmentFormBinding.roomsValueFragmentForm.setText(Long.toString(estate.getRooms()));
+        mFragmentFormBinding.contactValueFragmentForm.setText(estate.getAgent());
+        mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.setText(estate.getUpdateDate());
+        if (estate.getSellDate() != null) {
+            mFragmentFormBinding.isSellCheckbox.setChecked(false);
+            mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.setText(estate.getSellDate());
+        } else {
+            mFragmentFormBinding.isSellCheckbox.setChecked(true);
+        }
+    }
+    
+    private EstateRaw createEstateRaw() {
+        return new EstateRaw(sellStatusManagement(),
+                             mFragmentFormBinding.valueOfEstateTypeFragmentForm.getSelectedItem()
+                                                                               .toString(),
+                             mFragmentFormBinding.valueOfEstateCityFragmentForm.getText()
+                                                                               .toString(),
+                             mFragmentFormBinding.valueOfEstatePriceFragmentForm.getText()
+                                                                                .toString(),
+                             //TODO
+                             "mainpicturevalue",
+                             autoIncremented,
+                             mFragmentFormBinding.contentDescriptionFragmentForm.getText()
+                                                                                .toString(),
+                             mFragmentFormBinding.surfaceValueFragmentForm.getText().toString(),
+                             mFragmentFormBinding.roomsValueFragmentForm.getText().toString(),
+                             mFragmentFormBinding.locationValueFragmentForm.getText().toString(),
+                             mFragmentFormBinding.contactValueFragmentForm.getText().toString(),
+                             updateDateManagement(),
+        
+                             mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton.getText()
+                                                                                           .toString());
     }
 }
+
