@@ -1,5 +1,6 @@
 package remy.pouzet.realestatemanager2.views.fragments;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+
 import remy.pouzet.realestatemanager2.databinding.FragmentDetailsBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.viewmodels.DetailsViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
-public class DetailsFragment extends BaseFragment {
+public class DetailsFragment extends BaseFragment implements GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener, OnMapReadyCallback {
     //------------------------------------------------------//
     // ------------------   Variables   ------------------- //
     // ------------------------------------------------------//
@@ -34,6 +38,7 @@ public class DetailsFragment extends BaseFragment {
     private TextView               sellDateTitleTextView;
     private DetailsViewModel       detailsViewModel;
     private Estate                 estate;
+    private GoogleMap              map;
     private FragmentDetailsBinding fragmentDetailsBinding;
     
     //------------------------------------------------------//
@@ -45,6 +50,7 @@ public class DetailsFragment extends BaseFragment {
         fragmentDetailsBinding = FragmentDetailsBinding.inflate(inflater, container, false);
         viewBindingManagement();
         configureViewModel();
+    
         return fragmentDetailsBinding.getRoot();
     }
     
@@ -108,20 +114,38 @@ public class DetailsFragment extends BaseFragment {
                 sellDateTitleTextView.setVisibility(View.INVISIBLE);
             } else {
                 sellDateValueTextView.setText(estate.getSellDate());
+                configureLiteMap();
             }
     
             if (!estate.getAdress().contentEquals("location value")) {
                 locationValueTextView.setText(estate.getAdress());
+                // location picture
             }
     
         }
     }
     
-    private Estate getEstate(long id) {
+    private void configureLiteMap() {
+        
+        map = fragmentDetailsBinding.mapViewDetailsFragment;
+        
+    }
     
+    private Estate getEstate(long id) {
+        
         estate = detailsViewModel.observeEstate(id).getValue();
         return estate;
     }
     
-
+    @Override public boolean onMyLocationButtonClick() {
+        return false;
+    }
+    
+    @Override public void onMyLocationClick(@NonNull Location location) {
+    
+    }
+    
+    @Override public void onMapReady(GoogleMap googleMap) {
+    
+    }
 }
