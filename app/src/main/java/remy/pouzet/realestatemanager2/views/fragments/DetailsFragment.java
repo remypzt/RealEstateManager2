@@ -1,8 +1,5 @@
 package remy.pouzet.realestatemanager2.views.fragments;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,7 +23,7 @@ import remy.pouzet.realestatemanager2.utils.OnMapAndViewReadyListener;
 import remy.pouzet.realestatemanager2.viewmodels.DetailsViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
-public class DetailsFragment extends BaseFragment implements GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener, OnMapReadyCallback {
+public class DetailsFragment extends BaseFragment implements OnMapReadyCallback {
     //------------------------------------------------------//
     // ------------------   Variables   ------------------- //
     // ------------------------------------------------------//
@@ -68,7 +63,7 @@ public class DetailsFragment extends BaseFragment implements GoogleMap.OnMyLocat
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(
                 R.id.lite_map_details_fragment);
         new OnMapAndViewReadyListener(mapFragment, this::onMapReady);
-//        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this);
         
         return fragmentDetailsBinding.getRoot();
     }
@@ -76,27 +71,7 @@ public class DetailsFragment extends BaseFragment implements GoogleMap.OnMyLocat
     @Override public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         
-        if (ActivityCompat.checkSelfPermission(requireContext(),
-                                               Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat
-                                                                                                                                         .checkSelfPermission(
-                                                                                                                                                 requireContext(),
-                                                                                                                                                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-//        map.setMyLocationEnabled(true);
         showAdelaide(null);
-
-//        map.setOnMyLocationButtonClickListener(this);
-//        map.setOnMyLocationClickListener(this);
-//                enableMyLocation();
-    
     }
     
     public void showAdelaide(View v) {
@@ -109,58 +84,12 @@ public class DetailsFragment extends BaseFragment implements GoogleMap.OnMyLocat
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(ADELAIDE, 10f));
     }
     
-    /**
-     * Displays a dialog with error message explaining that the location permission is missing.
-     */
-//    private void showMissingPermissionError() {
-//        PermissionUtils.PermissionDeniedDialog
-//                .newInstance(true).show(getSupportFragmentManager(), "dialog");
-//    }
     @Override public View provideYourFragmentView(LayoutInflater inflater,
                                                   ViewGroup parent,
                                                   Bundle savedInstanceState) {
         return null;
     }
     
-    private void enableMyLocation() {
-        // [START maps_check_location_permission]
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                                              Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (map != null) {
-                map.setMyLocationEnabled(true);
-            }
-        } else {
-            // Permission to access the location is missing. Show rationale and request permission
-//            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
-//                                              Manifest.permission.ACCESS_FINE_LOCATION, true);
-        }
-        // [END maps_check_location_permission]
-    }
-    
-    @Override public boolean onMyLocationButtonClick() {
-
-//        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
-        
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // (the camera animates to the user's current position).
-        return false;
-    }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
-//            return;
-//        }
-//
-//        if (PermissionUtils.isPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
-//            // Enable the my location layer if the permission has been granted.
-//            enableMyLocation();
-//        } else {
-//            // Permission was denied. Display an error message
-//            // Display the missing permission error dialog when the fragments resume.
-//            permissionDenied = true;
-//        }
-//    }
 
 //    @Override
 //    protected void onResumeFragments() {
@@ -172,9 +101,6 @@ public class DetailsFragment extends BaseFragment implements GoogleMap.OnMyLocat
 //        }
 //    }
     
-    @Override public void onMyLocationClick(@NonNull Location location) {
-//        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
-    }
     
     @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -245,7 +171,6 @@ public class DetailsFragment extends BaseFragment implements GoogleMap.OnMyLocat
     }
     
     private Estate getEstate(long id) {
-        
         estate = detailsViewModel.observeEstate(id).getValue();
         return estate;
     }

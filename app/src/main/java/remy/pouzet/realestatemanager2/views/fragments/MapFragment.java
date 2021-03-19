@@ -61,9 +61,11 @@ public class MapFragment extends Fragment {
 	private boolean            locationPermissionGranted;
 	public  OnMapReadyCallback callback = new OnMapReadyCallback() {
 		@Override public void onMapReady(GoogleMap googleMap) {
+			//TODO move camera on user location
 			LatLng sydney = new LatLng(-34, 151);
 			googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 			mMap = googleMap;
+			
 			updateLocationUI();
 		}
 	};

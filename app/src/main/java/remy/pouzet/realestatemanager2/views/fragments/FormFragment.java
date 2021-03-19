@@ -392,6 +392,7 @@ public class FormFragment extends BaseFragment {
         } else {
             mFragmentFormBinding.isSellCheckbox.setChecked(true);
         }
+        autoIncremented = (int) estate.getId();
     }
     
     private EstateRaw createEstateRaw() {
