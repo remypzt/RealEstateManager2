@@ -199,22 +199,24 @@
             app:layout_constraintTop_toBottomOf="@+id/contact_title_fragment_details" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/map_view_details_fragment"
+    <!--    <com.google.android.gms.maps.MapView-->
+    <!--        android:id="@+id/map_view_details_fragment"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/estate_specification_second_column_constraint_layout_fragment_details"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/estate_specification_constraint_layout_fragment_details">-->
+
+    <fragment
+        android:id="@+id/lite_map_details_fragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:cameraZoom="13"
+        app:liteMode="true"
         app:layout_constraintStart_toEndOf="@+id/estate_specification_second_column_constraint_layout_fragment_details"
-        app:layout_constraintTop_toTopOf="@+id/estate_specification_constraint_layout_fragment_details">
-
-        <fragment
-            android:id="@+id/lite_map_details_fragment"
-            android:name="com.google.android.gms.maps.MapFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cameraZoom="13"
-            app:liteMode="true"
-            app:mapType="normal" />
-    </com.google.android.gms.maps.MapView>
+        app:layout_constraintTop_toTopOf="@+id/estate_specification_constraint_layout_fragment_details"
+        app:mapType="normal"></fragment>
+    <!--    </com.google.android.gms.maps.MapView>-->
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
