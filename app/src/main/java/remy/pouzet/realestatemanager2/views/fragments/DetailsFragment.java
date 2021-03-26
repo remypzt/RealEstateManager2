@@ -45,7 +45,8 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
     private GoogleMap              map;
     private FragmentDetailsBinding fragmentDetailsBinding;
     
-    private static final LatLng ADELAIDE = new LatLng(-34.92873, 138.59995);
+    private static final LatLng ADELAIDE       = new LatLng(-34.92873, 138.59995);
+    private final        LatLng ESTATELOCATION = new LatLng(0, 0);
     
     //------------------------------------------------------//
     // ------------------   LifeCycle   ------------------- //
@@ -70,26 +71,58 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
     
     @Override public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        
         showAdelaide(null);
     }
     
     public void showAdelaide(View v) {
-        // Wait until map is ready
+        
         if (map == null) {
             return;
         }
         
-        // Center camera on Adelaide marker
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(ADELAIDE, 10f));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(ESTATELOCATION, 10f));
     }
     
-    @Override public View provideYourFragmentView(LayoutInflater inflater,
-                                                  ViewGroup parent,
-                                                  Bundle savedInstanceState) {
+    private void updateUI(Estate estate) {
+        if (estate != null) {
+            typeValueTextView.setText(estate.getType());
+            cityValueTextView.setText(estate.getCity());
+            priceValueTextView.setText(estate.getPrice() + "€");
+            
+            if (estate.getDescription().isEmpty()) {
+                descriptionValueTextView.setText(
+                        "Aucune description n'a été renseignée pour le moment");
+            } else {
+                descriptionValueTextView.setText(estate.getDescription());
+            }
+            
+            surfaceValueTextView.setText(String.valueOf(estate.getSurface()));
+            
+            roomsValueTextView.setText(String.valueOf(estate.getRooms()));
+            contactValueTextView.setText(estate.getAgent());
+            lastUpdateValueTextView.setText(estate.getUpdateDate());
+            
+            if (estate.getSellDate().isEmpty()) {
+                sellDateValueTextView.setVisibility(View.INVISIBLE);
+                sellDateTitleTextView.setVisibility(View.INVISIBLE);
+            } else {
+                sellDateValueTextView.setText(estate.getSellDate());
+            }
+            
+            if (!estate.getAdress().contentEquals("location value")) {
+                locationValueTextView.setText(estate.getAdress());
+                configureLiteMap();
+            }
+            
+        }
+    }
+    
+    @Override
+    public View provideYourFragmentView(LayoutInflater inflater,
+                                        ViewGroup parent,
+                                        Bundle savedInstanceState) {
         return null;
     }
-    
 
 //    @Override
 //    protected void onResumeFragments() {
@@ -131,43 +164,17 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
         detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
     }
     
-    private void updateUI(Estate estate) {
-        if (estate != null) {
-            typeValueTextView.setText(estate.getType());
-            cityValueTextView.setText(estate.getCity());
-            priceValueTextView.setText(estate.getPrice() + "€");
-            
-            if (estate.getDescription().isEmpty()) {
-                descriptionValueTextView.setText(
-                        "Aucune description n'a été renseignée pour le moment");
-            } else {
-                descriptionValueTextView.setText(estate.getDescription());
-            }
-            
-            surfaceValueTextView.setText(String.valueOf(estate.getSurface()));
-    
-            roomsValueTextView.setText(String.valueOf(estate.getRooms()));
-            contactValueTextView.setText(estate.getAgent());
-            lastUpdateValueTextView.setText(estate.getUpdateDate());
-    
-            if (estate.getSellDate().isEmpty()) {
-                sellDateValueTextView.setVisibility(View.INVISIBLE);
-                sellDateTitleTextView.setVisibility(View.INVISIBLE);
-            } else {
-                sellDateValueTextView.setText(estate.getSellDate());
-                configureLiteMap();
-            }
-    
-            if (!estate.getAdress().contentEquals("location value")) {
-                locationValueTextView.setText(estate.getAdress());
-                // location picture
-            }
-    
-        }
+    private void configureLiteMap() {
+        //TODO get latlng estate
+        showEstateLocation(null);
     }
     
-    private void configureLiteMap() {
-    
+    public void showEstateLocation(View v) {
+        if (map == null) {
+            return;
+        }
+        
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(ADELAIDE, 10f));
     }
     
     private Estate getEstate(long id) {
