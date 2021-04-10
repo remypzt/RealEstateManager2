@@ -2,6 +2,7 @@ package remy.pouzet.realestatemanager2.views.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,19 +11,18 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import remy.pouzet.realestatemanager2.R;
 
@@ -36,24 +36,7 @@ public class MapFragment extends Fragment {
 	FusedLocationProviderClient mFusedLocationClient;
 	private double latitude, longitude;
 	private GoogleMap        mMap;
-	//???
-	public  LocationCallback locationCallback = new LocationCallback() {
-		@SuppressLint("CommitPrefEdits") @Override
-		public void onLocationResult(LocationResult locationResult) {
-			if (locationResult == null) {
-				return;
-			}
 
-//			for (Location location : locationResult.getLocations()) {
-//				if (location != null) {
-//					Log.e("MapViewFragment", "latitude: " + location.getLatitude() + " - longitude: " + location.getLongitude());
-//					latitude  = location.getLatitude();
-//					longitude = location.getLongitude();
-//					mMap.clear();
-//				}
-//		}
-		}
-	};
 	
 	//------------------------------------------------------//
 	// ------------------   Callbacks   ------------------- //
@@ -61,19 +44,14 @@ public class MapFragment extends Fragment {
 	private boolean            locationPermissionGranted;
 	public  OnMapReadyCallback callback = new OnMapReadyCallback() {
 		@Override public void onMapReady(GoogleMap googleMap) {
-			//TODO move camera on user location
-			LatLng sydney = new LatLng(-34, 151);
-			googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 			mMap = googleMap;
-			getLocationAndCheckPermission();
-			updateLocationUI();
+			checkLocationPermission();
 		}
 	};
 	
 	//--------------------------------------------------//
 	// ------------------ LifeCycle ------------------- //
 	//--------------------------------------------------//
-	
 	@Override
 	public void onRequestPermissionsResult(int requestCode,
 	                                       String[] permissions,
@@ -82,9 +60,8 @@ public class MapFragment extends Fragment {
 			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 				
 				// permission was granted, proceed to the normal flow.
+				checkLocationPermission();
 				locationPermissionGranted = true;
-				getLocationAndCheckPermission();
-				updateLocationUI();
 			}
 		}
 	}
@@ -104,46 +81,55 @@ public class MapFragment extends Fragment {
 		if (mapFragment != null) {
 			mapFragment.getMapAsync(callback);
 		}
-		getLocationPermission();
+		checkLocationPermission();
 	}
 	
 	//------------------------------------------------------//
 	// ------------------   Functions   ------------------- //
 	//------------------------------------------------------//
 	
-	private void updateLocationUI() {
+	private void checkLocationPermission() {
+		if (ContextCompat.checkSelfPermission(this.requireContext(),
+		                                      android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+			mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
+			
+			updateLocationUI(mMap);
+			locationPermissionGranted = true;
+			
+		} else {
+			requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+			                   PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+		}
+	}
+	
+	private void updateLocationUI(GoogleMap googleMap) {
 		if (mMap == null) {
 			return;
 		}
 		try {
 			mMap.setMyLocationEnabled(locationPermissionGranted);
+			moveCameraOnUserLocation(googleMap);
 		}
 		catch (SecurityException e) {
 			Log.e("Exception: %s", e.getMessage());
 		}
 	}
 	
-	private void getLocationPermission() {
-		if (ContextCompat.checkSelfPermission(this.requireContext(),
-		                                      android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-			mFusedLocationClient      = LocationServices.getFusedLocationProviderClient(
-					requireContext());
-			locationPermissionGranted = true;
-			
-		} else {
-			ActivityCompat.requestPermissions(requireActivity(),
-			                                  new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-			                                  PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-		}
+	@SuppressLint("MissingPermission") private void moveCameraOnUserLocation(GoogleMap googleMap) {
+		mFusedLocationClient.getLastLocation()
+		                    .addOnCompleteListener(new OnCompleteListener<Location>() {
+			                    @Override public void onComplete(@NonNull Task<Location> task) {
+				                    Location location = task.getResult();
+				                    if (location != null) {
+					                    latitude  = location.getLatitude();
+					                    longitude = location.getLongitude();
+					                    LatLng userPosition = new LatLng(latitude, longitude);
+					                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(
+							                    userPosition));
+					                    mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+				                    }
+			                    }
+		                    });
 	}
 	
-	@SuppressLint("MissingPermission") public void getLocationAndCheckPermission() {
-//		LocationRequest locationRequest = LocationRequest.create()
-//		                                                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-//		                                                 .setSmallestDisplacement(50)
-//		                                                 .setInterval(20 * 1000);
-		getLocationPermission();
-		// ???
-//		mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
-	}
 }
