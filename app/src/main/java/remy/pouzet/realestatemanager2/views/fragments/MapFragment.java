@@ -45,7 +45,7 @@ public class MapFragment extends Fragment {
 	public  OnMapReadyCallback callback = new OnMapReadyCallback() {
 		@Override public void onMapReady(GoogleMap googleMap) {
 			mMap = googleMap;
-			checkLocationPermission();
+			checkLocationPermissionAndUpdateLocation();
 		}
 	};
 	
@@ -60,7 +60,7 @@ public class MapFragment extends Fragment {
 			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 				
 				// permission was granted, proceed to the normal flow.
-				checkLocationPermission();
+				checkLocationPermissionAndUpdateLocation();
 				locationPermissionGranted = true;
 			}
 		}
@@ -81,14 +81,14 @@ public class MapFragment extends Fragment {
 		if (mapFragment != null) {
 			mapFragment.getMapAsync(callback);
 		}
-		checkLocationPermission();
+		checkLocationPermissionAndUpdateLocation();
 	}
 	
 	//------------------------------------------------------//
 	// ------------------   Functions   ------------------- //
 	//------------------------------------------------------//
 	
-	private void checkLocationPermission() {
+	private void checkLocationPermissionAndUpdateLocation() {
 		if (ContextCompat.checkSelfPermission(this.requireContext(),
 		                                      android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 			mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());

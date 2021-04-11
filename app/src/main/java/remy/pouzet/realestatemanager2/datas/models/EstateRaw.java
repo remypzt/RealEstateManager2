@@ -45,6 +45,7 @@ public class EstateRaw {
 		this.contactValue     = contactValue;
 		this.updateDate       = updateDate;
 		this.sellDate         = sellDate;
+		
 	}
 	
 	public int getId() {
@@ -150,4 +151,5 @@ public class EstateRaw {
 	public void setSellDate(String sellDate) {
 		this.sellDate = sellDate;
 	}
+	
 }
