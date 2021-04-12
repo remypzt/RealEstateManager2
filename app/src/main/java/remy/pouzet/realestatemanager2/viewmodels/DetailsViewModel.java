@@ -10,14 +10,22 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import remy.pouzet.realestatemanager2.datas.models.Estate;
-import remy.pouzet.realestatemanager2.datas.services.realapi.pojos.Response;
 import remy.pouzet.realestatemanager2.datas.services.realapi.pojos.ResultsItem;
 import remy.pouzet.realestatemanager2.domain.usecases.estate.GetEstateUC;
 import remy.pouzet.realestatemanager2.domain.usecases.map.GetLocationFromGeoCodingUC;
 
 public class DetailsViewModel extends AndroidViewModel {
     
-    private MutableLiveData<List<Response>> response;
+    private MutableLiveData<List<ResultsItem>> observeResponse;
+    
+    public MutableLiveData<List<ResultsItem>> observeResponse(String address) {
+        if (observeResponse == null) {
+            observeResponse = (MutableLiveData<List<ResultsItem>>) new GetLocationFromGeoCodingUC().execute(
+                    this.getApplication(),
+                    address);
+        }
+        return observeResponse;
+    }
     
     public DetailsViewModel(@NonNull Application application) {
         super(application);
@@ -27,8 +35,6 @@ public class DetailsViewModel extends AndroidViewModel {
         return new GetEstateUC().execute(this.getApplication(), id);
     }
     
-    public LiveData<List<ResultsItem>> observeResponse(String address) {
-        return new GetLocationFromGeoCodingUC().execute(this.getApplication(), address);
-    }
+  
     
 }

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,9 +17,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.List;
+
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.FragmentDetailsBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
+import remy.pouzet.realestatemanager2.datas.services.realapi.pojos.ResultsItem;
 import remy.pouzet.realestatemanager2.utils.OnMapAndViewReadyListener;
 import remy.pouzet.realestatemanager2.viewmodels.DetailsViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
@@ -74,12 +78,6 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 		return null;
 	}
 	
-	public void getAdress() {
-		adress = "1600 Amphitheatre Parkway, Mountain View, CA";
-//		getEstate(id);
-//		adress = estate.getAdress();
-	}
-	
 	public void viewBindingManagement() {
 		typeValueTextView        = fragmentDetailsBinding.typeTitleFragmentDetails;
 		cityValueTextView        = fragmentDetailsBinding.estateCityTitleFragmentDetails;
@@ -117,6 +115,12 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 		showEstateLocation(null);
 	}
 	
+	public void getAdress() {
+		adress = "1600 Amphitheatre Parkway, Mountain View, CA";
+//		getEstate(id);
+//		adress = estate.getAdress();
+	}
+	
 	public void showEstateLocation(View v) {
 		if (map == null) {
 			return;
@@ -126,15 +130,19 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	}
 	
 	public void getEstateLocation() {
-		estateLat      = (detailsViewModel.observeResponse(adress).getValue()).get(0)
-		                                                                      .getGeometry()
-		                                                                      .getLocation()
-		                                                                      .getLat();
-		estateLng      = (detailsViewModel.observeResponse(adress).getValue()).get(0)
-		                                                                      .getGeometry()
-		                                                                      .getLocation()
-		                                                                      .getLng();
-		estateLocacion = new LatLng(estateLat, estateLng);
+		final Observer<List<ResultsItem>> observeResponse = resultsItems -> {
+			estateLat      = (detailsViewModel.observeResponse(adress).getValue()).get(0)
+			                                                                      .getGeometry()
+			                                                                      .getLocation()
+			                                                                      .getLat();
+			estateLng      = (detailsViewModel.observeResponse(adress).getValue()).get(0)
+			                                                                      .getGeometry()
+			                                                                      .getLocation()
+			                                                                      .getLng();
+			estateLocacion = new LatLng(estateLat, estateLng);
+			
+		};
+		detailsViewModel.observeResponse(adress).observe(requireActivity(), observeResponse);
 	}
 	
 	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {

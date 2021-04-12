@@ -1,0 +1,10 @@
+
+
+java:S1488"kImmediately return this expression instead of assigning it to the temporary variable "resultsFromResponse".(Ø›î÷øÿÿÿÿ8•ä¨Œ/
+]	java:S125"<This block of commented-out lines of code should be removed.(ÈÜŠ¶şÿÿÿÿ8•ä¨Œ/
+H
+java:S1168"+Return an empty collection instead of null.(¥¹ï8à’«Œ/
+\
+java:S1118
+":Add a private constructor to hide the implicit public one.(—í”Áùÿÿÿÿ8˜â§Œ/
+X	java:S125"<This block of commented-out lines of code should be removed.(•§²é8ÔÕªŒ/
