@@ -12,5 +12,9 @@
             android:id="@+id/nav_loan_simulator"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_loan_simulator" />
+        <item
+            android:id="@+id/nav_map_fragment"
+            android:icon="@drawable/location_on_24px"
+            android:title="@string/map" />
     </group>
 </menu>

@@ -25,7 +25,7 @@ public class Estate {
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
     private long id;
-
+    
     @ColumnInfo(name = "mainPicture")
     @Nullable
     private String mainPicture;
@@ -55,8 +55,9 @@ public class Estate {
     @ColumnInfo(name = "sellDate")
     @Nullable
     private String sellDate;
+    
     //	private List<String> mPOI;
-
+    
     public Estate(String type,
                   @org.jetbrains.annotations.Nullable String city,
                   int price,
@@ -70,19 +71,20 @@ public class Estate {
                   @org.jetbrains.annotations.Nullable String updateDate,
                   @org.jetbrains.annotations.Nullable String sellDate
 //	              List<String> pOI,
-    ) {
-        this.id = id;
-        this.type = type;
-        this.city = city;
-        this.price = price;
+                 ) {
+        this.id          = id;
+        this.type        = type;
+        this.city        = city;
+        this.price       = price;
         this.mainPicture = mainPicture;
         this.description = description;
-        this.surface = surface;
-        this.rooms = rooms;
-        this.adress = adress;
-        this.agent = agent;
+        this.surface     = surface;
+        this.rooms       = rooms;
+        this.adress      = adress;
+        this.agent       = agent;
         this.updateDate = updateDate;
         this.sellDate = sellDate;
+
 //		mPOI          = pOI;
 
     }
@@ -189,4 +191,5 @@ public class Estate {
     public void setSellDate(@Nullable String parameterSellDate) {
         sellDate = parameterSellDate;
     }
+    
 }
