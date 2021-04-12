@@ -17,6 +17,7 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
 import okhttp3.TlsVersion;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -30,10 +31,14 @@ public class RetrofitService {
 	                                                               .build();
 	
 	private static OkHttpClient getNewHttpClient() {
+		final HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+		interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+		
 		OkHttpClient.Builder client = new OkHttpClient.Builder().followRedirects(true)
 		                                                        .followSslRedirects(true)
 		                                                        .retryOnConnectionFailure(true)
 		                                                        .cache(null)
+		                                                        .addInterceptor(interceptor)
 		                                                        .connectTimeout(5, TimeUnit.SECONDS)
 		                                                        .writeTimeout(5, TimeUnit.SECONDS)
 		                                                        .readTimeout(5, TimeUnit.SECONDS);

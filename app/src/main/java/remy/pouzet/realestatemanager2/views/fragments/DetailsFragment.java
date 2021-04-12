@@ -140,6 +140,7 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 			                                                                      .getLocation()
 			                                                                      .getLng();
 			estateLocacion = new LatLng(estateLat, estateLng);
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(estateLocacion, 10f));
 			
 		};
 		detailsViewModel.observeResponse(adress).observe(requireActivity(), observeResponse);

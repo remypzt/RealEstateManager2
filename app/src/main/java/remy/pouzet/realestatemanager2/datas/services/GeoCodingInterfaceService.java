@@ -9,6 +9,7 @@ import retrofit2.http.Query;
  */
 public interface GeoCodingInterfaceService {
 	
-	@GET("geocode/json?") Call<Response> getResponse(@Query("adress") String adress);
+	@GET("geocode/json?key=AIzaSyCwOvrDss4VieCkqr-66cV3FOVNLa20yNs") Call<Response> getResponse(
+			@Query("address") String address);
 	
 }

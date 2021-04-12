@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
+import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.FragmentLoanSimulatorBinding;
 import remy.pouzet.realestatemanager2.viewmodels.LoanSimulatorViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
@@ -23,7 +24,7 @@ public class LoanSimulatorFragment extends BaseFragment {
 //------------------------------------------------------//
     
     public FragmentLoanSimulatorBinding fragmentLoanSimulatorBinding;
-    public int                          loanAmount, loanDuration, loanDurationInMonth;
+    public double                       loanAmount, loanDuration, loanDurationInMonth;
     
     //------------------------------------------------------//
     // ------------------   Variables   ------------------- //
@@ -31,7 +32,7 @@ public class LoanSimulatorFragment extends BaseFragment {
     
     private LoanSimulatorViewModel mLoanSimulatorViewModel;
     public  double                 loanRate;
-    public  long                   amountOfLoanMensuality;
+    public  double                 amountOfLoanMensuality;
     EditText loanAmountEditText, loanRateEditText, loanDurationEditText;
     TextView loanMensualityTextView;
     
@@ -124,22 +125,20 @@ public class LoanSimulatorFragment extends BaseFragment {
     
     public void getAndSetLoanSimulatorResult() {
         if (loanAmountEditText.getText()
-                              .length() > 0 && Integer.parseInt(loanAmountEditText.getText()
-                                                                                  .toString()) > 0 && loanDurationEditText
-                                                                                                              .getText()
-                                                                                                              .length() > 0 && Integer.parseInt(
+                              .length() > 0 && Double.parseDouble(loanAmountEditText.getText()
+                                                                                    .toString()) > 0 && loanDurationEditText
+                                                                                                                .getText()
+                                                                                                                .length() > 0 && Double.parseDouble(
                 loanDurationEditText.getText().toString()) > 0 && loanRateEditText.getText()
                                                                                   .length() > 0 && Double.parseDouble(
                 loanRateEditText.getText().toString()) > 0) {
-            loanAmount             = Integer.parseInt(loanAmountEditText.getText().toString());
-            loanDuration           = Integer.parseInt(loanDurationEditText.getText().toString());
+            loanAmount             = Double.parseDouble(loanAmountEditText.getText().toString());
+            loanDuration           = Double.parseDouble(loanDurationEditText.getText().toString());
             loanDurationInMonth    = loanDuration * 12;
             loanRate               = Double.parseDouble(loanRateEditText.getText().toString());
-            amountOfLoanMensuality = (long) (((loanAmount * loanRate) / 12) / Math.pow((1 - (1 + (loanRate / 12))),
-                                                                                       -loanDurationInMonth));
-            loanMensualityTextView.setText(
-                    //TODO R.string
-                    " " + amountOfLoanMensuality + " €");
+            amountOfLoanMensuality = (((loanAmount * loanRate / 100) / 12) / (1 - (Math.pow((1 + (loanRate / 100 / 12)),
+                                                                                            -loanDurationInMonth))));
+            loanMensualityTextView.setText(getResources().getText(R.string.your_ammount_mensuality_will_be) + " " + amountOfLoanMensuality + " €");
         }
     }
     

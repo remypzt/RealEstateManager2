@@ -22,14 +22,14 @@ public class GetLocationFromGeoCodingUC {
 	public final  GeoCodingInterfaceService          geoCodingInterfaceService;
 	private final MutableLiveData<List<ResultsItem>> geoCodingResponse;
 	
-	//?
 	public GetLocationFromGeoCodingUC() {
 		this.geoCodingInterfaceService = RetrofitService.cteateService(GeoCodingInterfaceService.class);
 		geoCodingResponse              = new MutableLiveData<>();
+		
 	}
 	
-	public LiveData<List<ResultsItem>> execute(Context context, String adress) {
-		geoCodingInterfaceService.getResponse((adress))
+	public LiveData<List<ResultsItem>> execute(Context context, String address) {
+		geoCodingInterfaceService.getResponse((address))
 		                         .enqueue(new Callback<remy.pouzet.realestatemanager2.datas.services.realapi.pojos.Response>() {
 			                         @Override
 			                         public void onResponse(Call<remy.pouzet.realestatemanager2.datas.services.realapi.pojos.Response> call,
