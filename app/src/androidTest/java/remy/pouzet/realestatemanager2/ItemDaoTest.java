@@ -5,6 +5,8 @@ import androidx.room.Room;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -24,20 +26,42 @@ import static org.junit.Assert.assertTrue;
  * Created by Remy Pouzet on 15/11/2020.
  */
 
-@RunWith(AndroidJUnit4.class)
-public class ItemDaoTest {
+@RunWith(AndroidJUnit4.class) public class ItemDaoTest {
 	// DATA SET FOR TEST
-	private static final Estate ESTATE_DEMO   = new Estate("Type", "City", 0, "R.drawable.ic_add", 1, "Description", 0, 0, "Adress", "Status", "Agent");
-	private static final Estate ESTATE_DEMO_2 = new Estate("Type2", "City2", 0, "R.drawable.ic_add2", 2, "Description2", 0, 0, "Adress2", "Status2", "Agent2");
+	private static final Estate ESTATE_DEMO   = new Estate("Type",
+	                                                       "City",
+	                                                       0,
+	                                                       "R.drawable.ic_add",
+	                                                       1,
+	                                                       "Description",
+	                                                       0,
+	                                                       0,
+	                                                       "Adress",
+	                                                       "Status",
+	                                                       "Agent",
+	                                                       "test",
+	                                                       new LatLng(0.0, 0.0));
+	private static final Estate ESTATE_DEMO_2 = new Estate("Type2",
+	                                                       "City2",
+	                                                       0,
+	                                                       "R.drawable.ic_add2",
+	                                                       2,
+	                                                       "Description2",
+	                                                       0,
+	                                                       0,
+	                                                       "Adress2",
+	                                                       "Status2",
+	                                                       "Agent2",
+	                                                       "test",
+	                                                       new LatLng(0.0, 0.0));
 	
 	@Rule public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 	// FOR DATA
 	private      EstateDatabase          database;
 	private      EstateDao               mEstateDao;
 	
-	@Before
-	public void initDb() throws
-	                     Exception {
+	@Before public void initDb() throws
+	                             Exception {
 		this.database   = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getTargetContext(),
 		                                               EstateDatabase.class)
 		                      .allowMainThreadQueries()

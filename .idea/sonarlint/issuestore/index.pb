@@ -115,3 +115,7 @@ Wapp/src/main/java/remy/pouzet/realestatemanager2/datas/services/Tls12SocketFact
 \app/src/main/java/remy/pouzet/realestatemanager2/domain/usecases/utils/UtilsForResponse.java,9\e\9ead59b404a9016f89e77898a7435a815100885f
 ”
 dapp/src/main/java/remy/pouzet/realestatemanager2/domain/usecases/map/GetLocationFromGeoCodingUC.java,f\c\fc9d62e74918dc45492fa7759573e24758c5cb4c
+?
+settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
+A
+gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4

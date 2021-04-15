@@ -16,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	public long   id;
 	public double estateLat, estateLng;
 	public  String                 adress;
-	private LatLng                 estateLocacion = new LatLng(-34.92873, 138.59995);
+	private LatLng                 estateLocation = new LatLng(-34.92873, 138.59995);
 	private TextView               typeValueTextView;
 	private TextView               cityValueTextView;
 	private TextView               priceValueTextView;
@@ -71,11 +72,23 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 		return fragmentDetailsBinding.getRoot();
 	}
 	
+	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		id = Long.parseLong(getArguments().get("id").toString());
+		detailsViewModel.observeEstate(id)
+		                .observe(getViewLifecycleOwner(), estate -> updateUI(estate));
+	}
+	
 	@Override
 	public View provideYourFragmentView(LayoutInflater inflater,
 	                                    ViewGroup parent,
 	                                    Bundle savedInstanceState) {
 		return null;
+	}
+	
+	@Override public void onMapReady(GoogleMap googleMap) {
+		map = googleMap;
+		showEstateLocation(null);
 	}
 	
 	public void viewBindingManagement() {
@@ -110,10 +123,6 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	// ------------------   Functions   ------------------- //
 	//------------------------------------------------------//
 	
-	@Override public void onMapReady(GoogleMap googleMap) {
-		map = googleMap;
-		showEstateLocation(null);
-	}
 	
 	public void getAdress() {
 		adress = "1600 Amphitheatre Parkway, Mountain View, CA";
@@ -126,7 +135,6 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 			return;
 		}
 		getEstateLocation();
-		map.moveCamera(CameraUpdateFactory.newLatLngZoom(estateLocacion, 10f));
 	}
 	
 	public void getEstateLocation() {
@@ -139,18 +147,14 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 			                                                                      .getGeometry()
 			                                                                      .getLocation()
 			                                                                      .getLng();
-			estateLocacion = new LatLng(estateLat, estateLng);
-			map.moveCamera(CameraUpdateFactory.newLatLngZoom(estateLocacion, 10f));
+			estateLocation = new LatLng(estateLat, estateLng);
 			
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(estateLocation, 10));
+			MarkerOptions localMarkerOptions = new MarkerOptions();
+			localMarkerOptions.position(estateLocation);
+			map.addMarker(localMarkerOptions);
 		};
 		detailsViewModel.observeResponse(adress).observe(requireActivity(), observeResponse);
-	}
-	
-	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		id = Long.parseLong(getArguments().get("id").toString());
-		detailsViewModel.observeEstate(id)
-		                .observe(getViewLifecycleOwner(), estate -> updateUI(estate));
 	}
 	
 	private void updateUI(Estate estate) {

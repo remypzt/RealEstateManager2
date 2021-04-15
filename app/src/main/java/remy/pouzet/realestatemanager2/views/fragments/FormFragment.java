@@ -20,17 +20,22 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.FragmentFormBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.datas.models.EstateRaw;
+import remy.pouzet.realestatemanager2.datas.services.realapi.pojos.ResultsItem;
 import remy.pouzet.realestatemanager2.utils.Utils;
 import remy.pouzet.realestatemanager2.viewmodels.FormViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
@@ -49,6 +54,9 @@ public class FormFragment extends BaseFragment {
     String updateDateInRightFormat;
     String selledDateInRightFormat;
     
+    public double estateLat, estateLng;
+    public  String              adress;
+    public  EstateRaw           estateRaw;
     public  Long                id;
     private Estate              estate;
     private ConstraintLayout    constraintLayout;
@@ -62,6 +70,7 @@ public class FormFragment extends BaseFragment {
     private FragmentFormBinding mFragmentFormBinding;
     public  int                 autoIncremented = 0;
     public  int                 nullEquivalent  = 0;
+    private LatLng              estateLocation  = new LatLng(-34.92873, 138.59995);
     
     //------------------------------------------------------//
     // ------------------   LifeCycle   ------------------- //
@@ -156,7 +165,7 @@ public class FormFragment extends BaseFragment {
     }
     
     private void createNewEstateManagement() {
-        EstateRaw estateRaw = createEstateRaw();
+        getEstateLocation();
         switch (formViewModel.checkFormData(estateRaw)) {
             //could be better not imbricate conditions but will not be longer a issue with kotlin
             case IS_VALID:
@@ -353,6 +362,24 @@ public class FormFragment extends BaseFragment {
         }
     }
     
+    public void getEstateLocation() {
+        final Observer<List<ResultsItem>> observeResponse = resultsItems -> {
+            estateLat      = (formViewModel.observeResponse(adress).getValue()).get(0)
+                                                                               .getGeometry()
+                                                                               .getLocation()
+                                                                               .getLat();
+            estateLng      = (formViewModel.observeResponse(adress).getValue()).get(0)
+                                                                               .getGeometry()
+                                                                               .getLocation()
+                                                                               .getLng();
+            estateLocation = new LatLng(estateLat, estateLng);
+            estateRaw      = createEstateRaw();
+            
+        };
+        formViewModel.observeResponse(adress).observe(requireActivity(), observeResponse);
+        
+    }
+    
     public boolean sellStatusManagement() {
         boolean checked = (isItSellCheckBox).isChecked();
         if (checked) {
@@ -413,9 +440,10 @@ public class FormFragment extends BaseFragment {
                              mFragmentFormBinding.locationValueFragmentForm.getText().toString(),
                              mFragmentFormBinding.contactValueFragmentForm.getText().toString(),
                              updateDateManagement(),
-        
                              mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton.getText()
-                                                                                           .toString());
+                                                                                           .toString(),
+                             estateLocation);
+    
     }
 }
 

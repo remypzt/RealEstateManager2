@@ -5,15 +5,14 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by Remy Pouzet on 03/11/2020.
  */
-@Entity
-public class Estate {
-
-    @ColumnInfo(name = "type")
-    @Nullable
-    String type;
+@Entity public class Estate {
+    
+    @ColumnInfo(name = "type") @Nullable String type;
 
     @ColumnInfo(name = "city")
     @Nullable
@@ -45,16 +44,13 @@ public class Estate {
     private String adress;
 
     @ColumnInfo(name = "agent")
-    @Nullable
-    private String agent;
-
-    @ColumnInfo(name = "updateDate")
-    @Nullable
-    private String updateDate;
-
-    @ColumnInfo(name = "sellDate")
-    @Nullable
-    private String sellDate;
+    @Nullable private String agent;
+    
+    @ColumnInfo(name = "updateDate") @Nullable private String updateDate;
+    
+    @ColumnInfo(name = "sellDate") @Nullable private String sellDate;
+    
+    @ColumnInfo(name = "latLng") @Nullable private LatLng latLng;
     
     //	private List<String> mPOI;
     
@@ -69,7 +65,8 @@ public class Estate {
                   @org.jetbrains.annotations.Nullable String adress,
                   @org.jetbrains.annotations.Nullable String agent,
                   @org.jetbrains.annotations.Nullable String updateDate,
-                  @org.jetbrains.annotations.Nullable String sellDate
+                  @org.jetbrains.annotations.Nullable String sellDate,
+                  @org.jetbrains.annotations.Nullable LatLng latLng
 //	              List<String> pOI,
                  ) {
         this.id          = id;
@@ -82,8 +79,9 @@ public class Estate {
         this.rooms       = rooms;
         this.adress      = adress;
         this.agent       = agent;
-        this.updateDate = updateDate;
-        this.sellDate = sellDate;
+        this.updateDate  = updateDate;
+        this.sellDate    = sellDate;
+        this.latLng      = latLng;
 
 //		mPOI          = pOI;
 
@@ -182,14 +180,20 @@ public class Estate {
     public void setUpdateDate(@Nullable String parameterUpdateDate) {
         updateDate = parameterUpdateDate;
     }
-
-    @Nullable
-    public String getSellDate() {
+    
+    @Nullable public String getSellDate() {
         return sellDate;
     }
-
+    
     public void setSellDate(@Nullable String parameterSellDate) {
         sellDate = parameterSellDate;
     }
     
+    @Nullable public LatLng getLatLng() {
+        return latLng;
+    }
+    
+    public void setLatLng(@Nullable LatLng latLng) {
+        this.latLng = latLng;
+    }
 }

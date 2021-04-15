@@ -10,6 +10,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import remy.pouzet.realestatemanager2.datas.database.dao.EstateDao;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 
@@ -19,8 +21,8 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 
 @Database(entities = {Estate.class}, version = 1, exportSchema = false)
 public abstract class EstateDatabase extends RoomDatabase {
-
-    public final static String DATABASE_NAME = "MyDatabase.db";
+	
+	public final static String DATABASE_NAME = "MyDatabase.db";
     // --- SINGLETON ---
     private static volatile EstateDatabase instance;
 
@@ -51,32 +53,37 @@ public abstract class EstateDatabase extends RoomDatabase {
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 super.onCreate(db);
                 ContentValues contentValues1 = new ContentValues();
-                contentValues1.put("type", PREPOPULATE + " type");
-                contentValues1.put("city", PREPOPULATE + " city");
-                contentValues1.put("price", 0);
-                contentValues1.put("mainPicture", PREPOPULATE);
-                contentValues1.put("surface", PREPOPULATE);
-                contentValues1.put("rooms", 1);
-                contentValues1.put("description", 1);
-                contentValues1.put("sellDate", PREPOPULATE);
-                contentValues1.put("updateDate", "prepulate");
-                contentValues1.put("agent", PREPOPULATE);
-                contentValues1.put("adress", PREPOPULATE);
-                db.insert("Estate", OnConflictStrategy.IGNORE, contentValues1);
-    
-                ContentValues contentValues2 = new ContentValues();
-                contentValues2.put("type", PREPOPULATE_2 + "type");
-                contentValues2.put("city", PREPOPULATE_2 + "city");
-                contentValues2.put("price", 0);
-                contentValues2.put("mainPicture", PREPOPULATE_2);
-                contentValues2.put("surface", PREPOPULATE_2);
-                contentValues2.put("rooms", 1);
-                contentValues2.put("description", 1);
-                contentValues2.put("sellDate", PREPOPULATE_2);
-                contentValues2.put("updateDate", PREPOPULATE_2);
-                contentValues2.put("agent", PREPOPULATE_2);
-                contentValues2.put("adress", PREPOPULATE_2);
-                db.insert("Estate", OnConflictStrategy.IGNORE, contentValues2);
+	            contentValues1.put("type", PREPOPULATE + " type");
+	            contentValues1.put("city", PREPOPULATE + " city");
+	            contentValues1.put("price", 0);
+	            contentValues1.put("mainPicture", PREPOPULATE);
+	            contentValues1.put("surface", PREPOPULATE);
+	            contentValues1.put("rooms", 1);
+	            contentValues1.put("description", 1);
+	            contentValues1.put("sellDate", PREPOPULATE);
+	            contentValues1.put("updateDate", "prepulate");
+	            contentValues1.put("agent", PREPOPULATE);
+	            contentValues1.put("adress",
+	                               "1431 Plymouth St, Mountain View, CA 94043, États-Unis");
+	            contentValues1.put("latLng", String.valueOf(new LatLng(0.0, 0.0)));
+	            db.insert("Estate", OnConflictStrategy.IGNORE, contentValues1);
+	
+	            ContentValues contentValues2 = new ContentValues();
+	            contentValues2.put("type", PREPOPULATE_2 + "type");
+	            contentValues2.put("city", PREPOPULATE_2 + "city");
+	            contentValues2.put("price", 0);
+	            contentValues2.put("mainPicture", PREPOPULATE_2);
+	            contentValues2.put("surface", PREPOPULATE_2);
+	            contentValues2.put("rooms", 1);
+	            contentValues2.put("description", 1);
+	            contentValues2.put("sellDate", PREPOPULATE_2);
+	            contentValues2.put("updateDate", PREPOPULATE_2);
+	            contentValues2.put("agent", PREPOPULATE_2);
+	            contentValues2.put("adress",
+	                               "3160 N Shoreline Blvd, Mountain View, CA 94043, États-Unis");
+	            contentValues2.put("latLng", String.valueOf(new LatLng(0.0, 0.0)));
+	
+	            db.insert("Estate", OnConflictStrategy.IGNORE, contentValues2);
             }
         };
     }

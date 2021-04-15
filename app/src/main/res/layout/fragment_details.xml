@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="type"
+
         android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -143,7 +144,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@+id/estate_specification_constraint_layout_fragment_details"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/estate_specification_constraint_layout_fragment_details">
 
         <ImageView
@@ -206,27 +209,13 @@
     <!--        app:layout_constraintStart_toEndOf="@+id/estate_specification_second_column_constraint_layout_fragment_details"-->
     <!--        app:layout_constraintTop_toTopOf="@+id/estate_specification_constraint_layout_fragment_details">-->
 
-    <fragment
-        android:id="@+id/lite_map_details_fragment"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cameraZoom="13"
-        app:liteMode="true"
-        app:layout_constraintStart_toEndOf="@+id/estate_specification_second_column_constraint_layout_fragment_details"
-        app:layout_constraintTop_toTopOf="@+id/estate_specification_constraint_layout_fragment_details"
-        app:mapType="normal"></fragment>
-    <!--    </com.google.android.gms.maps.MapView>-->
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/estate_specification_third_column_constraint_layout_fragment_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/estate_specification_constraint_layout_fragment_details">
+        app:layout_constraintTop_toTopOf="@+id/estate_specification_constraint_layout_fragment_details">
 
 
         <TextView
@@ -234,6 +223,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Last update"
+            android:layout_marginTop="5dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -252,6 +242,7 @@
             android:layout_height="match_parent"
             android:text="Selled Date"
             android:textStyle="bold"
+            android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="@+id/update_date_value_fragment_details"
             app:layout_constraintTop_toBottomOf="@+id/update_date_value_fragment_details" />
 
@@ -262,6 +253,28 @@
             android:text="sell date value"
             app:layout_constraintStart_toStartOf="@+id/sell_date_fragment_details"
             app:layout_constraintTop_toBottomOf="@+id/sell_date_fragment_details" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/estate_specification_constraint_layout_fragment_details">
+
+
+        <fragment
+            android:id="@+id/lite_map_details_fragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:liteMode="true"
+            app:mapType="normal" />
+        <!--    </com.google.android.gms.maps.MapView>-->
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

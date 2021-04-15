@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -21,10 +22,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import remy.pouzet.realestatemanager2.R;
+import remy.pouzet.realestatemanager2.datas.models.Estate;
+import remy.pouzet.realestatemanager2.viewmodels.MapViewModel;
 
 public class MapFragment extends Fragment {
 	
@@ -35,23 +42,68 @@ public class MapFragment extends Fragment {
 	private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 	FusedLocationProviderClient mFusedLocationClient;
 	private double latitude, longitude;
-	private GoogleMap        mMap;
-
+	private final List<Estate> estatesList = new ArrayList<>();
+	public        double       estateLat, estateLng;
+	public  MapViewModel mapViewModel;
+	public  String       adress;
+	public  int          position       = -1;
+	private GoogleMap    map;
+	private boolean      locationPermissionGranted;
+	private LatLng       estateLocation = new LatLng(-34.92873, 138.59995);
 	
 	//------------------------------------------------------//
 	// ------------------   Callbacks   ------------------- //
 	//------------------------------------------------------//
-	private boolean            locationPermissionGranted;
-	public  OnMapReadyCallback callback = new OnMapReadyCallback() {
+	public OnMapReadyCallback callback = new OnMapReadyCallback() {
 		@Override public void onMapReady(GoogleMap googleMap) {
-			mMap = googleMap;
+			map = googleMap;
 			checkLocationPermissionAndUpdateLocation();
+			manageEstatesMarker();
 		}
 	};
 	
 	//--------------------------------------------------//
 	// ------------------ LifeCycle ------------------- //
 	//--------------------------------------------------//
+	
+	public void manageEstatesMarker() {
+		mapViewModel.observeAllEstates()
+		            .observe(getViewLifecycleOwner(), this::updateListAndShowEstatesLocation);
+	}
+	
+	private void updateListAndShowEstatesLocation(List<Estate> estatesList) {
+		if (estatesList != null) {
+			setData(estatesList);
+			getAndShowEstateLocation();
+		}
+	}
+	
+	//------------------------------------------------------//
+	// ------------------   Functions   ------------------- //
+	//------------------------------------------------------//
+	
+	public void setData(List<Estate> estates) {
+		this.estatesList.clear();
+		this.estatesList.addAll(estates);
+	}
+	
+	public void getAndShowEstateLocation() {
+		if (map == null) {
+			return;
+		}
+		for (Estate localEstate : estatesList) {
+			position       = position + 1;
+			estateLocation = estatesList.get(position).getLatLng();
+			showEstateLocation();
+		}
+	}
+	
+	public void showEstateLocation() {
+		MarkerOptions localMarkerOptions = new MarkerOptions();
+		localMarkerOptions.position(estateLocation);
+		map.addMarker(localMarkerOptions);
+	}
+	
 	@Override
 	public void onRequestPermissionsResult(int requestCode,
 	                                       String[] permissions,
@@ -71,12 +123,14 @@ public class MapFragment extends Fragment {
 	                         @Nullable ViewGroup container,
 	                         @Nullable Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_map, container, false);
+		
 	}
 	
 	@Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(
 				R.id.map);
+		configureViewModel();
 		
 		if (mapFragment != null) {
 			mapFragment.getMapAsync(callback);
@@ -84,16 +138,16 @@ public class MapFragment extends Fragment {
 		checkLocationPermissionAndUpdateLocation();
 	}
 	
-	//------------------------------------------------------//
-	// ------------------   Functions   ------------------- //
-	//------------------------------------------------------//
+	private void configureViewModel() {
+		mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
+	}
 	
 	private void checkLocationPermissionAndUpdateLocation() {
 		if (ContextCompat.checkSelfPermission(this.requireContext(),
 		                                      android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 			mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
 			
-			updateLocationUI(mMap);
+			updateLocationUI(map);
 			locationPermissionGranted = true;
 			
 		} else {
@@ -103,11 +157,11 @@ public class MapFragment extends Fragment {
 	}
 	
 	private void updateLocationUI(GoogleMap googleMap) {
-		if (mMap == null) {
+		if (map == null) {
 			return;
 		}
 		try {
-			mMap.setMyLocationEnabled(locationPermissionGranted);
+			map.setMyLocationEnabled(locationPermissionGranted);
 			moveCameraOnUserLocation(googleMap);
 		}
 		catch (SecurityException e) {
@@ -124,9 +178,11 @@ public class MapFragment extends Fragment {
 					                    latitude  = location.getLatitude();
 					                    longitude = location.getLongitude();
 					                    LatLng userPosition = new LatLng(latitude, longitude);
+					
 					                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(
 							                    userPosition));
-					                    mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+					
+					                    map.animateCamera(CameraUpdateFactory.zoomTo(10));
 				                    }
 			                    }
 		                    });
