@@ -19,7 +19,8 @@ public class TransformEstateRawToEstateUC {
 		                  estateRaw.getContactValue(),
 		                  estateRaw.getUpdateDate(),
 		                  estateRaw.getSellDate(),
-		                  estateRaw.getLatLng());
+		                  estateRaw.getLat(),
+		                  estateRaw.getLng());
 		
 	}
 }

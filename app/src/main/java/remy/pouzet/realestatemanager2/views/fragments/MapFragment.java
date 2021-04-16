@@ -41,7 +41,7 @@ public class MapFragment extends Fragment {
 	
 	private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 	FusedLocationProviderClient mFusedLocationClient;
-	private double latitude, longitude;
+	private double userLatitude, userLongitude;
 	private final List<Estate> estatesList = new ArrayList<>();
 	public        double       estateLat, estateLng;
 	public  MapViewModel mapViewModel;
@@ -92,10 +92,16 @@ public class MapFragment extends Fragment {
 			return;
 		}
 		for (Estate localEstate : estatesList) {
-			position       = position + 1;
-			estateLocation = estatesList.get(position).getLatLng();
+			position = position + 1;
+			getAndConvertStringToLatLng();
 			showEstateLocation();
 		}
+	}
+	
+	public void getAndConvertStringToLatLng() {
+		estateLat      = estatesList.get(position).getLat();
+		estateLng      = estatesList.get(position).getLng();
+		estateLocation = new LatLng(estateLat, estateLng);
 	}
 	
 	public void showEstateLocation() {
@@ -104,9 +110,7 @@ public class MapFragment extends Fragment {
 		map.addMarker(localMarkerOptions);
 	}
 	
-	@Override
-	public void onRequestPermissionsResult(int requestCode,
-	                                       String[] permissions,
+	@Override public void onRequestPermissionsResult(int requestCode, String[] permissions,
 	                                       int[] grantResults) {
 		if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
 			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -175,9 +179,10 @@ public class MapFragment extends Fragment {
 			                    @Override public void onComplete(@NonNull Task<Location> task) {
 				                    Location location = task.getResult();
 				                    if (location != null) {
-					                    latitude  = location.getLatitude();
-					                    longitude = location.getLongitude();
-					                    LatLng userPosition = new LatLng(latitude, longitude);
+					                    userLatitude  = location.getLatitude();
+					                    userLongitude = location.getLongitude();
+					                    LatLng userPosition = new LatLng(userLatitude,
+					                                                     userLongitude);
 					
 					                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(
 							                    userPosition));

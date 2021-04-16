@@ -5,8 +5,6 @@ import androidx.room.Room;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -27,6 +25,7 @@ import static org.junit.Assert.assertTrue;
  */
 
 @RunWith(AndroidJUnit4.class) public class ItemDaoTest {
+
 	// DATA SET FOR TEST
 	private static final Estate ESTATE_DEMO   = new Estate("Type",
 	                                                       "City",
@@ -40,7 +39,8 @@ import static org.junit.Assert.assertTrue;
 	                                                       "Status",
 	                                                       "Agent",
 	                                                       "test",
-	                                                       new LatLng(0.0, 0.0));
+	                                                       0.0,
+	                                                       0.0);
 	private static final Estate ESTATE_DEMO_2 = new Estate("Type2",
 	                                                       "City2",
 	                                                       0,
@@ -53,7 +53,8 @@ import static org.junit.Assert.assertTrue;
 	                                                       "Status2",
 	                                                       "Agent2",
 	                                                       "test",
-	                                                       new LatLng(0.0, 0.0));
+	                                                       0.0,
+	                                                       0.0);
 	
 	@Rule public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 	// FOR DATA

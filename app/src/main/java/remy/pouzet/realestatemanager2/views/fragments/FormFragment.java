@@ -55,7 +55,8 @@ public class FormFragment extends BaseFragment {
     String selledDateInRightFormat;
     
     public double estateLat, estateLng;
-    public  String              adress;
+    public String adress;
+    String[] estateLocationStringArray;
     public  EstateRaw           estateRaw;
     public  Long                id;
     private Estate              estate;
@@ -374,7 +375,6 @@ public class FormFragment extends BaseFragment {
                                                                                .getLng();
             estateLocation = new LatLng(estateLat, estateLng);
             estateRaw      = createEstateRaw();
-            
         };
         formViewModel.observeResponse(adress).observe(requireActivity(), observeResponse);
         
@@ -442,7 +442,8 @@ public class FormFragment extends BaseFragment {
                              updateDateManagement(),
                              mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton.getText()
                                                                                            .toString(),
-                             estateLocation);
+                             estateLat,
+                             estateLng);
     
     }
 }

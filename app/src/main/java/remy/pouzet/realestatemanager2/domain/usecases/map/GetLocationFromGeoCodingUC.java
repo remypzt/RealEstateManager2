@@ -9,7 +9,7 @@ import java.util.List;
 import remy.pouzet.realestatemanager2.datas.services.GeoCodingInterfaceService;
 import remy.pouzet.realestatemanager2.datas.services.RetrofitService;
 import remy.pouzet.realestatemanager2.datas.services.realapi.pojos.ResultsItem;
-import remy.pouzet.realestatemanager2.domain.usecases.utils.UtilsForResponse;
+import remy.pouzet.realestatemanager2.utils.UtilsForResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

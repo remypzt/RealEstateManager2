@@ -1,27 +1,40 @@
 
-k
-java:S2259¦"MA "NullPointerException" could be thrown; "dateOfBeginning" is nullable here.(—Šãï8Š«“‚/
-Q
-java:S10686"4Remove this unused "constraintLayout" private field.(®ä›8Š«“‚/
-C
-java:S16590"!Declare "day" on a separate line.(Ò¿Ûùÿÿÿÿ8Š«“‚/
 |
-java:S1104@"ZMake nullEquivalent a static final constant or non-public and provide accessors if needed.(çæ‹Åùÿÿÿÿ8Š«“‚/
-E
-java:S16590"#Declare "month" on a separate line.(Ò¿Ûùÿÿÿÿ8Š«“‚/
-V
-java:S10688"4Remove this unused "editEstateButton" private field.(¸ˆ ôşÿÿÿÿ8Š«“‚/
-|
-java:S14506"_Remove the "constraintLayout" field and declare it as a local variable in the relevant methods.(®ä›8Š«“‚/
+java:S1104H"ZMake nullEquivalent a static final constant or non-public and provide accessors if needed.(çæ‹Åùÿÿÿÿ8³›®³/
+I
+java:S16599"'Declare "estateLng" on a separate line.(´ŞÉÎúÿÿÿÿ8¹Ã“²/
+t
+java:S1104:"RMake adress a static final constant or non-public and provide accessors if needed.(ˆÚ€¼ıÿÿÿÿ8¹Ã“²/
 D
-java:S1604e"(Make this anonymous inner class a lambda(¥›ŸR8¢óÕ±„/
-l
-java:S2259¿"IA "NullPointerException" could be thrown; "dateOfToday" is nullable here.(”¸…ùÿÿÿÿ8Š«“‚/
-l
-java:S2259à"IA "NullPointerException" could be thrown; "dateOfToday" is nullable here.(à´Â†øÿÿÿÿ8Š«“‚/
-w
-java:S1104?"[Make autoIncremented a static final constant or non-public and provide accessors if needed.(Ñ£ÅE8Š«“‚/
+java:S1604n"(Make this anonymous inner class a lambda(¥›ŸR8Òûª³/
+Q
+java:S1068>"4Remove this unused "constraintLayout" private field.(®ä›8Òûª³/
 k
-java:S11044"NMake id a static final constant or non-public and provide accessors if needed.(€÷ëÚ8Š«“‚/
+java:S2259¯"MA "NullPointerException" could be thrown; "dateOfBeginning" is nullable here.(—Šãï8Òûª³/
+w
+java:S1104G"[Make autoIncremented a static final constant or non-public and provide accessors if needed.(Ñ£ÅE8³›®³/
+w
+java:S11049"UMake estateLng a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8¹Ã“²/
+E
+java:S16595"#Declare "month" on a separate line.(Ò¿Ûùÿÿÿÿ8Š«“‚/
+r
+java:S1104;"UMake estateRaw a static final constant or non-public and provide accessors if needed.(Ë€ª¬8³›®³/
+w
+java:S11049"UMake estateLat a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8¹Ã“²/
+|
+java:S1450>"_Remove the "constraintLayout" field and declare it as a local variable in the relevant methods.(®ä›8Òûª³/
+l
+java:S2259é"IA "NullPointerException" could be thrown; "dateOfToday" is nullable here.(à´Â†øÿÿÿÿ8Òûª³/
+C
+java:S16595"!Declare "day" on a separate line.(Ò¿Ûùÿÿÿÿ8Š«“‚/
+k
+java:S1104<"NMake id a static final constant or non-public and provide accessors if needed.(€÷ëÚ8Òûª³/
+[
+java:S1117ß"8Rename "year" which hides the field declared at line 53.(ƒÀ¥ãÿÿÿÿÿ8Òûª³/
 L
-java:S10685"*Remove this unused "estate" private field.(ÔŸÓıÿÿÿÿ8ñ”­„/
+java:S1068="*Remove this unused "estate" private field.(ÔŸÓıÿÿÿÿ8ñ”­„/
+l
+java:S2259È"IA "NullPointerException" could be thrown; "dateOfToday" is nullable here.(”¸…ùÿÿÿÿ8Òûª³/
+D	java:S131©""Add a default case to this switch.(ÄçÏìúÿÿÿÿ8Òûª³/
+V
+java:S1068@"4Remove this unused "editEstateButton" private field.(¸ˆ ôşÿÿÿÿ8Òûª³/

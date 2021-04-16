@@ -1,6 +1,4 @@
 package remy.pouzet.realestatemanager2.datas.models;
-import com.google.android.gms.maps.model.LatLng;
-
 /**
  * Created by Remy Pouzet on 16/12/2020.
  */
@@ -19,7 +17,8 @@ public class EstateRaw {
 	private String  contactValue;
 	private String  updateDate;
 	private String  sellDate;
-	private LatLng  latLng;
+	private Double  lat;
+	private Double  lng;
 	
 	public EstateRaw(Boolean isSellStatus,
 	                 String typeValue,
@@ -34,7 +33,8 @@ public class EstateRaw {
 	                 String contactValue,
 	                 String updateDate,
 	                 String sellDate,
-	                 LatLng latLng) {
+	                 Double lat,
+	                 Double lng) {
 		
 		this.isSellStatus     = isSellStatus;
 		this.typeValue        = typeValue;
@@ -49,7 +49,8 @@ public class EstateRaw {
 		this.contactValue     = contactValue;
 		this.updateDate       = updateDate;
 		this.sellDate         = sellDate;
-		this.latLng           = latLng;
+		this.lat              = lat;
+		this.lng              = lng;
 		
 	}
 	
@@ -157,11 +158,19 @@ public class EstateRaw {
 		this.sellDate = sellDate;
 	}
 	
-	public LatLng getLatLng() {
-		return latLng;
+	public Double getLat() {
+		return lat;
 	}
 	
-	public void setLatLng(LatLng latLng) {
-		this.latLng = latLng;
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
+	
+	public Double getLng() {
+		return lng;
+	}
+	
+	public void setLng(Double lng) {
+		this.lng = lng;
 	}
 }

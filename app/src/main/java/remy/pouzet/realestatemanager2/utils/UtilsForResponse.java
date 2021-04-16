@@ -1,4 +1,4 @@
-package remy.pouzet.realestatemanager2.domain.usecases.utils;
+package remy.pouzet.realestatemanager2.utils;
 import java.util.List;
 
 import remy.pouzet.realestatemanager2.datas.services.realapi.pojos.Response;

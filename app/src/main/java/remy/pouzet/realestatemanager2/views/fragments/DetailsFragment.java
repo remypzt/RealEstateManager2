@@ -61,7 +61,7 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	public View onCreateView(@NonNull LayoutInflater inflater,
 	                         ViewGroup container,
 	                         Bundle savedInstanceState) {
-		getAdress();
+		
 		fragmentDetailsBinding = FragmentDetailsBinding.inflate(inflater, container, false);
 		viewBindingManagement();
 		configureViewModel();
@@ -74,9 +74,11 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	
 	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		id = Long.parseLong(getArguments().get("id").toString());
+		id     = Long.parseLong(getArguments().get("id").toString());
+		adress = detailsViewModel.observeEstate(id).getValue().getAdress();
 		detailsViewModel.observeEstate(id)
 		                .observe(getViewLifecycleOwner(), estate -> updateUI(estate));
+		
 	}
 	
 	@Override
@@ -122,13 +124,6 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	//------------------------------------------------------//
 	// ------------------   Functions   ------------------- //
 	//------------------------------------------------------//
-	
-	
-	public void getAdress() {
-		adress = "1600 Amphitheatre Parkway, Mountain View, CA";
-//		getEstate(id);
-//		adress = estate.getAdress();
-	}
 	
 	public void showEstateLocation(View v) {
 		if (map == null) {
@@ -195,9 +190,5 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 		showEstateLocation(null);
 	}
 	
-	private Estate getEstate(long id) {
-		estate = detailsViewModel.observeEstate(id).getValue();
-		return estate;
-	}
 	
 }
