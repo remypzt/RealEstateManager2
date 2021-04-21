@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 30
+    buildToolsVersion "29.0.2"
 
     defaultConfig {
         applicationId "remy.pouzet.realestatemanager2"
@@ -15,10 +16,16 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    def API_KEY = '"' + apiKey + '"'
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", 'apiKey', API_KEY)
+        }
+        debug {
+            buildConfigField("String", 'apiKey', API_KEY)
         }
     }
 

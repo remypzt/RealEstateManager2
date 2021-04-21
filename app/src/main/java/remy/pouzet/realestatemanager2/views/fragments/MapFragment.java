@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -94,7 +95,7 @@ public class MapFragment extends Fragment {
 		for (Estate localEstate : estatesList) {
 			position = position + 1;
 			getAndConvertStringToLatLng();
-			showEstateLocation();
+			showEstateLocation(localEstate);
 		}
 	}
 	
@@ -104,10 +105,20 @@ public class MapFragment extends Fragment {
 		estateLocation = new LatLng(estateLat, estateLng);
 	}
 	
-	public void showEstateLocation() {
+	public void showEstateLocation(Estate estate) {
 		MarkerOptions localMarkerOptions = new MarkerOptions();
-		localMarkerOptions.position(estateLocation);
+		
+		String type = estate.getType();
+		
+		localMarkerOptions.position(estateLocation).title(type);
+		
 		map.addMarker(localMarkerOptions);
+		map.setOnInfoWindowClickListener(
+				
+				(GoogleMap.OnInfoWindowClickListener) Navigation.createNavigateOnClickListener(R.id.action_nav_map_fragment_to_nav_details,
+				                                                                               saveEstateId(
+						                                                                               estate)));
+		
 	}
 	
 	@Override public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -183,7 +194,6 @@ public class MapFragment extends Fragment {
 					                    userLongitude = location.getLongitude();
 					                    LatLng userPosition = new LatLng(userLatitude,
 					                                                     userLongitude);
-					
 					                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(
 							                    userPosition));
 					
@@ -193,4 +203,9 @@ public class MapFragment extends Fragment {
 		                    });
 	}
 	
+	public Bundle saveEstateId(Estate estate) {
+		Bundle bundle = new Bundle();
+		bundle.putLong("id", estate.getId());
+		return bundle;
+	}
 }

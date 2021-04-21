@@ -36,7 +36,11 @@
         android:name="remy.pouzet.realestatemanager2.views.fragments.MapFragment"
         android:label="map fragment"
 
-        tools:layout="@layout/fragment_map"></fragment>
+        tools:layout="@layout/fragment_map">
+        <action
+            android:id="@+id/action_nav_map_fragment_to_nav_details"
+            app:destination="@id/nav_details" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_details"

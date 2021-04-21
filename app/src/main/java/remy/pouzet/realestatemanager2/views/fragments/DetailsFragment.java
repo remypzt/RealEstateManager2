@@ -16,7 +16,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
@@ -61,7 +60,6 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	public View onCreateView(@NonNull LayoutInflater inflater,
 	                         ViewGroup container,
 	                         Bundle savedInstanceState) {
-		
 		fragmentDetailsBinding = FragmentDetailsBinding.inflate(inflater, container, false);
 		viewBindingManagement();
 		configureViewModel();
@@ -75,7 +73,6 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		id     = Long.parseLong(getArguments().get("id").toString());
-		adress = detailsViewModel.observeEstate(id).getValue().getAdress();
 		detailsViewModel.observeEstate(id)
 		                .observe(getViewLifecycleOwner(), estate -> updateUI(estate));
 		
@@ -90,7 +87,7 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	
 	@Override public void onMapReady(GoogleMap googleMap) {
 		map = googleMap;
-		showEstateLocation(null);
+		
 	}
 	
 	public void viewBindingManagement() {
@@ -125,35 +122,9 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	// ------------------   Functions   ------------------- //
 	//------------------------------------------------------//
 	
-	public void showEstateLocation(View v) {
-		if (map == null) {
-			return;
-		}
-		getEstateLocation();
-	}
-	
-	public void getEstateLocation() {
-		final Observer<List<ResultsItem>> observeResponse = resultsItems -> {
-			estateLat      = (detailsViewModel.observeResponse(adress).getValue()).get(0)
-			                                                                      .getGeometry()
-			                                                                      .getLocation()
-			                                                                      .getLat();
-			estateLng      = (detailsViewModel.observeResponse(adress).getValue()).get(0)
-			                                                                      .getGeometry()
-			                                                                      .getLocation()
-			                                                                      .getLng();
-			estateLocation = new LatLng(estateLat, estateLng);
-			
-			map.moveCamera(CameraUpdateFactory.newLatLngZoom(estateLocation, 10));
-			MarkerOptions localMarkerOptions = new MarkerOptions();
-			localMarkerOptions.position(estateLocation);
-			map.addMarker(localMarkerOptions);
-		};
-		detailsViewModel.observeResponse(adress).observe(requireActivity(), observeResponse);
-	}
-	
 	private void updateUI(Estate estate) {
 		if (estate != null) {
+			adress = estate.getAdress();
 			typeValueTextView.setText(estate.getType());
 			cityValueTextView.setText(estate.getCity());
 			priceValueTextView.setText(estate.getPrice() + "€");
@@ -187,8 +158,25 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	}
 	
 	private void configureLiteMap() {
-		showEstateLocation(null);
+		showEstateLocation();
 	}
 	
+	public void showEstateLocation() {
+		if (map == null) {
+			return;
+		}
+		getEstateLocation();
+	}
+	
+	public void getEstateLocation() {
+		final Observer<List<ResultsItem>> observeResponse = resultsItems -> {
+			estateLat      = resultsItems.get(0).getGeometry().getLocation().getLat();
+			estateLng      = resultsItems.get(0).getGeometry().getLocation().getLng();
+			estateLocation = new LatLng(estateLat, estateLng);
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(estateLocation, 10));
+			
+		};
+		detailsViewModel.observeResponse(adress).observe(requireActivity(), observeResponse);
+	}
 	
 }

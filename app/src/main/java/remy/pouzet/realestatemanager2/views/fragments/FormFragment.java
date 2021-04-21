@@ -53,7 +53,6 @@ public class FormFragment extends BaseFragment {
     int      year = c.get(Calendar.YEAR), month = c.get(Calendar.MONTH), day = c.get(Calendar.DAY_OF_MONTH);
     String updateDateInRightFormat;
     String selledDateInRightFormat;
-    
     public double estateLat, estateLng;
     public String adress;
     String[] estateLocationStringArray;
@@ -166,7 +165,6 @@ public class FormFragment extends BaseFragment {
     }
     
     private void createNewEstateManagement() {
-        getEstateLocation();
         switch (formViewModel.checkFormData(estateRaw)) {
             //could be better not imbricate conditions but will not be longer a issue with kotlin
             case IS_VALID:
@@ -337,7 +335,7 @@ public class FormFragment extends BaseFragment {
     
     public void validationButtonManagement() {
         ImageButton localCreateNewEstateButton = mFragmentFormBinding.validateFormButton;
-        localCreateNewEstateButton.setOnClickListener(v -> createNewEstateManagement());
+        localCreateNewEstateButton.setOnClickListener(v -> getEstateLocation());
     }
     
     private void getEstate(long id) {
@@ -365,19 +363,16 @@ public class FormFragment extends BaseFragment {
     
     public void getEstateLocation() {
         final Observer<List<ResultsItem>> observeResponse = resultsItems -> {
-            estateLat      = (formViewModel.observeResponse(adress).getValue()).get(0)
-                                                                               .getGeometry()
-                                                                               .getLocation()
-                                                                               .getLat();
-            estateLng      = (formViewModel.observeResponse(adress).getValue()).get(0)
-                                                                               .getGeometry()
-                                                                               .getLocation()
-                                                                               .getLng();
+            estateLat      = resultsItems.get(0).getGeometry().getLocation().getLat();
+            estateLng      = resultsItems.get(0).getGeometry().getLocation().getLng();
             estateLocation = new LatLng(estateLat, estateLng);
             estateRaw      = createEstateRaw();
+            createNewEstateManagement();
         };
-        formViewModel.observeResponse(adress).observe(requireActivity(), observeResponse);
-        
+        formViewModel.observeResponse(mFragmentFormBinding.locationValueFragmentForm.getText()
+                                                                                    .toString())
+                     .observe(requireActivity(), observeResponse);
+    
     }
     
     public boolean sellStatusManagement() {

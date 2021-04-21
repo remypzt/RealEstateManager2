@@ -1,4 +1,5 @@
 package remy.pouzet.realestatemanager2.datas.services;
+import remy.pouzet.realestatemanager2.BuildConfig;
 import remy.pouzet.realestatemanager2.datas.services.realapi.pojos.Response;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -9,7 +10,6 @@ import retrofit2.http.Query;
  */
 public interface GeoCodingInterfaceService {
 	
-	@GET("geocode/json?key=AIzaSyCwOvrDss4VieCkqr-66cV3FOVNLa20yNs") Call<Response> getResponse(
+	@GET("geocode/json?key=" + BuildConfig.apiKey) Call<Response> getResponse(
 			@Query("address") String address);
-	
 }

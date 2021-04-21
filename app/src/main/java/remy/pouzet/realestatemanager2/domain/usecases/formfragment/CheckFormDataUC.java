@@ -12,7 +12,7 @@ public class CheckFormDataUC {
 	private static final int EMPTY               = 1;
 	
 	public EstateFormState execute(EstateRaw estateRaw) {
-		if (estateRaw.getSellStatus().equals(true) && estateRaw.getSellDate().length() < EMPTY) {
+		if (estateRaw.getSellStatus() && estateRaw.getSellDate().length() < EMPTY) {
 			return EstateFormState.ERROR_SELL_DATE;
 		}
 		
@@ -55,4 +55,3 @@ public class CheckFormDataUC {
 		
 	}
 }
-
