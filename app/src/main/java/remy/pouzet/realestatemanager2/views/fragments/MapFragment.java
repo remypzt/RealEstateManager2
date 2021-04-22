@@ -23,9 +23,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +99,16 @@ public class MapFragment extends Fragment {
 			getAndConvertStringToLatLng();
 			showEstateLocation(localEstate);
 		}
+		map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+			@Override public void onInfoWindowClick(Marker marker) {
+				View         view;
+				CharSequence charSequence;
+				Snackbar.make(requireView(), "charSequence", 1000).show();
+				Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+				          .navigate(R.id.action_nav_map_fragment_to_nav_details,
+				                    saveEstateId((Long) marker.getTag()));
+			}
+		});
 	}
 	
 	public void getAndConvertStringToLatLng() {
@@ -107,18 +119,10 @@ public class MapFragment extends Fragment {
 	
 	public void showEstateLocation(Estate estate) {
 		MarkerOptions localMarkerOptions = new MarkerOptions();
-		
-		String type = estate.getType();
-		
+		String        type               = estate.getType();
 		localMarkerOptions.position(estateLocation).title(type);
-		
-		map.addMarker(localMarkerOptions);
-		map.setOnInfoWindowClickListener(
-				
-				(GoogleMap.OnInfoWindowClickListener) Navigation.createNavigateOnClickListener(R.id.action_nav_map_fragment_to_nav_details,
-				                                                                               saveEstateId(
-						                                                                               estate)));
-		
+		Marker marker = map.addMarker(localMarkerOptions);
+		marker.setTag(estate.getId());
 	}
 	
 	@Override public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -203,9 +207,9 @@ public class MapFragment extends Fragment {
 		                    });
 	}
 	
-	public Bundle saveEstateId(Estate estate) {
+	public Bundle saveEstateId(long id) {
 		Bundle bundle = new Bundle();
-		bundle.putLong("id", estate.getId());
+		bundle.putLong("id", id);
 		return bundle;
 	}
 }

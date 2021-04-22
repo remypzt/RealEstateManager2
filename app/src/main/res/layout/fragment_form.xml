@@ -200,16 +200,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textStyle="bold"
-            android:text="Location"
+            android:text="Test"
             app:layout_constraintStart_toEndOf="@+id/location_picture_fragment_form"
             app:layout_constraintTop_toTopOf="@+id/location_picture_fragment_form" />
 
 
         <EditText
             android:id="@+id/location_value_fragment_form"
-            android:layout_width="match_parent"
-
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:maxLines="1"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/location_title_fragment_form"
             app:layout_constraintTop_toBottomOf="@+id/location_title_fragment_form" />
 
