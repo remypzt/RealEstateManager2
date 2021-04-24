@@ -103,7 +103,6 @@ public class MapFragment extends Fragment {
 			@Override public void onInfoWindowClick(Marker marker) {
 				View         view;
 				CharSequence charSequence;
-				Snackbar.make(requireView(), "charSequence", 1000).show();
 				Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
 				          .navigate(R.id.action_nav_map_fragment_to_nav_details,
 				                    saveEstateId((Long) marker.getTag()));
@@ -112,9 +111,15 @@ public class MapFragment extends Fragment {
 	}
 	
 	public void getAndConvertStringToLatLng() {
-		estateLat      = estatesList.get(position).getLat();
-		estateLng      = estatesList.get(position).getLng();
-		estateLocation = new LatLng(estateLat, estateLng);
+		if (estatesList.get(position) != null) {
+			estateLat      = estatesList.get(position).getLat();
+			estateLng      = estatesList.get(position).getLng();
+			estateLocation = new LatLng(estateLat, estateLng);
+		} else {
+			Snackbar.make(requireView(),
+			              "Estate wich id is" + position + "as an invalid adress",
+			              10000);
+		}
 	}
 	
 	public void showEstateLocation(Estate estate) {

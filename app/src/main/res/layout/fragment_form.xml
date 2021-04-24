@@ -187,33 +187,6 @@
         app:layout_constraintStart_toEndOf="@+id/estate_specification_constraint_layout_fragment_form"
         app:layout_constraintTop_toTopOf="@+id/estate_specification_constraint_layout_fragment_form">
 
-        <ImageView
-            android:id="@+id/location_picture_fragment_form"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/location_on_24px"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/location_title_fragment_form"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textStyle="bold"
-            android:text="Test"
-            app:layout_constraintStart_toEndOf="@+id/location_picture_fragment_form"
-            app:layout_constraintTop_toTopOf="@+id/location_picture_fragment_form" />
-
-
-        <EditText
-            android:id="@+id/location_value_fragment_form"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:inputType="text"
-            android:maxLines="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/location_title_fragment_form"
-            app:layout_constraintTop_toBottomOf="@+id/location_title_fragment_form" />
 
 
         <ImageView
@@ -221,8 +194,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/contact_support_24"
-            app:layout_constraintStart_toStartOf="@+id/location_picture_fragment_form"
-            app:layout_constraintTop_toBottomOf="@+id/location_value_fragment_form" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/contact_title_fragment_form"
@@ -296,6 +269,46 @@
             app:layout_constraintTop_toBottomOf="@+id/sell_title_fragment_form" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lastconstraint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/estate_specification_constraint_layout_fragment_form">
+
+
+        <ImageView
+            android:id="@+id/location_picture_fragment_form"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/location_on_24px" />
+
+        <TextView
+            android:id="@+id/location_title_fragment_form"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Adress"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/location_picture_fragment_form"
+            app:layout_constraintTop_toTopOf="@+id/location_picture_fragment_form" />
+
+
+        <EditText
+            android:id="@+id/location_value_fragment_form"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:maxLines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/location_title_fragment_form"
+            app:layout_constraintTop_toBottomOf="@+id/location_title_fragment_form" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ImageButton
         android:id="@+id/validate_form_button"
         android:layout_width="wrap_content"
@@ -304,7 +317,7 @@
         android:src="@drawable/ic_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/estate_specification_second_column_constraint_layout_fragment_form" />
+        app:layout_constraintTop_toBottomOf="@id/lastconstraint" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

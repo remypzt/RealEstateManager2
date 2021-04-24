@@ -73,8 +73,6 @@ P
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
 ^
 .app/src/release/res/values/google_maps_api.xml,8\a\8ad28fcd8d693ab58d4fdb7d36965532163ebfa3
-`
-0app/src/main/res/menu/navigation_drawer_menu.xml,6\e\6e74c543a6a44a11c850053db951a313110599b5
 Å
 Qapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/MapFragment.java,8\d\8d3dd904079ce675f0aba106308ab96d94e3327b
 Ö
@@ -131,8 +129,6 @@ Eapp/src/test/java/remy/pouzet/realestatemanager2/ExampleUnitTest.java,e\f\efa3
 Mapp/src/androidTest/java/remy/pouzet/realestatemanager2/LiveDataTestUtil.java,8\7\87d2e6bd60d695b9dcb7895011308161737fbb38
 |
 Lapp/src/main/java/remy/pouzet/realestatemanager2/utils/UtilsForResponse.java,a\d\ad2bee95976d84ce01519516b8ff681654d221f5
-\
-,app/src/main/res/layout/fragment_details.xml,6\c\6c365c1ce3140cca73b288b966211b8562d21ce9
 \
 ,app/src/debug/res/values/google_maps_api.xml,c\7\c7ab7bac149c0f83f3f9611a0eb8fdce1aaf3aee
 X

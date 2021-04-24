@@ -34,23 +34,24 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	
 	public long   id;
 	public double estateLat, estateLng;
-	public  String                 adress;
-	private LatLng                 estateLocation = new LatLng(-34.92873, 138.59995);
-	private TextView               typeValueTextView;
-	private TextView               cityValueTextView;
-	private TextView               priceValueTextView;
-	private TextView               descriptionValueTextView;
-	private TextView               surfaceValueTextView;
-	private TextView               locationValueTextView;
-	private TextView               roomsValueTextView;
-	private TextView               contactValueTextView;
-	private TextView               lastUpdateValueTextView;
-	private TextView               sellDateValueTextView;
-	private TextView               sellDateTitleTextView;
-	private DetailsViewModel       detailsViewModel;
-	private Estate                 estate;
-	private GoogleMap              map;
-	private FragmentDetailsBinding fragmentDetailsBinding;
+	public        String                 adress;
+	private       LatLng                 estateLocation = new LatLng(-34.92873, 138.59995);
+	private       TextView               typeValueTextView;
+	private       TextView               cityValueTextView;
+	private       TextView               priceValueTextView;
+	private final boolean                tabletMode     = false;
+	private       TextView               descriptionValueTextView;
+	private       TextView               surfaceValueTextView;
+	private       TextView               locationValueTextView;
+	private       TextView               roomsValueTextView;
+	private       TextView               contactValueTextView;
+	private       TextView               lastUpdateValueTextView;
+	private       TextView               sellDateValueTextView;
+	private       TextView               sellDateTitleTextView;
+	private       DetailsViewModel       detailsViewModel;
+	private       Estate                 estate;
+	private       GoogleMap              map;
+	private       FragmentDetailsBinding fragmentDetailsBinding;
 	
 	//------------------------------------------------------//
 	// ------------------   LifeCycle   ------------------- //
@@ -170,10 +171,14 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	
 	public void getEstateLocation() {
 		final Observer<List<ResultsItem>> observeResponse = resultsItems -> {
-			estateLat      = resultsItems.get(0).getGeometry().getLocation().getLat();
-			estateLng      = resultsItems.get(0).getGeometry().getLocation().getLng();
-			estateLocation = new LatLng(estateLat, estateLng);
-			map.moveCamera(CameraUpdateFactory.newLatLngZoom(estateLocation, 10));
+			if (resultsItems.get(0) != null) {
+				estateLat      = resultsItems.get(0).getGeometry().getLocation().getLat();
+				estateLng      = resultsItems.get(0).getGeometry().getLocation().getLng();
+				estateLocation = new LatLng(estateLat, estateLng);
+				map.moveCamera(CameraUpdateFactory.newLatLngZoom(estateLocation, 10));
+			} else {
+				showLongSnackBar(requireView(), "adress error");
+			}
 			
 		};
 		detailsViewModel.observeResponse(adress).observe(requireActivity(), observeResponse);

@@ -16,6 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.ActivityMainBinding;
 import remy.pouzet.realestatemanager2.views.fragments.DetailsFragment;
+import remy.pouzet.realestatemanager2.views.fragments.estateslist.EstatesListFragment;
 //------------------------------------------------------//
 // ------------------    Binding    ------------------- //
 //------------------------------------------------------//
@@ -39,26 +40,34 @@ import remy.pouzet.realestatemanager2.views.fragments.DetailsFragment;
 //------------------------------------------------------//
 
 public class MainActivity extends AppCompatActivity {
-    //------------------------------------------------------//
-    // ------------------   Variables   ------------------- //
-    //------------------------------------------------------//
-    private AppBarConfiguration mAppBarConfiguration;
-    private int                 navigateToNavSearch;
-    public  long                id;
+	//------------------------------------------------------//
+	// ------------------   Variables   ------------------- //
+	//------------------------------------------------------//
+	private AppBarConfiguration mAppBarConfiguration;
+	private int                 navigateToNavSearch;
+	public  long                id;
+	public  boolean             tabletMode = false;
+	public  Bundle              bundle     = new Bundle();
+	private DetailsFragment     detailsFragment;
+	// 1 - Declare main fragment
+	
+	private EstatesListFragment estatesListFragment;
 	//------------------------------------------------------//
 	// ------------------    Binding    ------------------- //
 	//------------------------------------------------------//
-    private ActivityMainBinding mActivityMainBinding;
-
-    //------------------------------------------------------//
-    // ------------------   LifeCycle   ------------------- //
-    //------------------------------------------------------//
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mActivityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        menuManagement();
-    }
+	private ActivityMainBinding mActivityMainBinding;
+	
+	//------------------------------------------------------//
+	// ------------------   LifeCycle   ------------------- //
+	//------------------------------------------------------//
+	@Override protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mActivityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+		menuManagement();
+		this.configureAndShowListFragment();
+		tabletOrPhoneManagement();
+		this.configureAndShowDetailsFragment();
+	}
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -82,24 +91,66 @@ public class MainActivity extends AppCompatActivity {
     //------------------------------------------------------//
     // ----------------- Navigation, Menu, UI ------------- //
     //------------------------------------------------------//
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        MenuItem searchActionButton = menu.findItem(R.id.action_search_button);
-        MenuItem modifyActionbutton = menu.findItem(R.id.action_modify_button);
-        navigationManagement(searchActionButton, modifyActionbutton);
-        return true;
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu; this adds items to the action bar if it is present.
+	    getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+	    MenuItem searchActionButton = menu.findItem(R.id.action_search_button);
+	    MenuItem modifyActionbutton = menu.findItem(R.id.action_modify_button);
+	    navigationManagement(searchActionButton, modifyActionbutton);
+	    return true;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        if (navController.getCurrentDestination().getId() == R.id.nav_estates_list) {
-            navigateToNavSearch = R.id.action_nav_estates_list_to_nav_search;
-        } else if (navController.getCurrentDestination().getId() == R.id.nav_details) {
-            navigateToNavSearch = R.id.action_nav_details_to_action_search_button;
-        }
+	
+	// --------------
+	// FRAGMENTS
+	// --------------
+	
+	private void configureAndShowListFragment() {
+		estatesListFragment = (EstatesListFragment) getSupportFragmentManager().findFragmentById(R.id.estates_list_frame_layout);
+		if (estatesListFragment == null) {
+			// B - Create new main fragment
+			estatesListFragment = new EstatesListFragment();
+			
+			// C - Add it to FrameLayout container
+			getSupportFragmentManager().beginTransaction()
+			                           .add(R.id.estates_list_frame_layout, estatesListFragment)
+			                           .commit();
+		}
+	}
+	
+	private void tabletOrPhoneManagement() {
+		detailsFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_details);
+		if (detailsFragment == null && findViewById(R.id.frame_layout_details) != null) {
+			tabletMode = true;
+		}
+		manageIDforTabletMode();
+	}
+	
+	private void configureAndShowDetailsFragment() {
+		if (tabletMode) {
+			detailsFragment = new DetailsFragment();
+			getSupportFragmentManager().beginTransaction()
+			                           .add(R.id.frame_layout_details, detailsFragment)
+			                           .commit();
+		}
+		
+	}
+	
+	public void manageIDforTabletMode() {
+		if (tabletMode) {
+			id = 1;
+			bundle.putLong("id", id);
+		}
+		
+	}
+	
+	@Override public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+		
+		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+		if (navController.getCurrentDestination().getId() == R.id.nav_estates_list) {
+			navigateToNavSearch = R.id.action_nav_estates_list_to_nav_search;
+		} else if (navController.getCurrentDestination().getId() == R.id.nav_details) {
+			navigateToNavSearch = R.id.action_nav_details_to_action_search_button;
+		}
         switch (item.getItemId()) {
 	        case R.id.action_search_button:
 		        Navigation.findNavController(this, R.id.nav_host_fragment)
@@ -111,9 +162,7 @@ public class MainActivity extends AppCompatActivity {
 		        DetailsFragment detailsFragment = (DetailsFragment) navHostFragment.getChildFragmentManager()
 		                                                                           .getFragments()
 		                                                                           .get(0);
-		
 		        id = detailsFragment.id;
-		        Bundle bundle = new Bundle();
 		        bundle.putLong("id", id);
 		
 		        Navigation.findNavController(this, R.id.nav_host_fragment)
@@ -124,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
 		        return super.onOptionsItemSelected(item);
         }
     }
-
     public void navigationManagement(MenuItem searchActionButton, MenuItem modifyActionButton) {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);

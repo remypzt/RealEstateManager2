@@ -60,11 +60,11 @@ public class EstatesListFragment extends BaseFragment {
                 inflater,
                 container,
                 false);
-    
         recyclerView = localFragmentEstatesListBinding.fragmentMainRecyclerView;
         configureViewModel();
         configureRecyclerView();
         updateUI();
+        manageTabletMode();
     
         return localFragmentEstatesListBinding.getRoot();
     }
@@ -79,6 +79,10 @@ public class EstatesListFragment extends BaseFragment {
     ///////////////////////////////////////////////////////////////////////////
     // PRIVATE METHODS
     ///////////////////////////////////////////////////////////////////////////
+    
+    private void manageTabletMode() {
+    
+    }
     
     private void updateUI() {
         estatesListViewModel.observeAllEstates().observe(getViewLifecycleOwner(), this::updateList);
