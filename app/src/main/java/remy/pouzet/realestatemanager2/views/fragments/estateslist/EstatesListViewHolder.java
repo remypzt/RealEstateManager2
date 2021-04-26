@@ -50,7 +50,6 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
         cityLocationEstate.setText(estate.getCity());
         priceEstate.setText((estate.getPrice() + "€"));
         constraintLayout.setOnClickListener(
-                //TODO put id inside bundle
                 (Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_details,
                                                           saveEstateId(estate))));
     }

@@ -55,8 +55,6 @@ dapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/estateslist/Es
 Qapp/src/main/java/remy/pouzet/realestatemanager2/views/activity/MainActivity.java,1\8\18c44ffa1871d00768ea13008498b316a39ec9ba
 `
 0app/src/main/res/drawable/contact_support_24.xml,3\b\3bc7f9c7688a636097098d2218f1185f3a17fc6b
-q
-Aapp/src/main/res/layout/content_items_of_fragment_estate_list.xml,9\5\9553e0feae1e56bc211d140473058378e1ee344c
 W
 'app/src/main/res/drawable/home_24px.xml,9\6\9684a42511814dc12afe48d7f2609d83ed587f70
 ^
@@ -133,3 +131,9 @@ Lapp/src/main/java/remy/pouzet/realestatemanager2/utils/UtilsForResponse.java,a
 ,app/src/debug/res/values/google_maps_api.xml,c\7\c7ab7bac149c0f83f3f9611a0eb8fdce1aaf3aee
 X
 (gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
+Y
+)app/src/main/res/layout/activity_main.xml,7\6\76b07e40f24cce093536731477540f12e7da3cb6
+a
+1app/src/main/res/layout/fragment_estates_list.xml,1\3\139e9af8f2bf7ddb0f110fa296c0bb61ffefa94d
+Y
+)app/src/main/res/layout/fragment_form.xml,2\a\2a9b098d3d7dfb465af61ddbeebb82a37b928ddc

@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_main">
 
     <FrameLayout
         android:id="@+id/estates_list_frame_layout"
-        android:layout_width="0px"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="40" />
+        android:layout_weight="40"
+        app:layout_constraintEnd_toStartOf="@id/frame_layout_details"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+    </FrameLayout>
+
 
     <FrameLayout
         android:id="@+id/frame_layout_details"
-        android:layout_width="0px"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="60" />
-</LinearLayout>
+        android:layout_weight="60"
+        app:layout_constraintStart_toEndOf="@id/estates_list_frame_layout"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
