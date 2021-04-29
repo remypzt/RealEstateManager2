@@ -133,7 +133,5 @@ X
 (gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 Y
 )app/src/main/res/layout/activity_main.xml,7\6\76b07e40f24cce093536731477540f12e7da3cb6
-a
-1app/src/main/res/layout/fragment_estates_list.xml,1\3\139e9af8f2bf7ddb0f110fa296c0bb61ffefa94d
 Y
 )app/src/main/res/layout/fragment_form.xml,2\a\2a9b098d3d7dfb465af61ddbeebb82a37b928ddc

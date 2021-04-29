@@ -1,12 +1,16 @@
 
-p
-java:S11040"NMake id a static final constant or non-public and provide accessors if needed.(™ò¤·ÿÿÿÿÿ8¹Â±‚/
-X	java:S110*"<This class has 9 parents which is greater than 5 authorized.(²Ú±8¹Â±‚/
+}
+java:S3923i"[Remove this conditional structure or edit its code blocks so that they're not all the same.(Ç’Åòşÿÿÿÿ8¦Šªø/
+}
+java:S11044"[Make detailsFragment a static final constant or non-public and provide accessors if needed.(í–Ğğøÿÿÿÿ8•¨µó/
+X	java:S110+"<This class has 9 parents which is greater than 5 authorized.(²Ú±8¹Â±‚/
 r
-java:S11041"VMake tabletMode a static final constant or non-public and provide accessors if needed.(Á×°i8£Äê¦/
+java:S11042"VMake tabletMode a static final constant or non-public and provide accessors if needed.(Á×°i8£Äê¦/
+p
+java:S11041"NMake id a static final constant or non-public and provide accessors if needed.(™ò¤·ÿÿÿÿÿ8¹Â±‚/
+w
+java:S11045"[Make navHostFragment a static final constant or non-public and provide accessors if needed.(›³§;8ıë¥ô/
 n
-java:S11042"RMake bundle a static final constant or non-public and provide accessors if needed.(ö“§"8³ÿ©¨/
+java:S11043"RMake bundle a static final constant or non-public and provide accessors if needed.(ö“§"8ıë¥ô/
 
-java:S14506"bRemove the "estatesListFragment" field and declare it as a local variable in the relevant methods.(·õ¹ı8Ï³´§/
-a
-java:S1117¢"CRename "detailsFragment" which hides the field declared at line 51.(ƒ“ßĞ8íµ§/
+java:S14507"bRemove the "estatesListFragment" field and declare it as a local variable in the relevant methods.(·õ¹ı8ıë¥ô/

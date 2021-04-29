@@ -1,5 +1,7 @@
 package remy.pouzet.realestatemanager2.views.activity;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,7 +37,7 @@ import remy.pouzet.realestatemanager2.views.fragments.estateslist.EstatesListFra
 //------------------------------------------------------//
 // ------------------    Adapter    ------------------- //
 //------------------------------------------------------//
-// ------------------ Miscellaneous ------------------- //
+// ------------------ Miscellaneous ------------------- //+
 //------------------------------------------------------//
 // ----------------- Navigation, Menu, UI ------------- //
 //------------------------------------------------------//
@@ -102,9 +104,9 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	public void navigationManagement(MenuItem searchActionButton, MenuItem modifyActionButton) {
-		if (tabletMode) {
+		if (isTablet(this)) {
 			NavController navController = Navigation.findNavController(this,
-			                                                           R.id.estates_list_frame_layout);
+			                                                           R.id.nav_host_fragment);
 			NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 			NavigationUI.setupWithNavController(mActivityMainBinding.navView, navController);
 			
@@ -119,9 +121,11 @@ public class MainActivity extends AppCompatActivity {
 						                                                                         .getId() == R.id.nav_estates_list);
 				modifyActionButton.setVisible(destination.getId() == R.id.nav_details);
 			});
+			
 			Navigation.setViewNavController(mActivityMainBinding.mainToolbar.fab,
 			                                Navigation.findNavController(this,
 			                                                             R.id.nav_host_fragment));
+			
 			mActivityMainBinding.mainToolbar.fab.setOnClickListener((Navigation.createNavigateOnClickListener(
 					R.id.action_nav_estates_list_to_nav_form,
 					null)));
@@ -187,9 +191,16 @@ public class MainActivity extends AppCompatActivity {
 // ------------------   Functions   ------------------- //
 //------------------------------------------------------//
 	
+	public boolean isTablet(Context context) {
+		boolean xlarge = ((context.getResources()
+		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+		boolean large  = ((context.getResources()
+		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+		return (xlarge || large);
+	}
+	
 	private void configureAndShowListFragment() {
-		estatesListFragment = (EstatesListFragment) getSupportFragmentManager().findFragmentById(R.id.estates_list_frame_layout);
-		if (estatesListFragment == null) {
+		if (!isTablet(this)) {
 			// B - Create new main fragment
 			estatesListFragment = new EstatesListFragment();
 			
@@ -198,13 +209,12 @@ public class MainActivity extends AppCompatActivity {
 //			                           .replace(R.id.estates_list_frame_layout, estatesListFragment)
 //			                           .setPrimaryNavigationFragment(estatesListFragment)
                                        .add(R.id.estates_list_frame_layout, estatesListFragment)
-			                           .commit();
+                                       .commit();
 		}
 	}
 	
 	private void tabletOrPhoneManagement() {
-		detailsFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_details);
-		if (detailsFragment == null && findViewById(R.id.frame_layout_details) != null) {
+		if (isTablet(this)) {
 			tabletMode = true;
 			id         = 1;
 			bundle.putLong("id", id);
@@ -212,13 +222,12 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	private void configureAndShowDetailsFragment() {
-		if (tabletMode) {
+		if (isTablet(this)) {
 			detailsFragment = new DetailsFragment();
 			FragmentTransaction t = getSupportFragmentManager().beginTransaction();
 			detailsFragment.setArguments(bundle);
 			t.add(R.id.frame_layout_details, detailsFragment);
 			t.commit();
-			
 		}
 	}
 }
