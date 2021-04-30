@@ -20,6 +20,7 @@ import androidx.navigation.ui.NavigationUI;
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.ActivityMainBinding;
 import remy.pouzet.realestatemanager2.views.fragments.DetailsFragment;
+import remy.pouzet.realestatemanager2.views.fragments.FormFragment;
 import remy.pouzet.realestatemanager2.views.fragments.estateslist.EstatesListFragment;
 //------------------------------------------------------//
 // ------------------    Binding    ------------------- //
@@ -219,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
 			
 			mActivityMainBinding.mainToolbar.fab.setOnClickListener(new View.OnClickListener() {
 				@Override public void onClick(View v) {
-//					FormFragment formFragment = new FormFragment();
+					FormFragment formFragment = new FormFragment();
 					getSupportFragmentManager().beginTransaction()
 					                           .replace(R.id.second_frame_fragment, formFragment)
 					                           .commit();
