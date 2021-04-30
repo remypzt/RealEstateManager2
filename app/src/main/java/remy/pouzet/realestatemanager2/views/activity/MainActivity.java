@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,11 +49,13 @@ public class MainActivity extends AppCompatActivity {
 	//------------------------------------------------------//
 	private AppBarConfiguration mAppBarConfiguration;
 	
-	public  long                id;
-	public  boolean             tabletMode = false;
-	public  Bundle              bundle     = new Bundle();
-	public  DetailsFragment     detailsFragment;
-	public  NavHostFragment     navHostFragment;
+	public long            id;
+	public boolean         tabletMode = false;
+	public Bundle          bundle     = new Bundle();
+	public DetailsFragment detailsFragment;
+	public NavHostFragment navHostFragment;
+	FrameLayout firstFrame;
+	FrameLayout secondFrame;
 	private int                 navigateToNavSearch;
 	private EstatesListFragment estatesListFragment;
 	
@@ -66,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
 	//------------------------------------------------------//
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mActivityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+		manageBinding();
+		
 		menuManagement();
 		this.configureAndShowListFragment();
 		tabletOrPhoneManagement();
@@ -103,57 +107,10 @@ public class MainActivity extends AppCompatActivity {
 		return true;
 	}
 	
-	public void navigationManagement(MenuItem searchActionButton, MenuItem modifyActionButton) {
-		if (isTablet(this)) {
-			NavController navController = Navigation.findNavController(this,
-			                                                           R.id.nav_host_fragment);
-			NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-			NavigationUI.setupWithNavController(mActivityMainBinding.navView, navController);
-			
-			/* Set items visibility depends navigation position*/
-			navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-				if (destination.getId() != R.id.nav_estates_list) {
-					mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
-				} else {
-					mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
-				}
-				searchActionButton.setVisible(destination.getId() == R.id.nav_details || destination
-						                                                                         .getId() == R.id.nav_estates_list);
-				modifyActionButton.setVisible(destination.getId() == R.id.nav_details);
-			});
-			
-			Navigation.setViewNavController(mActivityMainBinding.mainToolbar.fab,
-			                                Navigation.findNavController(this,
-			                                                             R.id.nav_host_fragment));
-			
-			mActivityMainBinding.mainToolbar.fab.setOnClickListener((Navigation.createNavigateOnClickListener(
-					R.id.action_nav_estates_list_to_nav_form,
-					null)));
-			
-		} else {
-			NavController navController = Navigation.findNavController(this,
-			                                                           R.id.nav_host_fragment);
-			NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-			NavigationUI.setupWithNavController(mActivityMainBinding.navView, navController);
-			
-			/* Set items visibility depends navigation position*/
-			navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-				if (destination.getId() != R.id.nav_estates_list) {
-					mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
-				} else {
-					mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
-				}
-				searchActionButton.setVisible(destination.getId() == R.id.nav_details || destination
-						                                                                         .getId() == R.id.nav_estates_list);
-				modifyActionButton.setVisible(destination.getId() == R.id.nav_details);
-			});
-			Navigation.setViewNavController(mActivityMainBinding.mainToolbar.fab,
-			                                Navigation.findNavController(this,
-			                                                             R.id.nav_host_fragment));
-			mActivityMainBinding.mainToolbar.fab.setOnClickListener((Navigation.createNavigateOnClickListener(
-					R.id.action_nav_estates_list_to_nav_form,
-					null)));
-		}
+	public void manageBinding() {
+		mActivityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+		firstFrame           = mActivityMainBinding.mainToolbar.contentMainConstraintLayout.firstFrameFragment;
+		secondFrame          = mActivityMainBinding.mainToolbar.contentMainConstraintLayout.secondFrameFragment;
 	}
 	
 	@Override public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -191,14 +148,6 @@ public class MainActivity extends AppCompatActivity {
 // ------------------   Functions   ------------------- //
 //------------------------------------------------------//
 	
-	public boolean isTablet(Context context) {
-		boolean xlarge = ((context.getResources()
-		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
-		boolean large  = ((context.getResources()
-		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
-		return (xlarge || large);
-	}
-	
 	private void configureAndShowListFragment() {
 		if (!isTablet(this)) {
 			// B - Create new main fragment
@@ -206,10 +155,32 @@ public class MainActivity extends AppCompatActivity {
 			
 			// C - Add it to FrameLayout container
 			getSupportFragmentManager().beginTransaction()
-//			                           .replace(R.id.estates_list_frame_layout, estatesListFragment)
-//			                           .setPrimaryNavigationFragment(estatesListFragment)
-                                       .add(R.id.estates_list_frame_layout, estatesListFragment)
-                                       .commit();
+			                           .add(R.id.estates_list_constraint_layout,
+			                                estatesListFragment)
+			                           .commit();
+		} else {
+			estatesListFragment = new EstatesListFragment();
+			getSupportFragmentManager().beginTransaction()
+			                           .add(R.id.first_frame_fragment, estatesListFragment)
+			                           .commit();
+		}
+	}
+	
+	public boolean isTablet(Context context) {
+		boolean xlarge = ((context.getResources()
+		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+		boolean large = ((context.getResources()
+		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+		return (xlarge || large);
+	}
+	
+	private void configureAndShowDetailsFragment() {
+		if (isTablet(this)) {
+			detailsFragment = new DetailsFragment();
+			FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+			detailsFragment.setArguments(bundle);
+			t.add(R.id.second_frame_fragment, detailsFragment);
+			t.commit();
 		}
 	}
 	
@@ -221,13 +192,64 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 	
-	private void configureAndShowDetailsFragment() {
+	public void navigationManagement(MenuItem searchActionButton, MenuItem modifyActionButton) {
 		if (isTablet(this)) {
-			detailsFragment = new DetailsFragment();
-			FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-			detailsFragment.setArguments(bundle);
-			t.add(R.id.frame_layout_details, detailsFragment);
-			t.commit();
+
+//			NavController navController = Navigation.findNavController(this,
+//			                                                           R.id.nav_host_fragment);
+//			NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+//			NavigationUI.setupWithNavController(mActivityMainBinding.navView, navController);
+//
+//			/* Set items visibility depends navigation position*/
+//			navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+//				if (destination.getId() != R.id.nav_estates_list) {
+//					mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
+//				} else {
+//					mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
+//				}
+//				searchActionButton.setVisible(destination.getId() == R.id.nav_details || destination
+//						                                                                         .getId() == R.id.nav_estates_list);
+//				modifyActionButton.setVisible(destination.getId() == R.id.nav_details);
+//			});
+
+//			Navigation.setViewNavController(mActivityMainBinding.mainToolbar.fab,
+//			                                Navigation.findNavController(this,
+//			                                                             R.id.nav_host_fragment));
+//
+			
+			mActivityMainBinding.mainToolbar.fab.setOnClickListener(new View.OnClickListener() {
+				@Override public void onClick(View v) {
+//					FormFragment formFragment = new FormFragment();
+					getSupportFragmentManager().beginTransaction()
+					                           .replace(R.id.second_frame_fragment, formFragment)
+					                           .commit();
+				}
+			});
+
+//
+		} else {
+			NavController navController = Navigation.findNavController(this,
+			                                                           R.id.nav_host_fragment);
+			NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+			NavigationUI.setupWithNavController(mActivityMainBinding.navView, navController);
+			
+			/* Set items visibility depends navigation position*/
+			navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+				if (destination.getId() != R.id.nav_estates_list) {
+					mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
+				} else {
+					mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
+				}
+				searchActionButton.setVisible(destination.getId() == R.id.nav_details || destination
+						                                                                         .getId() == R.id.nav_estates_list);
+				modifyActionButton.setVisible(destination.getId() == R.id.nav_details);
+			});
+			Navigation.setViewNavController(mActivityMainBinding.mainToolbar.fab,
+			                                Navigation.findNavController(this,
+			                                                             R.id.nav_host_fragment));
+			mActivityMainBinding.mainToolbar.fab.setOnClickListener((Navigation.createNavigateOnClickListener(
+					R.id.action_nav_estates_list_to_nav_form,
+					null)));
 		}
 	}
 }

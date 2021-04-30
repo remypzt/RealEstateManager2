@@ -1,5 +1,7 @@
 package remy.pouzet.realestatemanager2.views.fragments.estateslist;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -38,22 +40,34 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
         priceEstate                              = mContentItemsOfFragmentEstateListBinding.estatePriceOfContentItemOfFragmentEstateList;
         constraintLayout                         = mContentItemsOfFragmentEstateListBinding.constraintLayoutOfContentItemOfFragmentEstateList;
     }
-
+    
     public void updateEstates(Estate estate) {
         if (estate.getSellDate() != null && estate.getSellDate().length() > 1) {
             selledStatut.setVisibility(View.VISIBLE);
         } else {
             selledStatut.setVisibility(View.INVISIBLE);
         }
-    
+        
         typeEstate.setText(estate.getType());
         cityLocationEstate.setText(estate.getCity());
         priceEstate.setText((estate.getPrice() + "€"));
-        constraintLayout.setOnClickListener(
-                (Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_details,
-                                                          saveEstateId(estate))));
+        if (isTablet(this.itemView.getContext())) {
+        
+        } else {
+            constraintLayout.setOnClickListener((Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_details,
+                                                                                          saveEstateId(
+                                                                                                  estate))));
+        }
     }
-
+    
+    public boolean isTablet(Context context) {
+        boolean xlarge = ((context.getResources()
+                                  .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+        boolean large = ((context.getResources()
+                                 .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+        return (xlarge || large);
+    }
+    
     public Bundle saveEstateId(Estate estate) {
         Bundle bundle = new Bundle();
         bundle.putLong("id", estate.getId());

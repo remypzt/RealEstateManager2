@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_main_constraint_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,23 +9,31 @@
     tools:showIn="@layout/app_bar_main">
 
     <FrameLayout
-        android:id="@+id/estates_list_frame_layout"
+        android:id="@+id/first_frame_fragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="40"
-        app:layout_constraintEnd_toStartOf="@id/frame_layout_details"
-        app:layout_constraintStart_toStartOf="parent">
 
-
-    </FrameLayout>
-
+        app:layout_constraintEnd_toStartOf="@id/second_frame_fragment"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <FrameLayout
-        android:id="@+id/frame_layout_details"
+        android:id="@+id/second_frame_fragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="60"
-        app:layout_constraintStart_toEndOf="@id/estates_list_frame_layout"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toEndOf="@id/first_frame_fragment"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!--    <FrameLayout-->
+    <!--        android:id="@+id/estates_list_frame_layout"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_weight="40"-->
+    <!--        app:layout_constraintEnd_toStartOf="@id/frame_layout_details"-->
+    <!--        app:layout_constraintStart_toStartOf="parent">-->
+    <!--    </FrameLayout>-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
