@@ -12,9 +12,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.ContentItemsOfFragmentEstateListBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
+import remy.pouzet.realestatemanager2.datas.models.ListEvent;
 
 /**
  * Created by Remy Pouzet on 10/11/2020.
@@ -47,12 +50,16 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
         } else {
             selledStatut.setVisibility(View.INVISIBLE);
         }
-        
         typeEstate.setText(estate.getType());
         cityLocationEstate.setText(estate.getCity());
         priceEstate.setText((estate.getPrice() + "€"));
+    
         if (isTablet(this.itemView.getContext())) {
-        
+            constraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    EventBus.getDefault().post(new ListEvent(estate.getId()));
+                }
+            });
         } else {
             constraintLayout.setOnClickListener((Navigation.createNavigateOnClickListener(R.id.action_nav_estates_list_to_nav_details,
                                                                                           saveEstateId(

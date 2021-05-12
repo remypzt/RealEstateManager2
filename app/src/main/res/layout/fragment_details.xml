@@ -240,7 +240,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/adress_constraint"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/estate_specification_third_column_constraint_layout_fragment_details"
@@ -268,7 +268,7 @@
 
             <TextView
                 android:id="@+id/location_value_fragment_details"
-                android:layout_width="wrap_content"
+                android:layout_width="400dp"
                 android:layout_height="match_parent"
                 android:text="location value"
                 app:layout_constraintStart_toStartOf="@+id/location_title_fragment_details"

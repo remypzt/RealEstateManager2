@@ -1,30 +1,22 @@
 
-r
-java:S1104<"VMake tabletMode a static final constant or non-public and provide accessors if needed.(Á×°i8£Äê¦/
-p
-java:S1104;"NMake id a static final constant or non-public and provide accessors if needed.(™ò¤·ÿÿÿÿÿ8¹Â±‚/
 K
-java:S1604·"(Make this anonymous inner class a lambda(–ëÛøÿÿÿÿ8›ĞÀ“/
-t
-java:S1192ş"QDefine a constant instead of duplicating this literal "DETAILS_FRAGMENT" 3 times.(‹ÄŸ¤øÿÿÿÿ8º»·Â“/
-
-java:S1450C"bRemove the "estatesListFragment" field and declare it as a local variable in the relevant methods.(·õ¹ı8ıë¥ô/
+java:S1604Õ"(Make this anonymous inner class a lambda(–ëÛøÿÿÿÿ8àõíá•/
 w
-java:S1104?"[Make navHostFragment a static final constant or non-public and provide accessors if needed.(›³§;8ıë¥ô/
-v
-java:S1128"YRemove this unused import 'remy.pouzet.realestatemanager2.databinding.AppBarMainBinding'.(Ï‰áÜ8ø§»Ã“/
-N
-java:S1128"1Remove this unused import 'android.app.Fragment'.(ÆÅÇ°8ÉÚ®Â“/
-O
-java:S1128"-Remove this unused import 'android.util.Log'.(Ô¦Ø²øÿÿÿÿ8‰µˆÃ“/
+java:S1104<"[Make navHostFragment a static final constant or non-public and provide accessors if needed.(›³§;8ıë¥ô/
+X	java:S1102"<This class has 9 parents which is greater than 5 authorized.(²Ú±8¹Â±‚/
+r
+java:S11049"VMake tabletMode a static final constant or non-public and provide accessors if needed.(Á×°i8£Äê¦/
 }
-java:S1104>"[Make detailsFragment a static final constant or non-public and provide accessors if needed.(í–Ğğøÿÿÿÿ8•¨µó/
-d
-java:S1128"BRemove this unused import 'android.net.NetworkInfo.DetailedState'.(Îëóòıÿÿÿÿ8È«øÀ“/
-U
-java:S1128"3Remove this unused import 'android.widget.Toolbar'.(ÙÖ¹çøÿÿÿÿ8¤ºÃ“/
+java:S1104;"[Make detailsFragment a static final constant or non-public and provide accessors if needed.(í–Ğğøÿÿÿÿ8•¨µó/
+
+java:S1450@"bRemove the "estatesListFragment" field and declare it as a local variable in the relevant methods.(·õ¹ı8ıë¥ô/
+^	java:S125•"<This block of commented-out lines of code should be removed.(Ì¼ü¼ÿÿÿÿÿ8œ¸â•/
+F
+java:S1604„"(Make this anonymous inner class a lambda(ÅÅàÑ8‡…šâ•/
+p
+java:S11048"NMake id a static final constant or non-public and provide accessors if needed.(™ò¤·ÿÿÿÿÿ8¹Â±‚/
 n
-java:S1104="RMake bundle a static final constant or non-public and provide accessors if needed.(ö“§"8ıë¥ô/
-f
-java:S1117"CRename "detailsFragment" which hides the field declared at line 62.(Øíğûüÿÿÿÿ8¸°ËÂ“/
-X	java:S1105"<This class has 9 parents which is greater than 5 authorized.(²Ú±8¹Â±‚/
+java:S1104:"RMake bundle a static final constant or non-public and provide accessors if needed.(ö“§"8ıë¥ô/
+t
+java:S1192ƒ"QDefine a constant instead of duplicating this literal "VISIBLE_FRAGMENT" 5 times.(æ¢®Øüÿÿÿÿ8ÿÍ§â•/
+Y	java:S125š"<This block of commented-out lines of code should be removed.(Ê™¤Ç8Ë­ºâ•/
