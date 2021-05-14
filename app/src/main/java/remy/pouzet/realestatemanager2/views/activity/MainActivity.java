@@ -9,7 +9,10 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,6 +22,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.navigation.NavigationView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,7 +57,7 @@ import remy.pouzet.realestatemanager2.views.fragments.estateslist.EstatesListFra
 // ----------------- Navigation, Menu, UI ------------- //
 //------------------------------------------------------//
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 	//------------------------------------------------------//
 	// ------------------   Variables   ------------------- //
 	//------------------------------------------------------//
@@ -74,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 	//------------------------------------------------------//
 	private ActivityMainBinding mActivityMainBinding;
 	private RecyclerView        recyclerView;
+	private ActionBarDrawerToggle actionBarDrawerToggle;
 	
 	//------------------------------------------------------//
 	// ------------------   LifeCycle   ------------------- //
@@ -136,10 +142,17 @@ public class MainActivity extends AppCompatActivity {
 		setSupportActionBar(mActivityMainBinding.mainToolbar.toolbar);
 		// Passing each menu ID as a set of Ids because each
 		// menu should be considered as top level destinations.
-		mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_estates_list,
-		                                                       R.id.nav_loan_simulator,
-		                                                       R.id.nav_map_fragment).setOpenableLayout(
-				mActivityMainBinding.drawerLayout).build();
+		if (isTablet(this)) {
+			actionBarDrawerToggle = new ActionBarDrawerToggle(this, mActivityMainBinding.drawerLayout, mActivityMainBinding.mainToolbar.toolbar,
+					R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+			mActivityMainBinding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
+			mActivityMainBinding.navView.setNavigationItemSelectedListener(this);
+		} else {
+			mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_estates_list,
+					R.id.nav_loan_simulator,
+					R.id.nav_map_fragment)
+					.setOpenableLayout(mActivityMainBinding.drawerLayout).build();
+		}
 	}
 	
 	@Override public boolean onSupportNavigateUp() {
@@ -347,6 +360,39 @@ public class MainActivity extends AppCompatActivity {
 			super.onBackPressed();
 		}
 	}
+
+
+	@Override
+	protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		if (isTablet(this)) {
+			actionBarDrawerToggle.syncState();
+		}
+	}
+
+	@Override
+	public void onConfigurationChanged(@NonNull Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		if (isTablet(this)) {
+			actionBarDrawerToggle.onConfigurationChanged(newConfig);
+		}
+	}
+
+	@Override
+	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+		int id = item.getItemId();
+		// TODO replace fragments
+		if (id == R.id.nav_estates_list) {
+
+		} else if (id == R.id.nav_loan_simulator) {
+
+		} else if (id == R.id.nav_map_fragment) {
+
+		}
+		mActivityMainBinding.drawerLayout.closeDrawer(GravityCompat.START);
+
+		return true;
+	}
 }
 
 //	public String getCurrentFragment() {
@@ -354,7 +400,6 @@ public class MainActivity extends AppCompatActivity {
 //		                                  .getClass()
 //		                                  .getSimpleName();
 //	}
-	
 
 
 	
