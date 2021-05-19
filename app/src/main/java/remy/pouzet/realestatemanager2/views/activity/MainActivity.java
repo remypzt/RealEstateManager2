@@ -1,6 +1,7 @@
 package remy.pouzet.realestatemanager2.views.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
@@ -33,6 +34,8 @@ import remy.pouzet.realestatemanager2.databinding.ActivityMainBinding;
 import remy.pouzet.realestatemanager2.datas.models.ListEvent;
 import remy.pouzet.realestatemanager2.views.fragments.DetailsFragment;
 import remy.pouzet.realestatemanager2.views.fragments.FormFragment;
+import remy.pouzet.realestatemanager2.views.fragments.LoanSimulatorFragment;
+import remy.pouzet.realestatemanager2.views.fragments.MapFragment;
 import remy.pouzet.realestatemanager2.views.fragments.SearchFragment;
 import remy.pouzet.realestatemanager2.views.fragments.estateslist.EstatesListFragment;
 //------------------------------------------------------//
@@ -73,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	
 	private int                 navigateToNavSearch;
 	private EstatesListFragment estatesListFragment;
+
 	
 	//------------------------------------------------------//
 	// ------------------    Binding    ------------------- //
@@ -381,13 +385,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	@Override
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 		int id = item.getItemId();
-		// TODO replace fragments
 		if (id == R.id.nav_estates_list) {
-
+			//TODO it's quite dirty
+			Intent startIntent = new Intent(this, MainActivity.class);
+			startActivity(startIntent);
+			
 		} else if (id == R.id.nav_loan_simulator) {
-
+			
+			LoanSimulatorFragment loanSimulatorFragment = new LoanSimulatorFragment();
+			getSupportFragmentManager().beginTransaction()
+			                           .replace(R.id.second_frame_fragment,
+			                                    loanSimulatorFragment,
+			                                    "VISIBLE_FRAGMENT")
+			                           .addToBackStack(null)
+			                           .commit();
+			
 		} else if (id == R.id.nav_map_fragment) {
-
+			MapFragment mapFragment = new MapFragment();
+			
+			getSupportFragmentManager().beginTransaction()
+			                           .replace(R.id.second_frame_fragment,
+			                                    mapFragment,
+			                                    "VISIBLE_FRAGMENT")
+			                           .addToBackStack(null)
+			                           .commit();
 		}
 		mActivityMainBinding.drawerLayout.closeDrawer(GravityCompat.START);
 

@@ -109,8 +109,6 @@ A
 gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4
 „
 Tapp/src/androidTest/java/remy/pouzet/realestatemanager2/ExampleInstrumentedTest.java,7\e\7eda916301866a6849292163968ad80db86e532d
-c
-3app/src/main/res/layout/fragment_loan_simulator.xml,d\3\d3da869c31df331227c538bfa6ee026bb5c7745f
 x
 Happ/src/androidTest/java/remy/pouzet/realestatemanager2/ItemDaoTest.java,6\0\60c0f63f0c18bc4df83a2ca2509ebf0d1e80fb77
 }
@@ -133,3 +131,5 @@ X
 (gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 Y
 )app/src/main/res/layout/fragment_form.xml,2\a\2a9b098d3d7dfb465af61ddbeebb82a37b928ddc
+|
+Lapp/src/main/java/remy/pouzet/realestatemanager2/datas/models/ListEvent.java,2\0\2070f8bf81e2e33ef7b035f69f7883fc7d4fafc5
