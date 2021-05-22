@@ -123,8 +123,8 @@ public class Request {
 		}
 
 // End of query string
-		queryString += ";"
-	}
+		queryString += ";";
+//	}}
 
 	
 
