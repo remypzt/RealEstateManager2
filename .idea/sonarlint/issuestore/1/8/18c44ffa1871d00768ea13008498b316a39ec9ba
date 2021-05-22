@@ -1,26 +1,28 @@
 
-K
-java:S1604¤"(Make this anonymous inner class a lambda(–ëÛøÿÿÿÿ8¯Øå€–/
-}
-java:S1104@"[Make detailsFragment a static final constant or non-public and provide accessors if needed.(í–Ğğøÿÿÿÿ8•¨µó/
-F
-java:S1604¡"(Make this anonymous inner class a lambda(ÅÅàÑ8¯Øå€–/
-w
-java:S1104A"[Make navHostFragment a static final constant or non-public and provide accessors if needed.(›³§;8ıë¥ô/
 p
-java:S1104="NMake id a static final constant or non-public and provide accessors if needed.(™ò¤·ÿÿÿÿÿ8¹Â±‚/
-Y	java:S125à"<This block of commented-out lines of code should be removed.(Ê™¤Ç8Úé–/
-]	java:S125v"<This block of commented-out lines of code should be removed.(—­š—ûÿÿÿÿ8Ïı™„–/
-n
-java:S1104?"RMake bundle a static final constant or non-public and provide accessors if needed.(ö“§"8ıë¥ô/
-R
-java:S1068L"0Remove this unused "recyclerView" private field.(¿á© ıÿÿÿÿ8Ïı™„–/
-M
-java:S1066»"/Merge this if statement with the enclosing one.(ï¨†™8ßÅ©†–/
-X	java:S1107"<This class has 9 parents which is greater than 5 authorized.(²Ú±8¹Â±‚/
+java:S1104E"NMake id a static final constant or non-public and provide accessors if needed.(™ò¤·ÿÿÿÿÿ8¦·…¨˜/
+w
+java:S1104I"[Make navHostFragment a static final constant or non-public and provide accessors if needed.(›³§;8¦·…¨˜/
 y
-java:S1104>"\Make listHadBeenClick a static final constant or non-public and provide accessors if needed.(¼ÿÔ®8œ”Â…–/
+java:S1104F"\Make listHadBeenClick a static final constant or non-public and provide accessors if needed.(¼ÿÔ®8¦·…¨˜/
 n
-java:S1192q"QDefine a constant instead of duplicating this literal "VISIBLE_FRAGMENT" 7 times.(¾€ğï8ıœò–/
+java:S1192{"QDefine a constant instead of duplicating this literal "VISIBLE_FRAGMENT" 9 times.(¾€ğï8¦·…¨˜/
+F
+java:S1604²"(Make this anonymous inner class a lambda(ÅÅàÑ8¦·…¨˜/
+Y
+java:S1117ƒ"6Rename "id" which hides the field declared at line 69.(ªÙğúÿÿÿÿ8¦·…¨˜/
+Y	java:S125£"<This block of commented-out lines of code should be removed.(Ê™¤Ç8Ü¿¯¨˜/
+^	java:S125€"<This block of commented-out lines of code should be removed.(—­š—ûÿÿÿÿ8¦·…¨˜/
 
-java:S1450F"bRemove the "estatesListFragment" field and declare it as a local variable in the relevant methods.(·õ¹ı8¾ÓÚƒ–/
+java:S1450N"bRemove the "estatesListFragment" field and declare it as a local variable in the relevant methods.(·õ¹ı8ë£°¨˜/
+n
+java:S1104G"RMake bundle a static final constant or non-public and provide accessors if needed.(ö“§"8¦·…¨˜/
+K
+java:S1604µ"(Make this anonymous inner class a lambda(–ëÛøÿÿÿÿ8¦·…¨˜/
+}
+java:S1104H"[Make detailsFragment a static final constant or non-public and provide accessors if needed.(í–Ğğøÿÿÿÿ8¦·…¨˜/
+M
+java:S1066Ì"/Merge this if statement with the enclosing one.(ï¨†™8¦·…¨˜/
+R
+java:S1068U"0Remove this unused "recyclerView" private field.(¿á© ıÿÿÿÿ8¦·…¨˜/
+X	java:S110?"<This class has 9 parents which is greater than 5 authorized.(ƒ¿8¦·…¨˜/

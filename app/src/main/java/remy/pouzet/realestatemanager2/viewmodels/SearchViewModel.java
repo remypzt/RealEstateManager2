@@ -1,13 +1,17 @@
 package remy.pouzet.realestatemanager2.viewmodels;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
+import java.util.List;
+
+import remy.pouzet.realestatemanager2.datas.database.EstateDatabase;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
-import remy.pouzet.realestatemanager2.domain.usecases.estate.GetEstateUC;
 
 public class SearchViewModel extends AndroidViewModel {
     
@@ -15,7 +19,7 @@ public class SearchViewModel extends AndroidViewModel {
         super(application);
     }
     
-    public LiveData<Estate> observeEstate(long id) {
-        return new GetEstateUC().execute(this.getApplication(), id);
+    public LiveData<List<Estate>> searchEstate(Context context, SupportSQLiteQuery query) {
+        return EstateDatabase.getInstance(context).estateDao().searchEstates(query);
     }
 }

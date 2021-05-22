@@ -129,7 +129,9 @@ Lapp/src/main/java/remy/pouzet/realestatemanager2/utils/UtilsForResponse.java,a
 ,app/src/debug/res/values/google_maps_api.xml,c\7\c7ab7bac149c0f83f3f9611a0eb8fdce1aaf3aee
 X
 (gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
-Y
-)app/src/main/res/layout/fragment_form.xml,2\a\2a9b098d3d7dfb465af61ddbeebb82a37b928ddc
 |
 Lapp/src/main/java/remy/pouzet/realestatemanager2/datas/models/ListEvent.java,2\0\2070f8bf81e2e33ef7b035f69f7883fc7d4fafc5
+z
+Japp/src/main/java/remy/pouzet/realestatemanager2/datas/models/Galerie.java,9\2\9282aacc31ee6d34f2e83646478ae0a73d06e173
+z
+Japp/src/main/java/remy/pouzet/realestatemanager2/datas/models/Request.java,1\8\188a0e4e34ce92f2cc88cfc0f7b8b5bb8a8ad601

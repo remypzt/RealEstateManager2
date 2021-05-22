@@ -5,7 +5,9 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RawQuery;
 import androidx.room.Update;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import java.util.List;
 
@@ -25,4 +27,7 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 	@Update int updateEstate(Estate estate);
 	
 	@Query("DELETE FROM Estate  WHERE id = :id") int deleteEstate(long id);
+	
+	@RawQuery(observedEntities = Estate.class) LiveData<List<Estate>> searchEstates(
+			SupportSQLiteQuery query);
 }

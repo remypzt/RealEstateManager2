@@ -335,7 +335,10 @@ public class FormFragment extends BaseFragment {
     
     public void validationButtonManagement() {
         ImageButton localCreateNewEstateButton = mFragmentFormBinding.validateFormButton;
-        localCreateNewEstateButton.setOnClickListener(v -> getEstateLocation());
+        localCreateNewEstateButton.setOnClickListener(v -> getEstateLocation()
+    
+                                                     );
+    
     }
     
     private void getEstate(long id) {
