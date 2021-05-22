@@ -111,7 +111,7 @@ public class SearchFragment extends BaseFragment {
 			searchViewModel.searchEstate(requireContext(), (SupportSQLiteQuery) request);
 		});
 		
-		cityEditText.setText("prepopulate city");
+		minimumPriceEditText.setText("1");
 		cityValue               = cityEditText.getText().toString();
 		minimumPriceValue       = minimumPriceEditText.getText().toString();
 		maximumPriceValue       = maximumPriceEditText.getText().toString();
@@ -120,8 +120,7 @@ public class SearchFragment extends BaseFragment {
 		minimumRoomsNumberValue = minimumRoomsNumberEditText.getText().toString();
 		maximumRoomsNumberValue = maximumRoomsNumberEditText.getText().toString();
 		
-		request = new Request(cityValue,
-		                      minimumPriceValue,
+		request = new Request(cityValue, minimumPriceValue,
 		                      maximumPriceValue,
 		                      minimumSurfaceValue,
 		                      maximumSurfaceValue,
