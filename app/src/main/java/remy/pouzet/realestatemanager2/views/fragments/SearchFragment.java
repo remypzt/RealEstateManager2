@@ -11,7 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.sqlite.db.SupportSQLiteQuery;
+import androidx.navigation.Navigation;
+
+import com.google.gson.Gson;
 
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.FragmentSearchBinding;
@@ -108,7 +110,7 @@ public class SearchFragment extends BaseFragment {
 			                      minimumRoomsNumberValue,
 			                      maximumRoomsNumberValue);
 			
-			searchViewModel.searchEstate(requireContext(), (SupportSQLiteQuery) request);
+			searchViewModel.searchEstate(requireContext(), request);
 		});
 		
 		minimumPriceEditText.setText("1");
@@ -120,15 +122,33 @@ public class SearchFragment extends BaseFragment {
 		minimumRoomsNumberValue = minimumRoomsNumberEditText.getText().toString();
 		maximumRoomsNumberValue = maximumRoomsNumberEditText.getText().toString();
 		
-		request = new Request(cityValue, minimumPriceValue,
+		request = new Request(cityValue,
+		                      minimumPriceValue,
 		                      maximumPriceValue,
 		                      minimumSurfaceValue,
 		                      maximumSurfaceValue,
 		                      minimumRoomsNumberValue,
 		                      maximumRoomsNumberValue);
+
+//		if (isTablet)
+//			FormFragment formFragment = new FormFragment();
+//		getSupportFragmentManager().beginTransaction()
+//		                           .replace(R.id.second_frame_fragment,
+//		                                    formFragment,
+//		                                    "VISIBLE_FRAGMENT")
+//		                           .commit();
+//		else
 		
-		searchViewModel.searchEstate(requireContext(), (SupportSQLiteQuery) request);
+		Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+		          .navigate(R.id.action_action_search_button_to_nav_estates_list,
+		                    saveRequest(request));
 		
+	}
+	
+	public Bundle saveRequest(Request request) {
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("request", new Gson().toJson(request));
+		return bundle;
 	}
 	
 }

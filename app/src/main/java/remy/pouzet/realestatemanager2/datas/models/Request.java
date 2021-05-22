@@ -1,11 +1,14 @@
 package remy.pouzet.realestatemanager2.datas.models;
+import androidx.sqlite.db.SupportSQLiteProgram;
+import androidx.sqlite.db.SupportSQLiteQuery;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Remy Pouzet on 21/05/2021.
  */
-public class Request {
+public class Request implements SupportSQLiteQuery {
 	
 	// Query string
 	String queryString = "";
@@ -124,6 +127,18 @@ public class Request {
 
 // End of query string
 		queryString += ";";
+	}
+	
+	@Override public String getSql() {
+		return null;
+	}
+	
+	@Override public void bindTo(SupportSQLiteProgram statement) {
+	
+	}
+	
+	@Override public int getArgCount() {
+		return 0;
 	}
 }
 

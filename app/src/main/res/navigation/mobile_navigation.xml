@@ -65,5 +65,9 @@
         android:id="@+id/action_search_button"
         android:name="remy.pouzet.realestatemanager2.views.fragments.SearchFragment"
         android:label="@string/menu_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_action_search_button_to_nav_estates_list"
+            app:destination="@id/nav_estates_list" />
+    </fragment>
 </navigation>

@@ -10,10 +10,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 import remy.pouzet.realestatemanager2.databinding.FragmentEstatesListBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
+import remy.pouzet.realestatemanager2.datas.models.Request;
 import remy.pouzet.realestatemanager2.viewmodels.EstatesListViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
@@ -40,21 +43,24 @@ import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 //------------------------------------------------------//
 
 public class EstatesListFragment extends BaseFragment {
-
+    
     ///////////////////////////////////////////////////////////////////////////
     // DATA
     ///////////////////////////////////////////////////////////////////////////
-
-    private RecyclerView recyclerView;
+    
+    private RecyclerView         recyclerView;
     private EstatesListViewModel estatesListViewModel;
-    private EstatesListAdapter estatesListAdapter = new EstatesListAdapter();
-
+    private EstatesListAdapter   estatesListAdapter = new EstatesListAdapter();
+    public  Request              request;
+    public  String               jsonRequest;
+    
     ///////////////////////////////////////////////////////////////////////////
     // LIFECYCLE
     ///////////////////////////////////////////////////////////////////////////
-
+    
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
         FragmentEstatesListBinding localFragmentEstatesListBinding = FragmentEstatesListBinding.inflate(
                 inflater,
@@ -64,8 +70,7 @@ public class EstatesListFragment extends BaseFragment {
         configureViewModel();
         configureRecyclerView();
         updateUI();
-        manageTabletMode();
-    
+        
         return localFragmentEstatesListBinding.getRoot();
     }
     
@@ -80,12 +85,17 @@ public class EstatesListFragment extends BaseFragment {
     // PRIVATE METHODS
     ///////////////////////////////////////////////////////////////////////////
     
-    private void manageTabletMode() {
-    
-    }
-    
     private void updateUI() {
-        estatesListViewModel.observeAllEstates().observe(getViewLifecycleOwner(), this::updateList);
+        if (getArguments() == null) {
+            estatesListViewModel.observeAllEstates()
+                                .observe(getViewLifecycleOwner(), this::updateList);
+        } else {
+            jsonRequest = getArguments().getString("request");
+            request     = new Gson().fromJson(jsonRequest, Request.class);
+            estatesListViewModel.searchEstate(requireContext(), request)
+                                .observe(getViewLifecycleOwner(), this::updateList);
+            // SQL syntax or request object type fail ?
+        }
     }
     
     private void updateList(List<Estate> estatesList) {
