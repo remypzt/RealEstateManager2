@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,7 +43,7 @@ public class SearchFragment extends BaseFragment {
 	                         @Nullable Bundle savedInstanceState) {
 		fragmentSearchBinding = FragmentSearchBinding.inflate(inflater, container, false);
 		viewBindingManagement();
-		return inflater.inflate(R.layout.fragment_search, container, false);
+		return fragmentSearchBinding.getRoot();
 	}
 	
 	//------------------------------------------------------//
@@ -91,9 +90,6 @@ public class SearchFragment extends BaseFragment {
 	public void searchManagement() {
 		
 		searchButton.setOnClickListener(v -> {
-			
-			Toast.makeText(requireContext(), "test", Toast.LENGTH_LONG).show();
-			
 			cityValue               = cityEditText.getText().toString();
 			minimumPriceValue       = minimumPriceEditText.getText().toString();
 			maximumPriceValue       = maximumPriceEditText.getText().toString();
@@ -109,26 +105,6 @@ public class SearchFragment extends BaseFragment {
 			                      maximumSurfaceValue,
 			                      minimumRoomsNumberValue,
 			                      maximumRoomsNumberValue);
-			
-			searchViewModel.searchEstate(requireContext(), request);
-		});
-		
-		minimumPriceEditText.setText("1");
-		cityValue               = cityEditText.getText().toString();
-		minimumPriceValue       = minimumPriceEditText.getText().toString();
-		maximumPriceValue       = maximumPriceEditText.getText().toString();
-		minimumSurfaceValue     = minimumSurfaceEditText.getText().toString();
-		maximumSurfaceValue     = maximumSurfaceEditText.getText().toString();
-		minimumRoomsNumberValue = minimumRoomsNumberEditText.getText().toString();
-		maximumRoomsNumberValue = maximumRoomsNumberEditText.getText().toString();
-		
-		request = new Request(cityValue,
-		                      minimumPriceValue,
-		                      maximumPriceValue,
-		                      minimumSurfaceValue,
-		                      maximumSurfaceValue,
-		                      minimumRoomsNumberValue,
-		                      maximumRoomsNumberValue);
 
 //		if (isTablet)
 //			FormFragment formFragment = new FormFragment();
@@ -138,11 +114,11 @@ public class SearchFragment extends BaseFragment {
 //		                                    "VISIBLE_FRAGMENT")
 //		                           .commit();
 //		else
-		
-		Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-		          .navigate(R.id.action_action_search_button_to_nav_estates_list,
-		                    saveRequest(request));
-		
+			
+			Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+			          .navigate(R.id.action_action_search_button_to_nav_estates_list,
+			                    saveRequest(request));
+		});
 	}
 	
 	public Bundle saveRequest(Request request) {

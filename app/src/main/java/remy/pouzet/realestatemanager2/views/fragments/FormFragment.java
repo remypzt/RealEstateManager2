@@ -3,7 +3,11 @@ package remy.pouzet.realestatemanager2.views.fragments;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,11 +24,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,8 +63,12 @@ public class FormFragment extends BaseFragment {
     public double estateLat, estateLng;
     public String adress;
     String[] estateLocationStringArray;
-    public  EstateRaw           estateRaw;
-    public  Long                id;
+    static final int       REQUEST_IMAGE_CAPTURE = 1;
+    public       EstateRaw estateRaw;
+    public       Long      id;
+    public       int       autoIncremented       = 0;
+    public       int       nullEquivalent        = 0;
+    String currentPhotoPath;
     private Estate              estate;
     private ConstraintLayout    constraintLayout;
     private FormViewModel       formViewModel;
@@ -68,9 +79,8 @@ public class FormFragment extends BaseFragment {
     private CheckBox            isItSellCheckBox;
     private TextView            sellTitleTextView;
     private FragmentFormBinding mFragmentFormBinding;
-    public  int                 autoIncremented = 0;
-    public  int                 nullEquivalent  = 0;
-    private LatLng              estateLocation  = new LatLng(-34.92873, 138.59995);
+    private ImageButton         takeMainPhoto, takeMainAlternatePhoto, takeMediaPhoto, takeMediaAlternatePhoto;
+    private LatLng estateLocation = new LatLng(-34.92873, 138.59995);
     
     //------------------------------------------------------//
     // ------------------   LifeCycle   ------------------- //
@@ -85,22 +95,6 @@ public class FormFragment extends BaseFragment {
         configureViewModel();
         return mFragmentFormBinding.getRoot();
     }
-    
-
-    
-    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHideKeyboardOnTouch(requireContext(), getView());
-        updateUIIfItsModification();
-        isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
-        datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
-        datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
-        validationButtonManagement();
-    }
-    
-    //------------------------------------------------------//
-    // ------------------   Functions   ------------------- //
-    //------------------------------------------------------//
     
     public static void setHideKeyboardOnTouch(final Context context, View view) {
         //Set up touch listener for non-text box views to hide keyboard.
@@ -130,12 +124,92 @@ public class FormFragment extends BaseFragment {
         }
     }
     
+    //------------------------------------------------------//
+    // ------------------   Functions   ------------------- //
+    //------------------------------------------------------//
+    
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHideKeyboardOnTouch(requireContext(), getView());
+        updateUIIfItsModification();
+        isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
+        takePhotosManagement();
+        datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
+        datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
+        validationButtonManagement();
+    }
+    
+    public void takePhotosManagement() {
+        takeMainPhoto.setOnClickListener(v -> {
+            takePhoto();
+        });
+        
+        takeMainAlternatePhoto.setOnClickListener(v -> {
+            takeAlternatePhoto();
+        });
+        
+        takeMediaPhoto.setOnClickListener(v -> {
+            takePhoto();
+        });
+        
+        takeMediaAlternatePhoto.setOnClickListener(v -> {
+            takeAlternatePhoto();
+        });
+    }
+    
+    public void takePhoto() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            }
+            catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(requireContext(),
+                                                          "com.example.android.fileprovider",
+                                                          photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+        
+    }
+    
+    private File createImageFile() throws
+                                   IOException {
+        // Create an image file name
+        String timeStamp     = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File   storageDir    = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName,  /* prefix */
+                                         ".jpg",         /* suffix */
+                                         storageDir      /* directory */);
+        
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+    
+    public void takeAlternatePhoto() {
+        
+    }
+    
     public void viewBindingManagement() {
         lastModificationDateButton = mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton;
         selledDateButton           = mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton;
         isItSellCheckBox           = mFragmentFormBinding.isSellCheckbox;
         sellTitleTextView          = mFragmentFormBinding.sellTitleFragmentForm;
         constraintLayout           = mFragmentFormBinding.parentFragmentForm;
+        takeMainPhoto              = mFragmentFormBinding.takeMainPhoto;
+        takeMainAlternatePhoto     = mFragmentFormBinding.takeMainAltertanePhoto;
+        takeMediaPhoto             = mFragmentFormBinding.takeMediaPhoto;
+        takeMediaAlternatePhoto    = mFragmentFormBinding.takeMediaAlternatePhoto;
     }
     
     private void configureViewModel() {
@@ -179,12 +253,12 @@ public class FormFragment extends BaseFragment {
                     showIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "unknow error");
                 }
                 break;
-    
+            
             case ERROR_SELL_DATE:
                 showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
                                        getString((R.string.sell_date_cannot_be_null)));
                 break;
-    
+            
             case ERROR_MINIMAL_WORD_LENGTH:
                 showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
                                        getString(R.string.minimal_words_lenght));
@@ -205,7 +279,7 @@ public class FormFragment extends BaseFragment {
                 showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
                                        getString(R.string.contact_value_cannot_be_null));
                 break;
-    
+            
             case ERROR_UPDATE_DATE_VALUE:
                 showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
                                        getString(R.string.update_date_cannot_be_null));
@@ -214,9 +288,10 @@ public class FormFragment extends BaseFragment {
     }
     
     public void datePickerButtonsManagement(Button button1, Button button2) {
-        int tens = 9;
+        int                                                tens                   = 9;
         @SuppressLint("SimpleDateFormat")
-        SimpleDateFormat formatterBackEndFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat                                   formatterBackEndFormat = new SimpleDateFormat(
+                "yyyyMMdd");
         button1.setOnClickListener(v -> {
             DatePickerDialog dd = new DatePickerDialog(requireContext(),
                                                        (view, year, monthOfYear, dayOfMonth) -> {
@@ -224,11 +299,11 @@ public class FormFragment extends BaseFragment {
                                                                String dateInStringUIFormat = Utils.uIformat(
                                                                        dayOfMonth,
                                                                        monthOfYear,
-                                    year);
-
-                            Date dateUIFormat = formatterUIFormat
-                                    .parse(dateInStringUIFormat);
-    
+                                                                       year);
+                    
+                                                               Date dateUIFormat = formatterUIFormat
+                                                                       .parse(dateInStringUIFormat);
+                    
                                                                if (dayOfMonth > tens) {
                                                                    String dateInStringBEformat = Utils
                                                                            .bEformat(dayOfMonth,
@@ -240,16 +315,16 @@ public class FormFragment extends BaseFragment {
                                                                    String dateInStringBEformatException = Utils
                                                                            .bEformatException(
                                                                                    dayOfMonth,
-                                                monthOfYear,
-                                                year);
-                                dateBackEndFormat = formatterBackEndFormat
-                                        .parse(dateInStringBEformatException);
-                            }
-
-                            button1.setText(formatterUIFormat.format(
-                                    dateUIFormat));
-
-                            // check that dates cannot be paradoxal between them
+                                                                                   monthOfYear,
+                                                                                   year);
+                                                                   dateBackEndFormat = formatterBackEndFormat
+                                                                           .parse(dateInStringBEformatException);
+                                                               }
+                    
+                                                               button1.setText(formatterUIFormat.format(
+                                                                       dateUIFormat));
+                    
+                                                               // check that dates cannot be paradoxal between them
                                                                if (button1.getText()
                                                                           .toString()
                                                                           .length() > nullEquivalent && button2.getText()
@@ -258,32 +333,36 @@ public class FormFragment extends BaseFragment {
                                                                    checkDateBetweenThem(button1,
                                                                                         button2);
                                                                }
-
-                            // check dates cannot be place in the future
-                            if (button1 == lastModificationDateButton) {
-                                Date dateOfBeginning = formatterUIFormat
-                                        .parse(dateInStringUIFormat);
-                                checkDateWithToday(
-                                        dateOfBeginning,
-                                        button1);
-
-                                updateDateInRightFormat = formatterBackEndFormat.format(
-                                        dateBackEndFormat);
-                            } else {
-                                Date dateOfEnding = formatterUIFormat.parse(dateInStringUIFormat);
-                                checkDateWithToday(dateOfEnding, button1);
-                                selledDateInRightFormat = formatterBackEndFormat.format(
-                                        dateBackEndFormat);
-                            }
+                    
+                                                               // check dates cannot be place in the future
+                                                               if (button1 == lastModificationDateButton) {
+                                                                   Date dateOfBeginning = formatterUIFormat
+                                                                           .parse(dateInStringUIFormat);
+                                                                   checkDateWithToday(
+                                                                           dateOfBeginning,
+                                                                           button1);
+                        
+                                                                   updateDateInRightFormat = formatterBackEndFormat
+                                                                           .format(dateBackEndFormat);
+                                                               } else {
+                                                                   Date dateOfEnding = formatterUIFormat
+                                                                           .parse(dateInStringUIFormat);
+                                                                   checkDateWithToday(dateOfEnding,
+                                                                                      button1);
+                                                                   selledDateInRightFormat = formatterBackEndFormat
+                                                                           .format(dateBackEndFormat);
+                                                               }
                                                            }
                                                            catch (Exception ex) {
                                                                ex.printStackTrace();
                                                            }
-                                                       }, year, month, day);
+                                                       },
+                                                       year,
+                                                       month,
+                                                       day);
             dd.show();
         });
     }
-    
     
     public void checkDateBetweenThem(Button button1, Button button2) {
         Date dateOfBeginning = null;
@@ -296,7 +375,8 @@ public class FormFragment extends BaseFragment {
         Date dateOfEnding = null;
         try {
             dateOfEnding = formatterUIFormat.parse((String) button2.getText());
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
             e.printStackTrace();
         }
         int comparison = dateOfBeginning.compareTo(dateOfEnding);
@@ -310,7 +390,7 @@ public class FormFragment extends BaseFragment {
                            "la date fin doit être ultérieure à celle de début",
                            Toast.LENGTH_LONG).show();
             button1.setText(null);
-        
+            
         }
     }
     
@@ -336,9 +416,9 @@ public class FormFragment extends BaseFragment {
     public void validationButtonManagement() {
         ImageButton localCreateNewEstateButton = mFragmentFormBinding.validateFormButton;
         localCreateNewEstateButton.setOnClickListener(v -> getEstateLocation()
-    
+        
                                                      );
-    
+        
     }
     
     private void getEstate(long id) {
@@ -375,7 +455,7 @@ public class FormFragment extends BaseFragment {
         formViewModel.observeResponse(mFragmentFormBinding.locationValueFragmentForm.getText()
                                                                                     .toString())
                      .observe(requireActivity(), observeResponse);
-    
+        
     }
     
     public boolean sellStatusManagement() {
@@ -442,7 +522,7 @@ public class FormFragment extends BaseFragment {
                                                                                            .toString(),
                              estateLat,
                              estateLng);
-    
+        
     }
 }
 

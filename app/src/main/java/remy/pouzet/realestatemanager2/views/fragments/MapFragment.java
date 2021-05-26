@@ -94,6 +94,7 @@ public class MapFragment extends Fragment {
 		if (map == null) {
 			return;
 		}
+		position = -1;
 		for (Estate localEstate : estatesList) {
 			position = position + 1;
 			getAndConvertStringToLatLng();

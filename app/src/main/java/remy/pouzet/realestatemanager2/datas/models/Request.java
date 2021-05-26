@@ -1,6 +1,4 @@
 package remy.pouzet.realestatemanager2.datas.models;
-import androidx.sqlite.db.SupportSQLiteProgram;
-import androidx.sqlite.db.SupportSQLiteQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +6,12 @@ import java.util.List;
 /**
  * Created by Remy Pouzet on 21/05/2021.
  */
-public class Request implements SupportSQLiteQuery {
+public class Request {
 	
 	// Query string
-	String queryString = "";
+	public String queryString = "";
 	String cityValue, minimumPriceValue, maximumPriceValue, minimumSurfaceValue, maximumSurfaceValue, minimumRoomsNumberValue, maximumRoomsNumberValue;
+	public List<Object> args = new ArrayList();
 	
 	public Request(String cityValue,
 	               String minimumPriceValue,
@@ -30,9 +29,6 @@ public class Request implements SupportSQLiteQuery {
 		this.minimumRoomsNumberValue = minimumRoomsNumberValue;
 		this.maximumRoomsNumberValue = maximumRoomsNumberValue;
 		
-		// List of bind parameters
-		List<Object> args = new ArrayList();
-		
 		boolean containsCondition = false;
 
 // Beginning of query string
@@ -42,7 +38,7 @@ public class Request implements SupportSQLiteQuery {
 		
 		if (!cityValue.isEmpty()) {
 			queryString += " WHERE";
-			queryString += " city LIKE ?%" + cityValue;
+			queryString += " city LIKE ?";
 			args.add(cityValue);
 			containsCondition = true;
 		}
@@ -56,7 +52,7 @@ public class Request implements SupportSQLiteQuery {
 				containsCondition = true;
 			}
 			
-			queryString += " price >" + minimumPriceValue;
+			queryString += " price > ?";
 			
 			args.add(Integer.parseInt(minimumPriceValue));
 		}
@@ -70,7 +66,7 @@ public class Request implements SupportSQLiteQuery {
 				containsCondition = true;
 			}
 			
-			queryString += " price <" + maximumPriceValue;
+			queryString += " price < ?";
 			args.add(Integer.parseInt(maximumPriceValue));
 		}
 		
@@ -82,8 +78,7 @@ public class Request implements SupportSQLiteQuery {
 				queryString += " WHERE";
 				containsCondition = true;
 			}
-			
-			queryString += " surface >" + minimumSurfaceValue;
+			queryString += " surface > ?";
 			args.add(Integer.parseInt(minimumSurfaceValue));
 		}
 		
@@ -95,8 +90,7 @@ public class Request implements SupportSQLiteQuery {
 				queryString += " WHERE";
 				containsCondition = true;
 			}
-			
-			queryString += " surface <" + maximumSurfaceValue;
+			queryString += " surface < ?";
 			args.add(Integer.parseInt(maximumSurfaceValue));
 		}
 		
@@ -109,7 +103,7 @@ public class Request implements SupportSQLiteQuery {
 				containsCondition = true;
 			}
 			
-			queryString += " rooms >" + minimumRoomsNumberValue;
+			queryString += " rooms > ?";
 			args.add(Integer.parseInt(minimumRoomsNumberValue));
 		}
 		
@@ -121,7 +115,7 @@ public class Request implements SupportSQLiteQuery {
 				queryString += " WHERE";
 				containsCondition = true;
 			}
-			queryString += " rooms <" + maximumRoomsNumberValue;
+			queryString += " rooms < ?";
 			args.add(Integer.parseInt(maximumRoomsNumberValue));
 		}
 
@@ -129,17 +123,6 @@ public class Request implements SupportSQLiteQuery {
 		queryString += ";";
 	}
 	
-	@Override public String getSql() {
-		return null;
-	}
-	
-	@Override public void bindTo(SupportSQLiteProgram statement) {
-	
-	}
-	
-	@Override public int getArgCount() {
-		return 0;
-	}
 }
 
 	

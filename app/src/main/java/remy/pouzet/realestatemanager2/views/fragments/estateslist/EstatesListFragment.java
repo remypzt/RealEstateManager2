@@ -70,7 +70,6 @@ public class EstatesListFragment extends BaseFragment {
         configureViewModel();
         configureRecyclerView();
         updateUI();
-        
         return localFragmentEstatesListBinding.getRoot();
     }
     
@@ -92,9 +91,9 @@ public class EstatesListFragment extends BaseFragment {
         } else {
             jsonRequest = getArguments().getString("request");
             request     = new Gson().fromJson(jsonRequest, Request.class);
+    
             estatesListViewModel.searchEstate(requireContext(), request)
                                 .observe(getViewLifecycleOwner(), this::updateList);
-            // SQL syntax or request object type fail ?
         }
     }
     
