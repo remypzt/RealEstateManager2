@@ -40,10 +40,9 @@
 
 
     <ImageView
-        android:id="@+id/chosen_main_picture_title_fragment_form"
+        android:id="@+id/chosen_main_picture_fragment_form"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         app:layout_constraintStart_toStartOf="@id/main_picture_title_fragment_form"
         app:layout_constraintTop_toBottomOf="@id/take_main_photo" />
@@ -109,7 +108,7 @@
         android:text="@string/media"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chosen_main_picture_title_fragment_form" />
+        app:layout_constraintTop_toBottomOf="@+id/chosen_main_picture_fragment_form" />
 
     <ImageButton
         android:id="@+id/take_media_photo"

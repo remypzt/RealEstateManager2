@@ -1,5 +1,6 @@
 package remy.pouzet.realestatemanager2.views.fragments.estateslist;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,11 +49,12 @@ public class EstatesListFragment extends BaseFragment {
     // DATA
     ///////////////////////////////////////////////////////////////////////////
     
+    public  Request              request;
+    public  String               jsonRequest;
+    public  SharedPreferences    sharedPreferences;
     private RecyclerView         recyclerView;
     private EstatesListViewModel estatesListViewModel;
     private EstatesListAdapter   estatesListAdapter = new EstatesListAdapter();
-    public  Request              request;
-    public  String               jsonRequest;
     
     ///////////////////////////////////////////////////////////////////////////
     // LIFECYCLE

@@ -32,6 +32,7 @@ import org.greenrobot.eventbus.Subscribe;
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.ActivityMainBinding;
 import remy.pouzet.realestatemanager2.datas.models.ListEvent;
+import remy.pouzet.realestatemanager2.utils.IOnBackPressed;
 import remy.pouzet.realestatemanager2.views.fragments.DetailsFragment;
 import remy.pouzet.realestatemanager2.views.fragments.FormFragment;
 import remy.pouzet.realestatemanager2.views.fragments.LoanSimulatorFragment;
@@ -59,6 +60,28 @@ import remy.pouzet.realestatemanager2.views.fragments.estateslist.EstatesListFra
 //------------------------------------------------------//
 // ----------------- Navigation, Menu, UI ------------- //
 //------------------------------------------------------//
+
+//TODO imrpove back from details after click on infowindows ? (problem is on backmanagement)
+//TODO manage crash geoUC
+//TODO  manage no result case (adress)
+//TODO improve dirty code
+//TODO manage crash back from modify
+//TODO pictures
+
+//TODO finish take photo from hardware device :
+//TODO display picture in form gallery for medias
+//TODO save it in estate
+//TODO display in details
+
+//TODO take picture from galery :
+//TODO display picture in form gallery for main and medias
+//TODO save it in estate
+//TODO display in details
+
+//TODO cf notes
+//TODO  make if is tablet UC
+
+//TODO clean and rearrange the code
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 	//------------------------------------------------------//
@@ -182,12 +205,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		});
 	}
 	
+	// problem is here
 	private void onBackManagement() {
 		Fragment currentBackStackFragment = getSupportFragmentManager().findFragmentByTag(
 				"VISIBLE_FRAGMENT");
 		if (currentBackStackFragment instanceof DetailsFragment) {
-			firstFrame.setVisibility(View.VISIBLE);
-			mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
+			if (currentBackStackFragment.getArguments().getBoolean("isStartedFromMap")) {
+				mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
+				firstFrame.setVisibility(View.GONE);
+			} else {
+				firstFrame.setVisibility(View.VISIBLE);
+				mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
+			}
 		} else {
 			mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
 			firstFrame.setVisibility(View.GONE);
@@ -357,6 +386,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	@Override public void onBackPressed() {
 		Fragment currentBackStackFragment = getSupportFragmentManager().findFragmentByTag(
 				"VISIBLE_FRAGMENT");
+		
+		// this part is useful for manage on back pressed from fragment (more suitable for passing data)
+		if (!(currentBackStackFragment instanceof IOnBackPressed) || !((IOnBackPressed) currentBackStackFragment)
+				.onBackPressed()) {
+			super.onBackPressed();
+		}
+		
 		if (currentBackStackFragment instanceof FormFragment && currentBackStackFragment.getArguments() == null) {
 			configureAndShowDetailsFragment();
 			mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);

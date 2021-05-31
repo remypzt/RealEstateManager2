@@ -1,5 +1,7 @@
 package remy.pouzet.realestatemanager2.views.fragments;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +25,12 @@ import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.FragmentDetailsBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.datas.services.realapi.pojos.ResultsItem;
+import remy.pouzet.realestatemanager2.utils.IOnBackPressed;
 import remy.pouzet.realestatemanager2.utils.OnMapAndViewReadyListener;
 import remy.pouzet.realestatemanager2.viewmodels.DetailsViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
-public class DetailsFragment extends BaseFragment implements OnMapReadyCallback {
+public class DetailsFragment extends BaseFragment implements OnMapReadyCallback, IOnBackPressed {
 	//------------------------------------------------------//
 	// ------------------   Variables   ------------------- //
 	// ------------------------------------------------------//
@@ -42,6 +45,7 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	private final boolean                tabletMode     = false;
 	private       TextView               descriptionValueTextView;
 	private       TextView               surfaceValueTextView;
+	public        Bundle                 bundle         = new Bundle();
 	private       TextView               locationValueTextView;
 	private       TextView               roomsValueTextView;
 	private       TextView               contactValueTextView;
@@ -89,6 +93,24 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 	@Override public void onMapReady(GoogleMap googleMap) {
 		map = googleMap;
 		
+	}
+	
+	//I'd try to pass data from fragment to activity by bundle and sharedpreferences but i failed it so I'm using this unorthodox method
+	
+	@Override public boolean onBackPressed() {
+		
+		if (getArguments().getBoolean("isStartedFromMap") && isTablet(requireContext())) {
+			MapFragment mapFragment = new MapFragment();
+			bundle.putBoolean("isStartedFromMap", false);
+			mapFragment.setArguments(bundle);
+			getActivity().getSupportFragmentManager()
+			             .beginTransaction()
+			             .replace(R.id.second_frame_fragment, mapFragment, "VISIBLE_FRAGMENT")
+			             .commit();
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public void viewBindingManagement() {
@@ -182,6 +204,14 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback 
 			
 		};
 		detailsViewModel.observeResponse(adress).observe(requireActivity(), observeResponse);
+	}
+	
+	public boolean isTablet(Context context) {
+		boolean xlarge = ((context.getResources()
+		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+		boolean large = ((context.getResources()
+		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+		return (xlarge || large);
 	}
 	
 }

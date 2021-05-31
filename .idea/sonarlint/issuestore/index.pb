@@ -139,3 +139,11 @@ q
 Aapp/src/main/res/layout/content_items_of_fragment_estate_list.xml,9\5\9553e0feae1e56bc211d140473058378e1ee344c
 a
 1app/src/main/res/navigation/mobile_navigation.xml,5\0\50c7987ff387678f825775665976b5fc8ed47989
+\
+,app/src/main/res/drawable/add_a_photo_24.xml,b\3\b3b70e7ea450a52900a8414d0d2644a0f80c6575
+d
+4app/src/main/res/drawable/add_photo_alternate_24.xml,6\1\61e2d6c2cb0e258d180ae38bb219f6cfc6bfeff1
+R
+"app/src/main/res/xml/file_path.xml,1\b\1bef3a7b11fd8a626206f807182a4527d1e5aa84
+z
+Japp/src/main/java/remy/pouzet/realestatemanager2/utils/IOnBackPressed.java,6\e\6e63a4ca647516959ac96da86cbc21f0e19d0b26

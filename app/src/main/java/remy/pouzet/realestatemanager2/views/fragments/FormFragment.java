@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -80,7 +83,8 @@ public class FormFragment extends BaseFragment {
     private TextView            sellTitleTextView;
     private FragmentFormBinding mFragmentFormBinding;
     private ImageButton         takeMainPhoto, takeMainAlternatePhoto, takeMediaPhoto, takeMediaAlternatePhoto;
-    private LatLng estateLocation = new LatLng(-34.92873, 138.59995);
+    public  ImageView mainPicture;
+    private LatLng    estateLocation = new LatLng(-34.92873, 138.59995);
     
     //------------------------------------------------------//
     // ------------------   LifeCycle   ------------------- //
@@ -176,9 +180,18 @@ public class FormFragment extends BaseFragment {
                                                           photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            }
-        }
         
+            }
+    
+        }
+    
+    }
+    
+    @Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            setPic(mainPicture);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
     
     private File createImageFile() throws
@@ -196,6 +209,40 @@ public class FormFragment extends BaseFragment {
         return image;
     }
     
+    private void setPic(ImageView imageView) {
+        // Get the dimensions of the View
+        int targetW = imageView.getWidth();
+        int targetH = imageView.getHeight();
+        
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        
+        BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+        
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+        
+        // Determine how much to scale down the image
+        int scaleFactor = Math.max(1, Math.min(photoW / targetW, photoH / targetH));
+        
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize       = scaleFactor;
+        bmOptions.inPurgeable        = true;
+        
+        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+        imageView.setImageBitmap(bitmap);
+    }
+    
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File   f               = new File(currentPhotoPath);
+        Uri    contentUri      = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        getActivity().sendBroadcast(mediaScanIntent);
+    }
+    
     public void takeAlternatePhoto() {
         
     }
@@ -210,6 +257,7 @@ public class FormFragment extends BaseFragment {
         takeMainAlternatePhoto     = mFragmentFormBinding.takeMainAltertanePhoto;
         takeMediaPhoto             = mFragmentFormBinding.takeMediaPhoto;
         takeMediaAlternatePhoto    = mFragmentFormBinding.takeMediaAlternatePhoto;
+        mainPicture                = mFragmentFormBinding.chosenMainPictureFragmentForm;
     }
     
     private void configureViewModel() {

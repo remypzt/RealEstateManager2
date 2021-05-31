@@ -1,5 +1,7 @@
 package remy.pouzet.realestatemanager2.views.fragments;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import remy.pouzet.realestatemanager2.databinding.FragmentSearchBinding;
 import remy.pouzet.realestatemanager2.datas.models.Request;
 import remy.pouzet.realestatemanager2.viewmodels.SearchViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
+import remy.pouzet.realestatemanager2.views.fragments.estateslist.EstatesListFragment;
 
 public class SearchFragment extends BaseFragment {
 	
@@ -28,8 +31,8 @@ public class SearchFragment extends BaseFragment {
 	public SearchViewModel       searchViewModel;
 	public Request               request;
 	public FragmentSearchBinding fragmentSearchBinding;
-	
-	public String cityValue, minimumPriceValue, maximumPriceValue, minimumSurfaceValue, maximumSurfaceValue, minimumRoomsNumberValue, maximumRoomsNumberValue;
+	public Bundle                bundle = new Bundle();
+	public String                cityValue, minimumPriceValue, maximumPriceValue, minimumSurfaceValue, maximumSurfaceValue, minimumRoomsNumberValue, maximumRoomsNumberValue;
 	
 	//------------------------------------------------------//
 	// ------------------   Binding   ------------------- //
@@ -105,19 +108,22 @@ public class SearchFragment extends BaseFragment {
 			                      maximumSurfaceValue,
 			                      minimumRoomsNumberValue,
 			                      maximumRoomsNumberValue);
-
-//		if (isTablet)
-//			FormFragment formFragment = new FormFragment();
-//		getSupportFragmentManager().beginTransaction()
-//		                           .replace(R.id.second_frame_fragment,
-//		                                    formFragment,
-//		                                    "VISIBLE_FRAGMENT")
-//		                           .commit();
-//		else
 			
-			Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-			          .navigate(R.id.action_action_search_button_to_nav_estates_list,
-			                    saveRequest(request));
+			if (isTablet(requireContext())) {
+				EstatesListFragment estatesListFragment = new EstatesListFragment();
+				estatesListFragment.setArguments(saveRequest(request));
+				getActivity().getSupportFragmentManager()
+				             .beginTransaction()
+				             .replace(R.id.second_frame_fragment,
+				                      estatesListFragment,
+				                      "VISIBLE_FRAGMENT")
+				             .addToBackStack(null)
+				             .commit();
+			} else {
+				Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+				          .navigate(R.id.action_action_search_button_to_nav_estates_list,
+				                    saveRequest(request));
+			}
 		});
 	}
 	
@@ -127,4 +133,11 @@ public class SearchFragment extends BaseFragment {
 		return bundle;
 	}
 	
+	public boolean isTablet(Context context) {
+		boolean xlarge = ((context.getResources()
+		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+		boolean large = ((context.getResources()
+		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+		return (xlarge || large);
+	}
 }

@@ -1,7 +1,9 @@
 package remy.pouzet.realestatemanager2.views.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,6 +52,7 @@ public class MapFragment extends Fragment {
 	public  MapViewModel mapViewModel;
 	public  String       adress;
 	public  int          position       = -1;
+	public  Bundle       bundle         = new Bundle();
 	private GoogleMap    map;
 	private boolean      locationPermissionGranted;
 	private LatLng       estateLocation = new LatLng(-34.92873, 138.59995);
@@ -100,15 +103,36 @@ public class MapFragment extends Fragment {
 			getAndConvertStringToLatLng();
 			showEstateLocation(localEstate);
 		}
-		map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-			@Override public void onInfoWindowClick(Marker marker) {
-				View         view;
-				CharSequence charSequence;
+		map.setOnInfoWindowClickListener(marker -> {
+			View         view;
+			CharSequence charSequence;
+			if (isTablet(requireContext())) {
+				DetailsFragment detailsFragment = new DetailsFragment();
+				bundle.putBoolean("isStartedFromMap", true);
+				detailsFragment.setArguments(saveEstateId((Long) marker.getTag()));
+				
+				getActivity().getSupportFragmentManager()
+				             .beginTransaction()
+				             .hide(this)
+				
+				             .add(R.id.second_frame_fragment, detailsFragment, "VISIBLE_FRAGMENT")
+				             .addToBackStack(null)
+				             .commit();
+			} else {
 				Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
 				          .navigate(R.id.action_nav_map_fragment_to_nav_details,
 				                    saveEstateId((Long) marker.getTag()));
 			}
+			
 		});
+	}
+	
+	public boolean isTablet(Context context) {
+		boolean xlarge = ((context.getResources()
+		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+		boolean large = ((context.getResources()
+		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+		return (xlarge || large);
 	}
 	
 	public void getAndConvertStringToLatLng() {
@@ -214,7 +238,7 @@ public class MapFragment extends Fragment {
 	}
 	
 	public Bundle saveEstateId(long id) {
-		Bundle bundle = new Bundle();
+		
 		bundle.putLong("id", id);
 		return bundle;
 	}
