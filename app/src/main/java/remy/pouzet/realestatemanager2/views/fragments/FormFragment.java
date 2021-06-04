@@ -50,13 +50,14 @@ import remy.pouzet.realestatemanager2.utils.Utils;
 import remy.pouzet.realestatemanager2.viewmodels.FormViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
+import static android.app.Activity.RESULT_OK;
+
 public class FormFragment extends BaseFragment {
     
     //------------------------------------------------------//
     // ------------------   Variables   ------------------- //
     // ------------------------------------------------------//
     
-    //-- Dates variables --//
     @SuppressLint("SimpleDateFormat") SimpleDateFormat formatterUIFormat = new SimpleDateFormat(
             "dd/MM/yyyy");
     Calendar c    = Calendar.getInstance();
@@ -65,7 +66,6 @@ public class FormFragment extends BaseFragment {
     String selledDateInRightFormat;
     public double estateLat, estateLng;
     public String adress;
-    String[] estateLocationStringArray;
     static final int       REQUEST_IMAGE_CAPTURE = 1;
     public       EstateRaw estateRaw;
     public       Long      id;
@@ -147,15 +147,12 @@ public class FormFragment extends BaseFragment {
         takeMainPhoto.setOnClickListener(v -> {
             takePhoto();
         });
-        
         takeMainAlternatePhoto.setOnClickListener(v -> {
             takeAlternatePhoto();
         });
-        
         takeMediaPhoto.setOnClickListener(v -> {
             takePhoto();
         });
-        
         takeMediaAlternatePhoto.setOnClickListener(v -> {
             takeAlternatePhoto();
         });
@@ -180,18 +177,8 @@ public class FormFragment extends BaseFragment {
                                                           photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        
             }
-    
         }
-    
-    }
-    
-    @Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE) {
-            setPic(mainPicture);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
     
     private File createImageFile() throws
@@ -207,6 +194,15 @@ public class FormFragment extends BaseFragment {
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+    
+    @Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                setPic(mainPicture);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
     
     private void setPic(ImageView imageView) {
@@ -234,14 +230,7 @@ public class FormFragment extends BaseFragment {
         Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
         imageView.setImageBitmap(bitmap);
     }
-    
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File   f               = new File(currentPhotoPath);
-        Uri    contentUri      = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        getActivity().sendBroadcast(mediaScanIntent);
-    }
+
     
     public void takeAlternatePhoto() {
         
@@ -534,7 +523,6 @@ public class FormFragment extends BaseFragment {
         mFragmentFormBinding.surfaceValueFragmentForm.setText(Long.toString(estate.getSurface()));
         if (estate.getAdress() != null) {
             mFragmentFormBinding.locationValueFragmentForm.setText(estate.getAdress());
-            //TODO adress picture
         }
         mFragmentFormBinding.roomsValueFragmentForm.setText(Long.toString(estate.getRooms()));
         mFragmentFormBinding.contactValueFragmentForm.setText(estate.getAgent());
@@ -556,8 +544,7 @@ public class FormFragment extends BaseFragment {
                                                                                .toString(),
                              mFragmentFormBinding.valueOfEstatePriceFragmentForm.getText()
                                                                                 .toString(),
-                             //TODO
-                             "mainpicturevalue",
+                             currentPhotoPath,
                              autoIncremented,
                              mFragmentFormBinding.contentDescriptionFragmentForm.getText()
                                                                                 .toString(),

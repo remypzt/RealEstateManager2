@@ -2,6 +2,8 @@ package remy.pouzet.realestatemanager2.views.fragments.estateslist;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,6 +33,7 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
     private final TextView                                priceEstate;
     private final TextView                                selledStatut;
     private final ConstraintLayout                        constraintLayout;
+    private       String                                  currentPhotoPath;
 
     public EstatesListViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -50,6 +53,11 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
         } else {
             selledStatut.setVisibility(View.INVISIBLE);
         }
+        if (estate.getMainPicture() != null) {
+            currentPhotoPath = estate.getMainPicture();
+            setPic(mainPictureEstate);
+        
+        }
         typeEstate.setText(estate.getType());
         cityLocationEstate.setText(estate.getCity());
         priceEstate.setText((estate.getPrice() + "€"));
@@ -65,6 +73,32 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
                                                                                           saveEstateId(
                                                                                                   estate))));
         }
+    }
+    
+    private void setPic(ImageView imageView) {
+        // Get the dimensions of the View
+        int targetW = imageView.getWidth();
+        int targetH = imageView.getHeight();
+        
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        
+        BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+        
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+        
+        // Determine how much to scale down the image
+        int scaleFactor = Math.max(1, Math.min(photoW / targetW, photoH / targetH));
+        
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize       = scaleFactor;
+        bmOptions.inPurgeable        = true;
+        
+        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+        imageView.setImageBitmap(bitmap);
     }
     
     public boolean isTablet(Context context) {

@@ -135,8 +135,6 @@ z
 Japp/src/main/java/remy/pouzet/realestatemanager2/datas/models/Galerie.java,9\2\9282aacc31ee6d34f2e83646478ae0a73d06e173
 z
 Japp/src/main/java/remy/pouzet/realestatemanager2/datas/models/Request.java,1\8\188a0e4e34ce92f2cc88cfc0f7b8b5bb8a8ad601
-q
-Aapp/src/main/res/layout/content_items_of_fragment_estate_list.xml,9\5\9553e0feae1e56bc211d140473058378e1ee344c
 a
 1app/src/main/res/navigation/mobile_navigation.xml,5\0\50c7987ff387678f825775665976b5fc8ed47989
 \

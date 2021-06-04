@@ -61,26 +61,27 @@ import remy.pouzet.realestatemanager2.views.fragments.estateslist.EstatesListFra
 // ----------------- Navigation, Menu, UI ------------- //
 //------------------------------------------------------//
 
-//TODO imrpove back from details after click on infowindows ? (problem is on backmanagement)
-//TODO manage crash geoUC
-//TODO  manage no result case (adress)
-//TODO improve dirty code
-//TODO manage crash back from modify
-//TODO pictures
+//TODO displaying picture bug
+//TODO boolean onBackPressed
+//TODO POI
 
-//TODO finish take photo from hardware device :
-//TODO display picture in form gallery for medias
-//TODO save it in estate
-//TODO display in details
+//TODO take alternate main photo
+//TODO take picture from hardware for galery photo
+//TODO take alternate galery photo
+//TODO display galery photo in form
+//TODO save galery photo in estate
+//TODO display galery photo in details
 
-//TODO take picture from galery :
-//TODO display picture in form gallery for main and medias
-//TODO save it in estate
-//TODO display in details
+//TODO modify button gone from !details
+//TODO erase photo
+//TODO ajout vide
+//TODO manage no result case (adress)
 
-//TODO cf notes
+//TODO make photo functions UC
 //TODO  make if is tablet UC
 
+//TODO public private
+//TODO todos
 //TODO clean and rearrange the code
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	
 	public long            id;
 	public boolean         listHadBeenClick = false;
+	public boolean         manageBackError  = false;
 	public Bundle          bundle           = new Bundle();
 	public DetailsFragment detailsFragment;
 	public NavHostFragment navHostFragment;
@@ -147,19 +149,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		t.commit();
 	}
 
-//
-//		recyclerView = findViewById(R.id.fragment_main_recycler_view);
-//		EstatesListAdapter adapter = new EstatesListAdapter();
-//		recyclerView.setAdapter(adapter);
-//
-//		//Call click method
-//		adapter.setListener(EstatesListAdapter.EstatesListViewHolder.ItemClickListener) {
-//			@Override
-//			public void onItemClick(int position) {
-//				Toast.makeText(MainActivity.this, position + "===", Toast.LENGTH_SHORT).show();
-//			}
-//		});
-	
 	//------------------------------------------------------//
 	// ----------------- Navigation, Menu ----------------- //
 	//------------------------------------------------------//
@@ -386,17 +375,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	@Override public void onBackPressed() {
 		Fragment currentBackStackFragment = getSupportFragmentManager().findFragmentByTag(
 				"VISIBLE_FRAGMENT");
-		
+		manageBackError = false;
 		// this part is useful for manage on back pressed from fragment (more suitable for passing data)
 		if (!(currentBackStackFragment instanceof IOnBackPressed) || !((IOnBackPressed) currentBackStackFragment)
 				.onBackPressed()) {
+			manageBackError = true;
 			super.onBackPressed();
-		}
-		
-		if (currentBackStackFragment instanceof FormFragment && currentBackStackFragment.getArguments() == null) {
+		} else if (!manageBackError && currentBackStackFragment instanceof FormFragment && currentBackStackFragment
+				                                                                                   .getArguments() == null) {
 			configureAndShowDetailsFragment();
 			mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
-		} else {
+			manageBackError = true;
+		} else if (!manageBackError) {
 			super.onBackPressed();
 		}
 	}
@@ -424,10 +414,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		if (id == R.id.nav_estates_list) {
 			//TODO it's quite dirty
 			Intent startIntent = new Intent(this, MainActivity.class);
+			MainActivity.this.finish();
 			startActivity(startIntent);
-			
 		} else if (id == R.id.nav_loan_simulator) {
-			
 			LoanSimulatorFragment loanSimulatorFragment = new LoanSimulatorFragment();
 			getSupportFragmentManager().beginTransaction()
 			                           .replace(R.id.second_frame_fragment,
@@ -438,7 +427,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			
 		} else if (id == R.id.nav_map_fragment) {
 			MapFragment mapFragment = new MapFragment();
-			
 			getSupportFragmentManager().beginTransaction()
 			                           .replace(R.id.second_frame_fragment,
 			                                    mapFragment,
@@ -447,16 +435,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			                           .commit();
 		}
 		mActivityMainBinding.drawerLayout.closeDrawer(GravityCompat.START);
-
 		return true;
 	}
 }
-
-//	public String getCurrentFragment() {
-//		return getSupportFragmentManager().findFragmentById(R.id.second_frame_fragment)
-//		                                  .getClass()
-//		                                  .getSimpleName();
-//	}
 
 
 	

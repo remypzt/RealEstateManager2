@@ -2,10 +2,13 @@ package remy.pouzet.realestatemanager2.views.fragments;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,25 +40,25 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 	
 	public long   id;
 	public double estateLat, estateLng;
-	public        String                 adress;
-	private       LatLng                 estateLocation = new LatLng(-34.92873, 138.59995);
-	private       TextView               typeValueTextView;
-	private       TextView               cityValueTextView;
-	private       TextView               priceValueTextView;
-	private final boolean                tabletMode     = false;
-	private       TextView               descriptionValueTextView;
-	private       TextView               surfaceValueTextView;
-	public        Bundle                 bundle         = new Bundle();
-	private       TextView               locationValueTextView;
-	private       TextView               roomsValueTextView;
-	private       TextView               contactValueTextView;
-	private       TextView               lastUpdateValueTextView;
-	private       TextView               sellDateValueTextView;
-	private       TextView               sellDateTitleTextView;
-	private       DetailsViewModel       detailsViewModel;
-	private       Estate                 estate;
-	private       GoogleMap              map;
-	private       FragmentDetailsBinding fragmentDetailsBinding;
+	public  String                 adress;
+	public  ImageView              mainPicture;
+	public  Bundle                 bundle         = new Bundle();
+	private LatLng                 estateLocation = new LatLng(-34.92873, 138.59995);
+	private TextView               typeValueTextView;
+	private TextView               cityValueTextView;
+	private TextView               priceValueTextView;
+	private TextView               descriptionValueTextView;
+	private TextView               surfaceValueTextView;
+	private String                 mainPictureURI;
+	private TextView               locationValueTextView;
+	private TextView               roomsValueTextView;
+	private TextView               contactValueTextView;
+	private TextView               lastUpdateValueTextView;
+	private TextView               sellDateValueTextView;
+	private TextView               sellDateTitleTextView;
+	private DetailsViewModel       detailsViewModel;
+	private GoogleMap              map;
+	private FragmentDetailsBinding fragmentDetailsBinding;
 	
 	//------------------------------------------------------//
 	// ------------------   LifeCycle   ------------------- //
@@ -125,21 +128,13 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 		lastUpdateValueTextView  = fragmentDetailsBinding.updateDateValueFragmentDetails;
 		sellDateTitleTextView    = fragmentDetailsBinding.sellDateFragmentDetails;
 		sellDateValueTextView    = fragmentDetailsBinding.sellDateValueFragmentDetails;
+		mainPicture              = fragmentDetailsBinding.chosenMainPictureDetailsFragment;
+		
 	}
 	
 	private void configureViewModel() {
 		detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
 	}
-
-//    @Override
-//    protected void onResumeFragments() {
-//        super.onResumeFragments();
-//        if (permissionDenied) {
-//            // Permission was not granted, display error dialog.
-//            showMissingPermissionError();
-//            permissionDenied = false;
-//        }
-//    }
 	
 	//------------------------------------------------------//
 	// ------------------   Functions   ------------------- //
@@ -151,33 +146,58 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 			typeValueTextView.setText(estate.getType());
 			cityValueTextView.setText(estate.getCity());
 			priceValueTextView.setText(estate.getPrice() + "€");
-			
 			if (estate.getDescription().isEmpty()) {
 				descriptionValueTextView.setText(
 						"Aucune description n'a été renseignée pour le moment");
 			} else {
 				descriptionValueTextView.setText(estate.getDescription());
 			}
-			
 			surfaceValueTextView.setText(String.valueOf(estate.getSurface()));
-			
 			roomsValueTextView.setText(String.valueOf(estate.getRooms()));
 			contactValueTextView.setText(estate.getAgent());
 			lastUpdateValueTextView.setText(estate.getUpdateDate());
-			
 			if (estate.getSellDate().isEmpty()) {
 				sellDateValueTextView.setVisibility(View.INVISIBLE);
 				sellDateTitleTextView.setVisibility(View.INVISIBLE);
 			} else {
 				sellDateValueTextView.setText(estate.getSellDate());
 			}
-			
 			if (!estate.getAdress().contentEquals("location value")) {
 				locationValueTextView.setText(estate.getAdress());
 				configureLiteMap();
 			}
-			
+			if (estate.getMainPicture() != null) {
+				mainPictureURI = estate.getMainPicture();
+				setPic(mainPicture);
+			}
 		}
+	}
+	
+	private void setPic(ImageView imageView) {
+		
+		// Get the dimensions of the View
+		int targetW = imageView.getWidth();
+		int targetH = imageView.getHeight();
+		
+		// Get the dimensions of the bitmap
+		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+		bmOptions.inJustDecodeBounds = true;
+		
+		BitmapFactory.decodeFile(mainPictureURI, bmOptions);
+		
+		int photoW = bmOptions.outWidth;
+		int photoH = bmOptions.outHeight;
+		
+		// Determine how much to scale down the image
+		int scaleFactor = Math.max(1, Math.min(photoW / targetW, photoH / targetH));
+		
+		// Decode the image file into a Bitmap sized to fill the View
+		bmOptions.inJustDecodeBounds = false;
+		bmOptions.inSampleSize       = scaleFactor;
+		bmOptions.inPurgeable        = true;
+		
+		Bitmap bitmap = BitmapFactory.decodeFile(mainPictureURI, bmOptions);
+		imageView.setImageBitmap(bitmap);
 	}
 	
 	private void configureLiteMap() {
@@ -213,5 +233,4 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
 		return (xlarge || large);
 	}
-	
 }

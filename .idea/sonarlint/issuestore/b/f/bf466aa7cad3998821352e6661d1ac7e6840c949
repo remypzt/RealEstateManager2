@@ -1,67 +1,65 @@
 
-O
-java:S1602”",Remove useless curly braces around statement(í†ÂÏúÿÿÿÿ8‰»òü›/
-r
-java:S1104G"UMake estateRaw a static final constant or non-public and provide accessors if needed.(Ë€ª¬8‡–øƒ/
-V
-java:S1874ô"3Remove this use of "inPurgeable"; it is deprecated.(á§³™üÿÿÿÿ8™®ı›/
-Q
-java:S1068M"4Remove this unused "constraintLayout" private field.(®ä›8Òûª³/
-D
-java:S1604m"(Make this anonymous inner class a lambda(¥›ŸR8šÎïÅš/
-^
-java:S1128"ARemove this unused import 'android.preference.PreferenceManager'.(ìùÖõ8³õåü›/
-O
-java:S1602œ",Remove useless curly braces around statement(¶ê¯¡şÿÿÿÿ8ÃëôÅš/
-k
-java:S1104H"NMake id a static final constant or non-public and provide accessors if needed.(€÷ëÚ8‡–øƒ/
 |
-java:S1104J"ZMake nullEquivalent a static final constant or non-public and provide accessors if needed.(çæ‹Åùÿÿÿÿ8³›®³/
-H
-java:S1659V",Declare "takeMediaPhoto" on a separate line.(ôØ©8½ÑŸÄš/
-w
-java:S1104C"UMake estateLng a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8¹Ã“²/
-O
-java:S1068X"2Remove this unused "estateLocation" private field.(±óÔã8ªç¼Ó/
-k
-java:S2259²"MA "NullPointerException" could be thrown; "dateOfBeginning" is nullable here.(—Šãï8™®ı›/
-t
-java:S1104D"RMake adress a static final constant or non-public and provide accessors if needed.(ˆÚ€¼ıÿÿÿÿ8¹Ã“²/
-l
-java:S2259Ë"IA "NullPointerException" could be thrown; "dateOfToday" is nullable here.(”¸…ùÿÿÿÿ8™®ı›/
-E
-java:S1659@"#Declare "month" on a separate line.(Ò¿Ûùÿÿÿÿ8Š«“‚/
-C
-java:S1659@"!Declare "day" on a separate line.(Ò¿Ûùÿÿÿÿ8Š«“‚/
-i
-java:S1874Ù"FRemove this use of "ACTION_MEDIA_SCANNER_SCAN_FILE"; it is deprecated.(ëÒ¿šıÿÿÿÿ8™®ı›/
-l
-java:S2259ï"IA "NullPointerException" could be thrown; "dateOfToday" is nullable here.(à´Â†øÿÿÿÿ8™®ı›/
-|
-java:S1450M"_Remove the "constraintLayout" field and declare it as a local variable in the relevant methods.(®ä›8Òûª³/
-V
-java:S1068O"4Remove this unused "editEstateButton" private field.(¸ˆ ôşÿÿÿÿ8Òûª³/
-w
-java:S1104I"[Make autoIncremented a static final constant or non-public and provide accessors if needed.(Ñ£ÅE8³›®³/
-w
-java:S1104C"UMake estateLat a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8¹Ã“²/
-Q
-java:S1659V"5Declare "takeMediaAlternatePhoto" on a separate line.(ôØ©8½ÑŸÄš/
-I
-java:S1659C"'Declare "estateLng" on a separate line.(´ŞÉÎúÿÿÿÿ8¹Ã“²/
-P
-java:S1659V"4Declare "takeMainAlternatePhoto" on a separate line.(ôØ©8½ÑŸÄš/
-y
-java:S1104W"WMake mainPicture a static final constant or non-public and provide accessors if needed.(Ë°Ç£øÿÿÿÿ8±¾ü›/
-U
-java:S1144Ø"2Remove this unused private "galleryAddPic" method.(¤ÇÜğşÿÿÿÿ8™®ı›/
-L
-java:S1068L"*Remove this unused "estate" private field.(ÔŸÓıÿÿÿÿ8ñ”­„/
-O
-java:S1602 ",Remove useless curly braces around statement(†áíëıÿÿÿÿ8İªóÅš/
+java:S1104I"ZMake nullEquivalent a static final constant or non-public and provide accessors if needed.(çæ‹Åùÿÿÿÿ8³›®³/
 ¤
-java:S1186ú"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ŞÛäÆÿÿÿÿÿ8™®ı›/
-O
-java:S1602˜",Remove useless curly braces around statement(™¤şÿÿÿÿ8‘óÅš/
+java:S1186÷"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ŞÛäÆÿÿÿÿÿ8™®ı›/
+w
+java:S1104B"UMake estateLng a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8¹Ã“²/
+V
+java:S1068N"4Remove this unused "editEstateButton" private field.(¸ˆ ôşÿÿÿÿ8Òûª³/
 z
-java:S1450X"]Remove the "estateLocation" field and declare it as a local variable in the relevant methods.(±óÔã8ªç¼Ó/
+java:S1450W"]Remove the "estateLocation" field and declare it as a local variable in the relevant methods.(±óÔã8ªç¼Ó/
+k
+java:S2259¯"MA "NullPointerException" could be thrown; "dateOfBeginning" is nullable here.(—Šãï8™®ı›/
+I
+java:S1659B"'Declare "estateLng" on a separate line.(´ŞÉÎúÿÿÿÿ8¹Ã“²/
+C
+java:S1659?"!Declare "day" on a separate line.(Ò¿Ûùÿÿÿÿ8Š«“‚/
+Q
+java:S1068L"4Remove this unused "constraintLayout" private field.(®ä›8Òûª³/
+U
+java:S1144ï"2Remove this unused private "galleryAddPic" method.(¤ÇÜğşÿÿÿÿ8™®ı›/
+O
+java:S1068W"2Remove this unused "estateLocation" private field.(±óÔã8ªç¼Ó/
+D
+java:S1604l"(Make this anonymous inner class a lambda(¥›ŸR8šÎïÅš/
+O
+java:S1602Ÿ",Remove useless curly braces around statement(†áíëıÿÿÿÿ8İªóÅš/
+y
+java:S1104V"WMake mainPicture a static final constant or non-public and provide accessors if needed.(Ë°Ç£øÿÿÿÿ8±¾ü›/
+O
+java:S1602—",Remove useless curly braces around statement(™¤şÿÿÿÿ8‘óÅš/
+O
+java:S1602›",Remove useless curly braces around statement(¶ê¯¡şÿÿÿÿ8ÃëôÅš/
+k
+java:S1104G"NMake id a static final constant or non-public and provide accessors if needed.(€÷ëÚ8‡–øƒ/
+l
+java:S2259ì"IA "NullPointerException" could be thrown; "dateOfToday" is nullable here.(à´Â†øÿÿÿÿ8™®ı›/
+l
+java:S2259È"IA "NullPointerException" could be thrown; "dateOfToday" is nullable here.(”¸…ùÿÿÿÿ8™®ı›/
+Q
+java:S1659U"5Declare "takeMediaAlternatePhoto" on a separate line.(ôØ©8½ÑŸÄš/
+O
+java:S1602“",Remove useless curly braces around statement(í†ÂÏúÿÿÿÿ8‰»òü›/
+V
+java:S1874é"3Remove this use of "inPurgeable"; it is deprecated.(á§³™üÿÿÿÿ8™®ı›/
+w
+java:S1104H"[Make autoIncremented a static final constant or non-public and provide accessors if needed.(Ñ£ÅE8³›®³/
+H
+java:S1659U",Declare "takeMediaPhoto" on a separate line.(ôØ©8½ÑŸÄš/
+|
+java:S1450L"_Remove the "constraintLayout" field and declare it as a local variable in the relevant methods.(®ä›8Òûª³/
+E
+java:S1659?"#Declare "month" on a separate line.(Ò¿Ûùÿÿÿÿ8Š«“‚/
+w
+java:S1104B"UMake estateLat a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8¹Ã“²/
+r
+java:S1104F"UMake estateRaw a static final constant or non-public and provide accessors if needed.(Ë€ª¬8‡–øƒ/
+i
+java:S1874ğ"FRemove this use of "ACTION_MEDIA_SCANNER_SCAN_FILE"; it is deprecated.(ëÒ¿šıÿÿÿÿ8™®ı›/
+P
+java:S1659U"4Declare "takeMainAlternatePhoto" on a separate line.(ôØ©8½ÑŸÄš/
+t
+java:S1104C"RMake adress a static final constant or non-public and provide accessors if needed.(ˆÚ€¼ıÿÿÿÿ8¹Ã“²/
+L
+java:S1068K"*Remove this unused "estate" private field.(ÔŸÓıÿÿÿÿ8ñ”­„/
