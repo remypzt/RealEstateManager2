@@ -1,4 +1,4 @@
-package remy.pouzet.realestatemanager2.views.fragments.estateslist;
+package remy.pouzet.realestatemanager2.views.fragments.AdaptersAndViewHolders;
 
 import android.content.Context;
 import android.view.LayoutInflater;

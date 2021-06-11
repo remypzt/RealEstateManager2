@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,6 +28,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -49,6 +49,7 @@ import remy.pouzet.realestatemanager2.datas.services.realapi.pojos.ResultsItem;
 import remy.pouzet.realestatemanager2.utils.Utils;
 import remy.pouzet.realestatemanager2.viewmodels.FormViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
+import remy.pouzet.realestatemanager2.views.fragments.AdaptersAndViewHolders.AlternatesPicturesAdapter;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -65,40 +66,34 @@ public class FormFragment extends BaseFragment {
     String updateDateInRightFormat;
     String selledDateInRightFormat;
     public double estateLat, estateLng;
-    public String adress;
-    static final int       REQUEST_IMAGE_CAPTURE = 1;
-    public       EstateRaw estateRaw;
-    public       Long      id;
-    public       int       autoIncremented       = 0;
-    public       int       nullEquivalent        = 0;
+    static final         int       REQUEST_IMAGE_CAPTURE = 1;
+    private static final int       PICK_IMAGE            = 100;
+    public               String    adress;
+    public               EstateRaw estateRaw;
+    public               Long      id;
+    public               int       autoIncremented       = 0;
+    public               int       nullEquivalent        = 0;
     String currentPhotoPath;
-    private Estate              estate;
-    private ConstraintLayout    constraintLayout;
-    private FormViewModel       formViewModel;
-    private ImageButton         editEstateButton;
-    private Button              lastModificationDateButton;
-    private Button              selledDateButton;
-    private Date                dateBackEndFormat;
-    private CheckBox            isItSellCheckBox;
-    private TextView            sellTitleTextView;
-    private FragmentFormBinding mFragmentFormBinding;
-    private ImageButton         takeMainPhoto, takeMainAlternatePhoto, takeMediaPhoto, takeMediaAlternatePhoto;
-    public  ImageView mainPicture;
-    private LatLng    estateLocation = new LatLng(-34.92873, 138.59995);
+    public  boolean                   forMainPicture;
+    public  AlternatesPicturesAdapter alternatesPicturesAdapter = new AlternatesPicturesAdapter();
+    public  ImageView                 mainPicture;
+    public  RecyclerView              recyclerView;
+    private Estate                    estate;
+    private ConstraintLayout          constraintLayout;
+    private FormViewModel             formViewModel;
+    private ImageButton               editEstateButton;
+    private Button                    lastModificationDateButton;
+    private Button                    selledDateButton;
+    private Date                      dateBackEndFormat;
+    private CheckBox                  isItSellCheckBox;
+    private TextView                  sellTitleTextView;
+    private FragmentFormBinding       mFragmentFormBinding;
+    private ImageButton               takeMainPhoto, takeMainAlternatePhoto, takeMediaPhoto, takeMediaAlternatePhoto;
+    private LatLng estateLocation = new LatLng(-34.92873, 138.59995);
     
     //------------------------------------------------------//
-    // ------------------   LifeCycle   ------------------- //
-    //------------------------------------------------------//
-    
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
-        mFragmentFormBinding = FragmentFormBinding.inflate(inflater, container, false);
-        viewBindingManagement();
-        configureViewModel();
-        return mFragmentFormBinding.getRoot();
-    }
+// ------------------    Binding    ------------------- //
+//------------------------------------------------------//
     
     public static void setHideKeyboardOnTouch(final Context context, View view) {
         //Set up touch listener for non-text box views to hide keyboard.
@@ -129,33 +124,81 @@ public class FormFragment extends BaseFragment {
     }
     
     //------------------------------------------------------//
+    // ------------------   LifeCycle   ------------------- //
+    //------------------------------------------------------//
+    
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
+        mFragmentFormBinding = FragmentFormBinding.inflate(inflater, container, false);
+        viewBindingManagement();
+        configureViewModel();
+        configureRecyclerView();
+        return mFragmentFormBinding.getRoot();
+    }
+    
+    public void viewBindingManagement() {
+        lastModificationDateButton = mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton;
+        selledDateButton           = mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton;
+        isItSellCheckBox           = mFragmentFormBinding.isSellCheckbox;
+        sellTitleTextView          = mFragmentFormBinding.sellTitleFragmentForm;
+        constraintLayout           = mFragmentFormBinding.parentFragmentForm;
+        takeMainPhoto              = mFragmentFormBinding.takeMainPhoto;
+        takeMainAlternatePhoto     = mFragmentFormBinding.takeMainAltertanePhoto;
+        takeMediaPhoto             = mFragmentFormBinding.takeMediaPhoto;
+        takeMediaAlternatePhoto    = mFragmentFormBinding.takeMediaAlternatePhoto;
+        mainPicture                = mFragmentFormBinding.chosenMainPictureFragmentForm;
+        recyclerView               = mFragmentFormBinding.estatePicturesListFragmentForm;
+    }
+    
+    //------------------------------------------------------//
     // ------------------   Functions   ------------------- //
     //------------------------------------------------------//
     
-    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHideKeyboardOnTouch(requireContext(), getView());
-        updateUIIfItsModification();
-        isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
-        takePhotosManagement();
-        datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
-        datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
-        validationButtonManagement();
+    public void configureRecyclerView() {
+        this.alternatesPicturesAdapter = new AlternatesPicturesAdapter();
+        this.recyclerView.setAdapter(this.alternatesPicturesAdapter);
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                                                                   RecyclerView.VERTICAL,
+                                                                   false));
     }
     
-    public void takePhotosManagement() {
-        takeMainPhoto.setOnClickListener(v -> {
-            takePhoto();
-        });
-        takeMainAlternatePhoto.setOnClickListener(v -> {
-            takeAlternatePhoto();
-        });
-        takeMediaPhoto.setOnClickListener(v -> {
-            takePhoto();
-        });
-        takeMediaAlternatePhoto.setOnClickListener(v -> {
-            takeAlternatePhoto();
-        });
+    private File createImageFile() throws
+                                   IOException {
+        // Create an image file name
+        String timeStamp     = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File   storageDir    = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName,  /* prefix */
+                                         ".jpg",         /* suffix */
+                                         storageDir      /* directory */);
+        
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+    
+    @Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                if (forMainPicture) {
+                    mainPicture.setImageURI(Uri.parse(currentPhotoPath));
+                } else {
+                    // TODO for galery
+                }
+            }
+            if (requestCode == PICK_IMAGE) {
+                if (forMainPicture) {
+                    Uri uri = data.getData();
+                    mainPicture.setImageURI(uri);
+                } else {
+                    // TODO for galery
+                }
+                
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
     
     public void takePhoto() {
@@ -181,72 +224,40 @@ public class FormFragment extends BaseFragment {
         }
     }
     
-    private File createImageFile() throws
-                                   IOException {
-        // Create an image file name
-        String timeStamp     = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File   storageDir    = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName,  /* prefix */
-                                         ".jpg",         /* suffix */
-                                         storageDir      /* directory */);
-        
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHideKeyboardOnTouch(requireContext(), getView());
+        updateUIIfItsModification();
+        isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
+        takePhotosManagement();
+        datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
+        datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
+        validationButtonManagement();
     }
     
-    @Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                setPic(mainPicture);
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+    public void takePhotosManagement() {
+        takeMainPhoto.setOnClickListener(v -> {
+            forMainPicture = true;
+            takePhoto();
+        });
+        takeMainAlternatePhoto.setOnClickListener(v -> {
+            forMainPicture = true;
+            takeAlternatePhoto();
+        });
+        takeMediaPhoto.setOnClickListener(v -> {
+            forMainPicture = false;
+            takePhoto();
+        });
+        takeMediaAlternatePhoto.setOnClickListener(v -> {
+            forMainPicture = false;
+            takeAlternatePhoto();
+        });
     }
-    
-    private void setPic(ImageView imageView) {
-        // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
-        
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        
-        BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
-        
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-        
-        // Determine how much to scale down the image
-        int scaleFactor = Math.max(1, Math.min(photoW / targetW, photoH / targetH));
-        
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize       = scaleFactor;
-        bmOptions.inPurgeable        = true;
-        
-        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
-        imageView.setImageBitmap(bitmap);
-    }
-
     
     public void takeAlternatePhoto() {
-        
-    }
-    
-    public void viewBindingManagement() {
-        lastModificationDateButton = mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton;
-        selledDateButton           = mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton;
-        isItSellCheckBox           = mFragmentFormBinding.isSellCheckbox;
-        sellTitleTextView          = mFragmentFormBinding.sellTitleFragmentForm;
-        constraintLayout           = mFragmentFormBinding.parentFragmentForm;
-        takeMainPhoto              = mFragmentFormBinding.takeMainPhoto;
-        takeMainAlternatePhoto     = mFragmentFormBinding.takeMainAltertanePhoto;
-        takeMediaPhoto             = mFragmentFormBinding.takeMediaPhoto;
-        takeMediaAlternatePhoto    = mFragmentFormBinding.takeMediaAlternatePhoto;
-        mainPicture                = mFragmentFormBinding.chosenMainPictureFragmentForm;
+        Intent gallery = new Intent(Intent.ACTION_PICK,
+                                    MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
     }
     
     private void configureViewModel() {
@@ -512,7 +523,10 @@ public class FormFragment extends BaseFragment {
     }
     
     private void receiveEstate(Estate estate) {
-        //TODO main picture
+        if (estate.getMainPicture() != null) {
+            currentPhotoPath = estate.getMainPicture();
+            mainPicture.setImageURI(Uri.parse(currentPhotoPath));
+        }
         mFragmentFormBinding.valueOfEstateTypeFragmentForm.setPrompt(estate.getType());
         mFragmentFormBinding.valueOfEstateCityFragmentForm.setText(estate.getCity());
         mFragmentFormBinding.valueOfEstatePriceFragmentForm.setText(Long.toString(estate.getPrice()));

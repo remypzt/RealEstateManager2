@@ -34,11 +34,11 @@ import remy.pouzet.realestatemanager2.databinding.ActivityMainBinding;
 import remy.pouzet.realestatemanager2.datas.models.ListEvent;
 import remy.pouzet.realestatemanager2.utils.IOnBackPressed;
 import remy.pouzet.realestatemanager2.views.fragments.DetailsFragment;
+import remy.pouzet.realestatemanager2.views.fragments.EstatesListFragment;
 import remy.pouzet.realestatemanager2.views.fragments.FormFragment;
 import remy.pouzet.realestatemanager2.views.fragments.LoanSimulatorFragment;
 import remy.pouzet.realestatemanager2.views.fragments.MapFragment;
 import remy.pouzet.realestatemanager2.views.fragments.SearchFragment;
-import remy.pouzet.realestatemanager2.views.fragments.estateslist.EstatesListFragment;
 //------------------------------------------------------//
 // ------------------    Binding    ------------------- //
 //------------------------------------------------------//
@@ -61,28 +61,32 @@ import remy.pouzet.realestatemanager2.views.fragments.estateslist.EstatesListFra
 // ----------------- Navigation, Menu, UI ------------- //
 //------------------------------------------------------//
 
-//TODO displaying picture bug
-//TODO boolean onBackPressed
-//TODO POI
-
-//TODO take alternate main photo
-//TODO take picture from hardware for galery photo
-//TODO take alternate galery photo
+//1h
 //TODO display galery photo in form
+
+//2h
 //TODO save galery photo in estate
+//TODO display galery photo in form  modify
 //TODO display galery photo in details
 
-//TODO modify button gone from !details
+//??
+//TODO modify button gone from !details in tablet mode
+//TODO bug tablet>main>add>back
+
+//3h
 //TODO erase photo
 //TODO ajout vide
 //TODO manage no result case (adress)
 
+// 3h
 //TODO make photo functions UC
 //TODO  make if is tablet UC
 
+//3h
 //TODO public private
 //TODO todos
 //TODO clean and rearrange the code
+//TODO POI
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 	//------------------------------------------------------//
@@ -92,13 +96,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	
 	public long            id;
 	public boolean         listHadBeenClick = false;
-	public boolean         manageBackError  = false;
 	public Bundle          bundle           = new Bundle();
 	public DetailsFragment detailsFragment;
 	public NavHostFragment navHostFragment;
 	FrameLayout firstFrame;
 	FrameLayout secondFrame;
-	
 	private int                 navigateToNavSearch;
 	private EstatesListFragment estatesListFragment;
 
@@ -181,8 +183,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.toolbar_menu, menu);
 		MenuItem searchActionButton = menu.findItem(R.id.action_search_button);
-		MenuItem modifyActionbutton = menu.findItem(R.id.action_modify_button);
-		navigationManagement(searchActionButton, modifyActionbutton);
+		MenuItem modifyActionButton = menu.findItem(R.id.action_modify_button);
+		navigationManagement(searchActionButton, modifyActionButton);
 		return true;
 	}
 	
@@ -217,13 +219,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 // ------------------   Functions   ------------------- //
 //------------------------------------------------------//
 	
-	@Override protected void onStart() {
+	public void navigationManagement(MenuItem searchActionButton, MenuItem modifyActionButton) {
 		if (isTablet(this)) {
-			if (!EventBus.getDefault().isRegistered(this)) {
-				EventBus.getDefault().register(this);
-			}
+			Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(
+					"VISIBLE_FRAGMENT");
+			modifyActionButton.setVisible(currentFragment instanceof DetailsFragment);
+			
+			mActivityMainBinding.mainToolbar.fab.setOnClickListener(new View.OnClickListener() {
+				@Override public void onClick(View v) {
+					mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
+					FormFragment formFragment = new FormFragment();
+					getSupportFragmentManager().beginTransaction()
+					                           .replace(R.id.second_frame_fragment,
+					                                    formFragment,
+					                                    "VISIBLE_FRAGMENT")
+					                           .commit();
+				}
+			});
+			
+		} else {
+			NavController navController = Navigation.findNavController(this,
+			                                                           R.id.nav_host_fragment);
+			NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+			NavigationUI.setupWithNavController(mActivityMainBinding.navView, navController);
+			
+			/* Set items visibility depends navigation position*/
+			navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+				if (destination.getId() != R.id.nav_estates_list) {
+					mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
+				} else {
+					mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
+				}
+				searchActionButton.setVisible(destination.getId() == R.id.nav_details || destination
+						                                                                         .getId() == R.id.nav_estates_list);
+				modifyActionButton.setVisible(destination.getId() == R.id.nav_details);
+			});
+			
+			Navigation.setViewNavController(mActivityMainBinding.mainToolbar.fab,
+			                                Navigation.findNavController(this,
+			                                                             R.id.nav_host_fragment));
+			mActivityMainBinding.mainToolbar.fab.setOnClickListener((Navigation.createNavigateOnClickListener(
+					R.id.action_nav_estates_list_to_nav_form,
+					null)));
 		}
-		super.onStart();
 	}
 	
 	private void configureAndShowListFragment() {
@@ -321,47 +359,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		}
 	}
 	
-	public void navigationManagement(MenuItem searchActionButton, MenuItem modifyActionButton) {
+	@Override protected void onStart() {
+		super.onStart();
 		if (isTablet(this)) {
-			//TODO manage navigationdrawer
-			mActivityMainBinding.mainToolbar.fab.setOnClickListener(new View.OnClickListener() {
-				@Override public void onClick(View v) {
-					mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
-					FormFragment formFragment = new FormFragment();
-					getSupportFragmentManager().beginTransaction()
-					                           .replace(R.id.second_frame_fragment,
-					                                    formFragment,
-					                                    "VISIBLE_FRAGMENT")
-					                           .commit();
-					
-				}
-			});
-			
-		} else {
-			NavController navController = Navigation.findNavController(this,
-			                                                           R.id.nav_host_fragment);
-			NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-			NavigationUI.setupWithNavController(mActivityMainBinding.navView, navController);
-			
-			/* Set items visibility depends navigation position*/
-			navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-				if (destination.getId() != R.id.nav_estates_list) {
-					mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
-				} else {
-					mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
-				}
-				searchActionButton.setVisible(destination.getId() == R.id.nav_details || destination
-						                                                                         .getId() == R.id.nav_estates_list);
-				modifyActionButton.setVisible(destination.getId() == R.id.nav_details);
-			});
-			
-			Navigation.setViewNavController(mActivityMainBinding.mainToolbar.fab,
-			                                Navigation.findNavController(this,
-			                                                             R.id.nav_host_fragment));
-			mActivityMainBinding.mainToolbar.fab.setOnClickListener((Navigation.createNavigateOnClickListener(
-					R.id.action_nav_estates_list_to_nav_form,
-					null)));
+			if (!EventBus.getDefault().isRegistered(this)) {
+				EventBus.getDefault().register(this);
+			}
 		}
+		
 	}
 	
 	@Subscribe public void updateDetailsRegardToClickListListener(ListEvent listEvent) {
@@ -375,17 +380,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	@Override public void onBackPressed() {
 		Fragment currentBackStackFragment = getSupportFragmentManager().findFragmentByTag(
 				"VISIBLE_FRAGMENT");
-		manageBackError = false;
+		boolean manageBackError = false;
+		
 		// this part is useful for manage on back pressed from fragment (more suitable for passing data)
 		if (!(currentBackStackFragment instanceof IOnBackPressed) || !((IOnBackPressed) currentBackStackFragment)
 				.onBackPressed()) {
 			manageBackError = true;
 			super.onBackPressed();
-		} else if (!manageBackError && currentBackStackFragment instanceof FormFragment && currentBackStackFragment
-				                                                                                   .getArguments() == null) {
+		}
+		if (currentBackStackFragment instanceof FormFragment && currentBackStackFragment.getArguments() == null) {
 			configureAndShowDetailsFragment();
 			mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
-			manageBackError = true;
+			
 		} else if (!manageBackError) {
 			super.onBackPressed();
 		}

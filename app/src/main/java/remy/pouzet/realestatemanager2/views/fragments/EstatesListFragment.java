@@ -1,4 +1,4 @@
-package remy.pouzet.realestatemanager2.views.fragments.estateslist;
+package remy.pouzet.realestatemanager2.views.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,6 +20,7 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.datas.models.Request;
 import remy.pouzet.realestatemanager2.viewmodels.EstatesListViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
+import remy.pouzet.realestatemanager2.views.fragments.AdaptersAndViewHolders.EstatesListAdapter;
 
 //------------------------------------------------------//
 // ------------------    Binding    ------------------- //

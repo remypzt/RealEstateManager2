@@ -21,7 +21,6 @@ import remy.pouzet.realestatemanager2.databinding.FragmentSearchBinding;
 import remy.pouzet.realestatemanager2.datas.models.Request;
 import remy.pouzet.realestatemanager2.viewmodels.SearchViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
-import remy.pouzet.realestatemanager2.views.fragments.estateslist.EstatesListFragment;
 
 public class SearchFragment extends BaseFragment {
 	

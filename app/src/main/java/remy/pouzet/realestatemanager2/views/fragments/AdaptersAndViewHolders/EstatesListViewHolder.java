@@ -1,4 +1,4 @@
-package remy.pouzet.realestatemanager2.views.fragments.estateslist;
+package remy.pouzet.realestatemanager2.views.fragments.AdaptersAndViewHolders;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -55,8 +55,8 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
         }
         if (estate.getMainPicture() != null) {
             currentPhotoPath = estate.getMainPicture();
+//            mainPictureEstate.setImageURI(Uri.parse(currentPhotoPath));
             setPic(mainPictureEstate);
-        
         }
         typeEstate.setText(estate.getType());
         cityLocationEstate.setText(estate.getCity());
@@ -88,13 +88,13 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
         
         int photoW = bmOptions.outWidth;
         int photoH = bmOptions.outHeight;
-        
+    
         // Determine how much to scale down the image
-        int scaleFactor = Math.max(1, Math.min(photoW / targetW, photoH / targetH));
+//        int scaleFactor = Math.max(1, Math.min(photoW / targetW, photoH / targetH));
         
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize       = scaleFactor;
+//        bmOptions.inSampleSize       = scaleFactor;
         bmOptions.inPurgeable        = true;
         
         Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
