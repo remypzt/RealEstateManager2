@@ -8,6 +8,7 @@ import androidx.room.Database;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import remy.pouzet.realestatemanager2.datas.database.dao.EstateDao;
@@ -18,6 +19,7 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
  */
 
 @Database(entities = {Estate.class}, version = 1, exportSchema = false)
+@TypeConverters({DataConverter.class})
 public abstract class EstateDatabase extends RoomDatabase {
 	
 	public final static String DATABASE_NAME = "MyDatabase.db";
@@ -50,12 +52,14 @@ public abstract class EstateDatabase extends RoomDatabase {
 	
 	        @Override
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                super.onCreate(db);
-                ContentValues contentValues1 = new ContentValues();
-	            contentValues1.put("type", PREPOPULATE + " type");
-	            contentValues1.put("city", PREPOPULATE + " city");
+		        super.onCreate(db);
+		        ContentValues contentValues1 = new ContentValues();
+		        contentValues1.put("type", PREPOPULATE + " type");
+		        contentValues1.put("city", PREPOPULATE + " city");
 		        contentValues1.put("price", 0);
 		        contentValues1.put("mainPicture", PREPOPULATE);
+		        contentValues1.put("galeryPictures", PREPOPULATE);
+		
 		        contentValues1.put("surface", PREPOPULATE);
 		        contentValues1.put("rooms", 1);
 		        contentValues1.put("description", 1);
@@ -73,6 +77,7 @@ public abstract class EstateDatabase extends RoomDatabase {
 		        contentValues2.put("city", PREPOPULATE_2 + "city");
 		        contentValues2.put("price", 0);
 		        contentValues2.put("mainPicture", PREPOPULATE_2);
+		        contentValues2.put("galeryPictures", PREPOPULATE_2);
 		        contentValues2.put("surface", PREPOPULATE_2);
 		        contentValues2.put("rooms", 1);
 		        contentValues2.put("description", 1);

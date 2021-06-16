@@ -1,2 +1,6 @@
 
-c	java:S107"BConstructor has 15 parameters, which is greater than 7 authorized.(‡úÂıøÿÿÿÿ8²ß€áæ.
+c	java:S107"BConstructor has 16 parameters, which is greater than 7 authorized.(‡úÂıøÿÿÿÿ8”¢×¡/
+N
+java:S1128",Remove this unused import 'android.net.Uri'.(òêû‘ıÿÿÿÿ8å¢…„¡/
+F
+java:S1128")Remove this unused import 'java.net.URI'.(Ö¦¨°8Üõü¡/

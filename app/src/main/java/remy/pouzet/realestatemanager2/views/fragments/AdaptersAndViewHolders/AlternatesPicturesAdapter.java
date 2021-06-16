@@ -16,28 +16,31 @@ import remy.pouzet.realestatemanager2.R;
 /**
  * Created by Remy Pouzet on 11/06/2021.
  */
-public class AlternatesPicturesAdapter extends RecyclerView.Adapter {
+public class AlternatesPicturesAdapter extends RecyclerView.Adapter<AlternatesPicturesViewHolder> {
 	
+	private final Context      context;
 	// FOR DATA
-	private List<Uri> picturesUriList = new ArrayList<>();
-	private Context   context;
+	private       List<String> picturesUriList = new ArrayList<>();
 	
-	public void RecyclerAdapter(List<Uri> picturesUriList, Context context) {
+	public AlternatesPicturesAdapter(List<String> picturesUriList, Context context) {
 		this.picturesUriList = picturesUriList;
 		this.context         = context;
 	}
 	
 	@NonNull @Override
-	public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+	public AlternatesPicturesViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+	                                                       int viewType) {
 		// CREATE VIEW HOLDER AND INFLATING ITS XML LAYOUT
 		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-		View view = inflater.inflate(R.layout.content_of_alternates_pictures, parent, false);
+		View           view     = inflater.inflate(R.layout.content_of_alternates_pictures,
+		                                           parent,
+		                                           false);
 		return new AlternatesPicturesViewHolder(view);
 	}
 	
-	@Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-//		holder.updatePictures(this.picturesUriList.get(position));
+	@Override
+	public void onBindViewHolder(@NonNull AlternatesPicturesViewHolder holder, int position) {
+		holder.updatePictures(Uri.parse(picturesUriList.get(position)));
 	}
 	
 	@Override public int getItemCount() {

@@ -1,30 +1,35 @@
 package remy.pouzet.realestatemanager2.datas.models;
+import java.util.List;
+
 /**
  * Created by Remy Pouzet on 16/12/2020.
  */
 public class EstateRaw {
 	
-	private Boolean isSellStatus;
-	private String  typeValue;
-	private String  cityValue;
-	private String  priceValue;
-	private String  mainPictureValue;
-	private int     id;
-	private String  descriptionValue;
-	private String  surfaceValue;
-	private String  roomsValue;
-	private String  adressValue;
-	private String  contactValue;
-	private String  updateDate;
-	private String  sellDate;
-	private Double  lat;
-	private Double  lng;
+	private Boolean      isSellStatus;
+	private String       typeValue;
+	private String       cityValue;
+	private String       priceValue;
+	private String       mainPictureValue;
+	private List<String> galeryPicturesValues;
+	private int          id;
+	private String       descriptionValue;
+	
+	private String surfaceValue;
+	private String roomsValue;
+	private String adressValue;
+	private String contactValue;
+	private String updateDate;
+	private String sellDate;
+	private Double lat;
+	private Double lng;
 	
 	public EstateRaw(Boolean isSellStatus,
 	                 String typeValue,
 	                 String cityValue,
 	                 String priceValue,
 	                 String mainPictureValue,
+	                 List<String> galeryPicturesValues,
 	                 int id,
 	                 String descriptionValue,
 	                 String surfaceValue,
@@ -36,22 +41,31 @@ public class EstateRaw {
 	                 Double lat,
 	                 Double lng) {
 		
-		this.isSellStatus     = isSellStatus;
-		this.typeValue        = typeValue;
-		this.cityValue        = cityValue;
-		this.priceValue       = priceValue;
-		this.mainPictureValue = mainPictureValue;
-		this.id               = id;
-		this.descriptionValue = descriptionValue;
-		this.surfaceValue     = surfaceValue;
-		this.roomsValue       = roomsValue;
-		this.adressValue      = adressValue;
-		this.contactValue     = contactValue;
-		this.updateDate       = updateDate;
-		this.sellDate         = sellDate;
-		this.lat              = lat;
-		this.lng              = lng;
+		this.isSellStatus         = isSellStatus;
+		this.typeValue            = typeValue;
+		this.cityValue            = cityValue;
+		this.priceValue           = priceValue;
+		this.mainPictureValue     = mainPictureValue;
+		this.galeryPicturesValues = galeryPicturesValues;
+		this.id                   = id;
+		this.descriptionValue     = descriptionValue;
+		this.surfaceValue         = surfaceValue;
+		this.roomsValue           = roomsValue;
+		this.adressValue          = adressValue;
+		this.contactValue         = contactValue;
+		this.updateDate           = updateDate;
+		this.sellDate             = sellDate;
+		this.lat                  = lat;
+		this.lng                  = lng;
 		
+	}
+	
+	public List<String> getGaleryPicturesValues() {
+		return galeryPicturesValues;
+	}
+	
+	public void setGaleryPicturesValues(List<String> galeryPicturesValues) {
+		this.galeryPicturesValues = galeryPicturesValues;
 	}
 	
 	public int getId() {

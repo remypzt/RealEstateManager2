@@ -5,6 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.List;
+
 /**
  * Created by Remy Pouzet on 03/11/2020.
  */
@@ -16,24 +18,19 @@ import androidx.room.PrimaryKey;
 	
 	@ColumnInfo(name = "price") private int price;
 	
-	@ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true)
-    private long id;
-    
-    @ColumnInfo(name = "mainPicture")
-    @Nullable
-    private String mainPicture;
-
-    @ColumnInfo(name = "description")
-    @Nullable
-    private String description;
-
-    @ColumnInfo(name = "surface")
-    private int surface;
-
-    @ColumnInfo(name = "rooms")
-    private int rooms;
-
-    @ColumnInfo(name = "adress") @Nullable private String adress;
+	@ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) private long id;
+	
+	@ColumnInfo(name = "mainPicture") @Nullable private String mainPicture;
+	
+	@ColumnInfo(name = "galeryPictures") @Nullable private List<String> galeryPictures;
+	
+	@ColumnInfo(name = "description") @Nullable private String description;
+	
+	@ColumnInfo(name = "surface") private int surface;
+	
+	@ColumnInfo(name = "rooms") private int rooms;
+	
+	@ColumnInfo(name = "adress") @Nullable private String adress;
 	
 	@ColumnInfo(name = "agent") @Nullable private String agent;
 	
@@ -44,12 +41,11 @@ import androidx.room.PrimaryKey;
 	@ColumnInfo(name = "lat") @Nullable private Double lat;
 	@ColumnInfo(name = "lng") @Nullable private Double lng;
 	
-	//	private List<String> mPOI;
-	
 	public Estate(String type,
 	              @org.jetbrains.annotations.Nullable String city,
 	              int price,
 	              @org.jetbrains.annotations.Nullable String mainPicture,
+	              @org.jetbrains.annotations.Nullable List<String> galeryPictures,
 	              long id,
 	              @org.jetbrains.annotations.Nullable String description,
 	              int surface,
@@ -60,58 +56,62 @@ import androidx.room.PrimaryKey;
 	              @org.jetbrains.annotations.Nullable String sellDate,
 	              @org.jetbrains.annotations.Nullable Double lat,
 	              @org.jetbrains.annotations.Nullable Double lng
-
-//	              List<String> pOI,
-	             ) {
-		this.id          = id;
-		this.type        = type;
-		this.city        = city;
-		this.price       = price;
-		this.mainPicture = mainPicture;
-		this.description = description;
-		this.surface     = surface;
-		this.rooms       = rooms;
-		this.adress      = adress;
-		this.agent       = agent;
-		this.updateDate  = updateDate;
-		this.sellDate    = sellDate;
-		this.lat         = lat;
-		this.lng         = lng;
-
-//		mPOI          = pOI;
 	
+	             ) {
+		this.id             = id;
+		this.type           = type;
+		this.city           = city;
+		this.price          = price;
+		this.mainPicture    = mainPicture;
+		this.galeryPictures = galeryPictures;
+		this.description    = description;
+		this.surface        = surface;
+		this.rooms          = rooms;
+		this.adress         = adress;
+		this.agent          = agent;
+		this.updateDate     = updateDate;
+		this.sellDate       = sellDate;
+		this.lat            = lat;
+		this.lng            = lng;
 	}
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String parameterType) {
-        type = parameterType;
-    }
-
-    @Nullable
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(@Nullable String parameterCity) {
-        city = parameterCity;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int parameterPrice) {
-        price = parameterPrice;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long parameterId) {
+	
+	@Nullable public List<String> getGaleryPictures() {
+		return galeryPictures;
+	}
+	
+	public void setGaleryPictures(@Nullable List<String> galeryPictures) {
+		this.galeryPictures = galeryPictures;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String parameterType) {
+		type = parameterType;
+	}
+	
+	@Nullable public String getCity() {
+		return city;
+	}
+	
+	public void setCity(@Nullable String parameterCity) {
+		city = parameterCity;
+	}
+	
+	public int getPrice() {
+		return price;
+	}
+	
+	public void setPrice(int parameterPrice) {
+		price = parameterPrice;
+	}
+	
+	public long getId() {
+		return id;
+	}
+	
+	public void setId(long parameterId) {
         id = parameterId;
     }
 

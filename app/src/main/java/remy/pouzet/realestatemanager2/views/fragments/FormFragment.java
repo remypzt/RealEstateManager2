@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -66,16 +67,18 @@ public class FormFragment extends BaseFragment {
     String updateDateInRightFormat;
     String selledDateInRightFormat;
     public double estateLat, estateLng;
-    static final         int       REQUEST_IMAGE_CAPTURE = 1;
-    private static final int       PICK_IMAGE            = 100;
-    public               String    adress;
-    public               EstateRaw estateRaw;
-    public               Long      id;
-    public               int       autoIncremented       = 0;
-    public               int       nullEquivalent        = 0;
-    String currentPhotoPath;
-    public  boolean                   forMainPicture;
-    public  AlternatesPicturesAdapter alternatesPicturesAdapter = new AlternatesPicturesAdapter();
+    static final         int                       REQUEST_IMAGE_CAPTURE = 1;
+    private static final int                       PICK_IMAGE            = 100;
+    public               String                    adress;
+    public               EstateRaw                 estateRaw;
+    public               Long                      id;
+    public               int                       autoIncremented       = 0;
+    public               int                       nullEquivalent        = 0;
+    public               List<String>              uriStringList         = new ArrayList<>();
+    public               AlternatesPicturesAdapter alternatesPicturesAdapter;
+    public               boolean                   forMainPicture;
+    String mainPhotoPath;
+    String galeryPhotoPath;
     public  ImageView                 mainPicture;
     public  RecyclerView              recyclerView;
     private Estate                    estate;
@@ -94,6 +97,24 @@ public class FormFragment extends BaseFragment {
     //------------------------------------------------------//
 // ------------------    Binding    ------------------- //
 //------------------------------------------------------//
+    
+    public void viewBindingManagement() {
+        lastModificationDateButton = mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton;
+        selledDateButton           = mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton;
+        isItSellCheckBox           = mFragmentFormBinding.isSellCheckbox;
+        sellTitleTextView          = mFragmentFormBinding.sellTitleFragmentForm;
+        constraintLayout           = mFragmentFormBinding.parentFragmentForm;
+        takeMainPhoto              = mFragmentFormBinding.takeMainPhoto;
+        takeMainAlternatePhoto     = mFragmentFormBinding.takeMainAltertanePhoto;
+        takeMediaPhoto             = mFragmentFormBinding.takeMediaPhoto;
+        takeMediaAlternatePhoto    = mFragmentFormBinding.takeMediaAlternatePhoto;
+        mainPicture                = mFragmentFormBinding.chosenMainPictureFragmentForm;
+        recyclerView               = mFragmentFormBinding.estatePicturesListFragmentForm;
+    }
+    
+    //------------------------------------------------------//
+    // ------------------   LifeCycle   ------------------- //
+    //------------------------------------------------------//
     
     public static void setHideKeyboardOnTouch(final Context context, View view) {
         //Set up touch listener for non-text box views to hide keyboard.
@@ -123,10 +144,6 @@ public class FormFragment extends BaseFragment {
         }
     }
     
-    //------------------------------------------------------//
-    // ------------------   LifeCycle   ------------------- //
-    //------------------------------------------------------//
-    
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
@@ -134,71 +151,54 @@ public class FormFragment extends BaseFragment {
         mFragmentFormBinding = FragmentFormBinding.inflate(inflater, container, false);
         viewBindingManagement();
         configureViewModel();
-        configureRecyclerView();
         return mFragmentFormBinding.getRoot();
-    }
-    
-    public void viewBindingManagement() {
-        lastModificationDateButton = mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton;
-        selledDateButton           = mFragmentFormBinding.sellDateValueFragmentFormDatePickerButton;
-        isItSellCheckBox           = mFragmentFormBinding.isSellCheckbox;
-        sellTitleTextView          = mFragmentFormBinding.sellTitleFragmentForm;
-        constraintLayout           = mFragmentFormBinding.parentFragmentForm;
-        takeMainPhoto              = mFragmentFormBinding.takeMainPhoto;
-        takeMainAlternatePhoto     = mFragmentFormBinding.takeMainAltertanePhoto;
-        takeMediaPhoto             = mFragmentFormBinding.takeMediaPhoto;
-        takeMediaAlternatePhoto    = mFragmentFormBinding.takeMediaAlternatePhoto;
-        mainPicture                = mFragmentFormBinding.chosenMainPictureFragmentForm;
-        recyclerView               = mFragmentFormBinding.estatePicturesListFragmentForm;
     }
     
     //------------------------------------------------------//
     // ------------------   Functions   ------------------- //
     //------------------------------------------------------//
     
+    // ------------------   Configurations  ------------------- //
+    
+    private void configureViewModel() {
+        formViewModel = new ViewModelProvider(this).get(FormViewModel.class);
+    }
+    
+    @Override
+    public View provideYourFragmentView(LayoutInflater inflater,
+                                        ViewGroup parent,
+                                        Bundle savedInstanceState) {
+        return null;
+    }
+    
     public void configureRecyclerView() {
-        this.alternatesPicturesAdapter = new AlternatesPicturesAdapter();
+        this.alternatesPicturesAdapter = new AlternatesPicturesAdapter(uriStringList,
+                                                                       requireContext());
         this.recyclerView.setAdapter(this.alternatesPicturesAdapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
-                                                                   RecyclerView.VERTICAL,
+                                                                   RecyclerView.HORIZONTAL,
                                                                    false));
     }
     
-    private File createImageFile() throws
-                                   IOException {
-        // Create an image file name
-        String timeStamp     = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File   storageDir    = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName,  /* prefix */
-                                         ".jpg",         /* suffix */
-                                         storageDir      /* directory */);
-        
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
+    // ------------------   Photos management   ------------------- //
     
-    @Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                if (forMainPicture) {
-                    mainPicture.setImageURI(Uri.parse(currentPhotoPath));
-                } else {
-                    // TODO for galery
-                }
-            }
-            if (requestCode == PICK_IMAGE) {
-                if (forMainPicture) {
-                    Uri uri = data.getData();
-                    mainPicture.setImageURI(uri);
-                } else {
-                    // TODO for galery
-                }
-                
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+    public void takePhotosManagement() {
+        takeMainPhoto.setOnClickListener(v -> {
+            forMainPicture = true;
+            takePhoto();
+        });
+        takeMainAlternatePhoto.setOnClickListener(v -> {
+            forMainPicture = true;
+            takeAlternatePhoto();
+        });
+        takeMediaPhoto.setOnClickListener(v -> {
+            forMainPicture = false;
+            takePhoto();
+        });
+        takeMediaAlternatePhoto.setOnClickListener(v -> {
+            forMainPicture = false;
+            takeAlternatePhoto();
+        });
     }
     
     public void takePhoto() {
@@ -224,52 +224,55 @@ public class FormFragment extends BaseFragment {
         }
     }
     
-    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHideKeyboardOnTouch(requireContext(), getView());
-        updateUIIfItsModification();
-        isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
-        takePhotosManagement();
-        datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
-        datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
-        validationButtonManagement();
-    }
-    
-    public void takePhotosManagement() {
-        takeMainPhoto.setOnClickListener(v -> {
-            forMainPicture = true;
-            takePhoto();
-        });
-        takeMainAlternatePhoto.setOnClickListener(v -> {
-            forMainPicture = true;
-            takeAlternatePhoto();
-        });
-        takeMediaPhoto.setOnClickListener(v -> {
-            forMainPicture = false;
-            takePhoto();
-        });
-        takeMediaAlternatePhoto.setOnClickListener(v -> {
-            forMainPicture = false;
-            takeAlternatePhoto();
-        });
-    }
-    
     public void takeAlternatePhoto() {
         Intent gallery = new Intent(Intent.ACTION_PICK,
                                     MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
     }
     
-    private void configureViewModel() {
-        formViewModel = new ViewModelProvider(this).get(FormViewModel.class);
+    private File createImageFile() throws
+                                   IOException {
+        // Create an image file name
+        String timeStamp     = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File   storageDir    = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName,  /* prefix */
+                                         ".jpg",         /* suffix */
+                                         storageDir      /* directory */);
+        if (forMainPicture) {
+            mainPhotoPath = image.getAbsolutePath();
+        }
+        // Save a file: path for use with ACTION_VIEW intents
+        else {
+            galeryPhotoPath = image.getAbsolutePath();
+        }
+        return image;
     }
     
-    @Override
-    public View provideYourFragmentView(LayoutInflater inflater,
-                                        ViewGroup parent,
-                                        Bundle savedInstanceState) {
-        return null;
+    @Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                if (forMainPicture) {
+                    mainPicture.setImageURI(Uri.parse(mainPhotoPath));
+                } else {
+                    uriStringList.add(galeryPhotoPath);
+                    alternatesPicturesAdapter.notifyDataSetChanged();
+                }
+            }
+            if (requestCode == PICK_IMAGE) {
+                Uri uri = data.getData();
+                if (forMainPicture) {
+                    mainPicture.setImageURI(uri);
+                } else {
+                    uriStringList.add(uri.toString());
+                    alternatesPicturesAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
+    
+    // ------------------   Its modification management   ------------------- //
     
     public void updateUIIfItsModification() {
         if (itsAModification()) {
@@ -286,60 +289,145 @@ public class FormFragment extends BaseFragment {
         }
     }
     
-    private void createNewEstateManagement() {
-        switch (formViewModel.checkFormData(estateRaw)) {
-            //could be better not imbricate conditions but will not be longer a issue with kotlin
-            case IS_VALID:
-                if (itsAModification()) {
-                    formViewModel.updateEstate(estateRaw);
-                    showLongSnackBar(mFragmentFormBinding.getRoot(),
-                                     getString(R.string.Itemspdate));
-                } else if (!itsAModification()) {
-                    formViewModel.createEstate(estateRaw);
-                    showLongSnackBar(mFragmentFormBinding.getRoot(), getString((R.string.Success)));
-                } else {
-                    showIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "unknow error");
-                }
-                break;
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        configureRecyclerView();
+        setHideKeyboardOnTouch(requireContext(), getView());
+        updateUIIfItsModification();
+        isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
+        takePhotosManagement();
+        datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
+        datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
+        validationButtonManagement();
+    }
+    
+    private void getEstate(long id) {
+        formViewModel.observeEstate(id).observe(getViewLifecycleOwner(), this::receiveEstate);
+    }
+    
+    // ------------------   Dates management   ------------------- //
+    
+    private void receiveEstate(Estate estate) {
+        if (estate.getMainPicture() != null) {
+            mainPhotoPath = estate.getMainPicture();
+            mainPicture.setImageURI(Uri.parse(mainPhotoPath));
+        }
+        mFragmentFormBinding.valueOfEstateTypeFragmentForm.setPrompt(estate.getType());
+        mFragmentFormBinding.valueOfEstateCityFragmentForm.setText(estate.getCity());
+        mFragmentFormBinding.valueOfEstatePriceFragmentForm.setText(Long.toString(estate.getPrice()));
+        if (estate.getGaleryPictures() != null) {
+            this.uriStringList.clear();
+//            this.uriStringList = estate.getGaleryPictures();
+            this.uriStringList.addAll(estate.getGaleryPictures());
+            this.alternatesPicturesAdapter.notifyDataSetChanged();
+        }
+        
+        if (estate.getDescription() != null) {
+            mFragmentFormBinding.contentDescriptionFragmentForm.setText(estate.getDescription());
+        }
+        mFragmentFormBinding.surfaceValueFragmentForm.setText(Long.toString(estate.getSurface()));
+        if (estate.getAdress() != null) {
+            mFragmentFormBinding.locationValueFragmentForm.setText(estate.getAdress());
+        }
+        mFragmentFormBinding.roomsValueFragmentForm.setText(Long.toString(estate.getRooms()));
+        mFragmentFormBinding.contactValueFragmentForm.setText(estate.getAgent());
+        mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.setText(estate.getUpdateDate());
+        if (estate.getSellDate() != null) {
+            mFragmentFormBinding.isSellCheckbox.setChecked(false);
+            mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.setText(estate.getSellDate());
+        } else {
+            mFragmentFormBinding.isSellCheckbox.setChecked(true);
+        }
+        autoIncremented = (int) estate.getId();
+    }
+    
+    public void checkDateBetweenThem(Button button1, Button button2) {
+        Date dateOfBeginning = null;
+        try {
+            dateOfBeginning = formatterUIFormat.parse((String) button1.getText());
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date dateOfEnding = null;
+        try {
+            dateOfEnding = formatterUIFormat.parse((String) button2.getText());
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int comparison = dateOfBeginning.compareTo(dateOfEnding);
+        if (comparison > nullEquivalent && button1 == lastModificationDateButton) {
+            Toast.makeText(requireContext(),
+                           "la date de début doit être antérieure à celle de fin",
+                           Toast.LENGTH_LONG).show();
+            button1.setText(null);
+        } else if (comparison < nullEquivalent && button2 != selledDateButton) {
+            Toast.makeText(requireContext(),
+                           "la date fin doit être ultérieure à celle de début",
+                           Toast.LENGTH_LONG).show();
+            button1.setText(null);
             
-            case ERROR_SELL_DATE:
-                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-                                       getString((R.string.sell_date_cannot_be_null)));
-                break;
-            
-            case ERROR_MINIMAL_WORD_LENGTH:
-                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-                                       getString(R.string.minimal_words_lenght));
-                break;
-            case ERROR_PRICE_VALUE:
-                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-                                       getString(R.string.estate_price_cannot_be_null));
-                break;
-            case ERROR_SURFACE_VALUE:
-                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-                                       getString(R.string.surface_value_cannot_be_null));
-                break;
-            case ERROR_ROOMS_VALUE:
-                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-                                       getString(R.string.rooms_value_cannot_be_null));
-                break;
-            case ERROR_CONTACT_VALUE:
-                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-                                       getString(R.string.contact_value_cannot_be_null));
-                break;
-            
-            case ERROR_UPDATE_DATE_VALUE:
-                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
-                                       getString(R.string.update_date_cannot_be_null));
-                break;
         }
     }
     
+    public void checkDateWithToday(Date date, Button button) {
+        Date   today         = new Date();
+        String resultOfToday = formatterUIFormat.format(today);
+        Date   dateOfToday   = null;
+        try {
+            dateOfToday = formatterUIFormat.parse(resultOfToday);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int todayCompareWithDate = dateOfToday.compareTo(date);
+        if (todayCompareWithDate < nullEquivalent) {
+            Toast.makeText(requireContext(),
+                           "la date sélectionnée ne peut être ultérieur à celle d'aujourd'hui",
+                           Toast.LENGTH_LONG).show();
+            button.setText(null);
+        }
+    }
+    
+    public String updateDateManagement() {
+        Date   today         = new Date();
+        String resultOfToday = formatterUIFormat.format(today);
+        Date   dateOfToday   = null;
+        
+        if (lastModificationDateButton.getText() != null) {
+            return mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.getText()
+                                                                                   .toString();
+        } else {
+            try {
+                dateOfToday = formatterUIFormat.parse(resultOfToday);
+            }
+            catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return dateOfToday.toString();
+        }
+    }
+    
+    // ------------------   Others   ------------------- //
+    
+    public void getEstateLocation() {
+        final Observer<List<ResultsItem>> observeResponse = resultsItems -> {
+            estateLat      = resultsItems.get(0).getGeometry().getLocation().getLat();
+            estateLng      = resultsItems.get(0).getGeometry().getLocation().getLng();
+            estateLocation = new LatLng(estateLat, estateLng);
+            estateRaw      = createEstateRaw();
+            createNewEstateManagement();
+        };
+        formViewModel.observeResponse(mFragmentFormBinding.locationValueFragmentForm.getText()
+                                                                                    .toString())
+                     .observe(requireActivity(), observeResponse);
+    }
+    
     public void datePickerButtonsManagement(Button button1, Button button2) {
-        int                                                tens                   = 9;
+        int tens = 9;
         @SuppressLint("SimpleDateFormat")
-        SimpleDateFormat                                   formatterBackEndFormat = new SimpleDateFormat(
-                "yyyyMMdd");
+        SimpleDateFormat formatterBackEndFormat = new SimpleDateFormat("yyyyMMdd");
         button1.setOnClickListener(v -> {
             DatePickerDialog dd = new DatePickerDialog(requireContext(),
                                                        (view, year, monthOfYear, dayOfMonth) -> {
@@ -412,142 +500,60 @@ public class FormFragment extends BaseFragment {
         });
     }
     
-    public void checkDateBetweenThem(Button button1, Button button2) {
-        Date dateOfBeginning = null;
-        try {
-            dateOfBeginning = formatterUIFormat.parse((String) button1.getText());
-        }
-        catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Date dateOfEnding = null;
-        try {
-            dateOfEnding = formatterUIFormat.parse((String) button2.getText());
-        }
-        catch (ParseException e) {
-            e.printStackTrace();
-        }
-        int comparison = dateOfBeginning.compareTo(dateOfEnding);
-        if (comparison > nullEquivalent && button1 == lastModificationDateButton) {
-            Toast.makeText(requireContext(),
-                           "la date de début doit être antérieure à celle de fin",
-                           Toast.LENGTH_LONG).show();
-            button1.setText(null);
-        } else if (comparison < nullEquivalent && button2 != selledDateButton) {
-            Toast.makeText(requireContext(),
-                           "la date fin doit être ultérieure à celle de début",
-                           Toast.LENGTH_LONG).show();
-            button1.setText(null);
-            
-        }
-    }
-    
-    public void checkDateWithToday(Date date, Button button) {
-        Date   today         = new Date();
-        String resultOfToday = formatterUIFormat.format(today);
-        Date   dateOfToday   = null;
-        try {
-            dateOfToday = formatterUIFormat.parse(resultOfToday);
-        }
-        catch (ParseException e) {
-            e.printStackTrace();
-        }
-        int todayCompareWithDate = dateOfToday.compareTo(date);
-        if (todayCompareWithDate < nullEquivalent) {
-            Toast.makeText(requireContext(),
-                           "la date sélectionnée ne peut être ultérieur à celle d'aujourd'hui",
-                           Toast.LENGTH_LONG).show();
-            button.setText(null);
-        }
-    }
-    
     public void validationButtonManagement() {
         ImageButton localCreateNewEstateButton = mFragmentFormBinding.validateFormButton;
-        localCreateNewEstateButton.setOnClickListener(v -> getEstateLocation()
-        
-                                                     );
-        
+        localCreateNewEstateButton.setOnClickListener(v -> getEstateLocation());
     }
     
-    private void getEstate(long id) {
-        formViewModel.observeEstate(id).observe(getViewLifecycleOwner(), this::receiveEstate);
-    }
+    // ------------------   Validation Management   ------------------- //
     
-    public String updateDateManagement() {
-        Date   today         = new Date();
-        String resultOfToday = formatterUIFormat.format(today);
-        Date   dateOfToday   = null;
-        
-        if (lastModificationDateButton.getText() != null) {
-            return mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.getText()
-                                                                                   .toString();
-        } else {
-            try {
-                dateOfToday = formatterUIFormat.parse(resultOfToday);
-            }
-            catch (ParseException e) {
-                e.printStackTrace();
-            }
-            return dateOfToday.toString();
+    private void createNewEstateManagement() {
+        switch (formViewModel.checkFormData(estateRaw)) {
+            //could be better not imbricate conditions but will not be longer a issue with kotlin
+            case IS_VALID:
+                if (itsAModification()) {
+                    formViewModel.updateEstate(estateRaw);
+                    showLongSnackBar(mFragmentFormBinding.getRoot(),
+                                     getString(R.string.Itemspdate));
+                } else if (!itsAModification()) {
+                    formViewModel.createEstate(estateRaw);
+                    showLongSnackBar(mFragmentFormBinding.getRoot(), getString((R.string.Success)));
+                } else {
+                    showIndefiniteSnackBar(mFragmentFormBinding.getRoot(), "unknow error");
+                }
+                break;
+            
+            case ERROR_SELL_DATE:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString((R.string.sell_date_cannot_be_null)));
+                break;
+            
+            case ERROR_MINIMAL_WORD_LENGTH:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString(R.string.minimal_words_lenght));
+                break;
+            case ERROR_PRICE_VALUE:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString(R.string.estate_price_cannot_be_null));
+                break;
+            case ERROR_SURFACE_VALUE:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString(R.string.surface_value_cannot_be_null));
+                break;
+            case ERROR_ROOMS_VALUE:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString(R.string.rooms_value_cannot_be_null));
+                break;
+            case ERROR_CONTACT_VALUE:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString(R.string.contact_value_cannot_be_null));
+                break;
+            
+            case ERROR_UPDATE_DATE_VALUE:
+                showIndefiniteSnackBar(mFragmentFormBinding.getRoot(),
+                                       getString(R.string.update_date_cannot_be_null));
+                break;
         }
-    }
-    
-    public void getEstateLocation() {
-        final Observer<List<ResultsItem>> observeResponse = resultsItems -> {
-            estateLat      = resultsItems.get(0).getGeometry().getLocation().getLat();
-            estateLng      = resultsItems.get(0).getGeometry().getLocation().getLng();
-            estateLocation = new LatLng(estateLat, estateLng);
-            estateRaw      = createEstateRaw();
-            createNewEstateManagement();
-        };
-        formViewModel.observeResponse(mFragmentFormBinding.locationValueFragmentForm.getText()
-                                                                                    .toString())
-                     .observe(requireActivity(), observeResponse);
-        
-    }
-    
-    public boolean sellStatusManagement() {
-        boolean checked = (isItSellCheckBox).isChecked();
-        if (checked) {
-            selledDateButton.setVisibility(View.VISIBLE);
-            sellTitleTextView.setText(R.string.Is_it_sell);
-            return true
-//                    selledDateButton.getText().length() > nullEquivalent
-                    ;
-        } else {
-            selledDateButton.setVisibility(View.INVISIBLE);
-            sellTitleTextView.setText(R.string.Sell_date);
-            // TODO sell status
-            return false;
-        }
-    }
-    
-    private void receiveEstate(Estate estate) {
-        if (estate.getMainPicture() != null) {
-            currentPhotoPath = estate.getMainPicture();
-            mainPicture.setImageURI(Uri.parse(currentPhotoPath));
-        }
-        mFragmentFormBinding.valueOfEstateTypeFragmentForm.setPrompt(estate.getType());
-        mFragmentFormBinding.valueOfEstateCityFragmentForm.setText(estate.getCity());
-        mFragmentFormBinding.valueOfEstatePriceFragmentForm.setText(Long.toString(estate.getPrice()));
-        //TODO picture list
-        if (estate.getDescription() != null) {
-            mFragmentFormBinding.contentDescriptionFragmentForm.setText(estate.getDescription());
-        }
-        mFragmentFormBinding.surfaceValueFragmentForm.setText(Long.toString(estate.getSurface()));
-        if (estate.getAdress() != null) {
-            mFragmentFormBinding.locationValueFragmentForm.setText(estate.getAdress());
-        }
-        mFragmentFormBinding.roomsValueFragmentForm.setText(Long.toString(estate.getRooms()));
-        mFragmentFormBinding.contactValueFragmentForm.setText(estate.getAgent());
-        mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.setText(estate.getUpdateDate());
-        if (estate.getSellDate() != null) {
-            mFragmentFormBinding.isSellCheckbox.setChecked(false);
-            mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.setText(estate.getSellDate());
-        } else {
-            mFragmentFormBinding.isSellCheckbox.setChecked(true);
-        }
-        autoIncremented = (int) estate.getId();
     }
     
     private EstateRaw createEstateRaw() {
@@ -558,7 +564,8 @@ public class FormFragment extends BaseFragment {
                                                                                .toString(),
                              mFragmentFormBinding.valueOfEstatePriceFragmentForm.getText()
                                                                                 .toString(),
-                             currentPhotoPath,
+                             mainPhotoPath,
+                             uriStringList,
                              autoIncremented,
                              mFragmentFormBinding.contentDescriptionFragmentForm.getText()
                                                                                 .toString(),
@@ -573,5 +580,19 @@ public class FormFragment extends BaseFragment {
                              estateLng);
         
     }
+    
+    public boolean sellStatusManagement() {
+        boolean checked = (isItSellCheckBox).isChecked();
+        if (checked) {
+            selledDateButton.setVisibility(View.VISIBLE);
+            sellTitleTextView.setText(R.string.Is_it_sell);
+            return true;
+        } else {
+            selledDateButton.setVisibility(View.INVISIBLE);
+            sellTitleTextView.setText(R.string.Sell_date);
+            return false;
+        }
+    }
+    
 }
 

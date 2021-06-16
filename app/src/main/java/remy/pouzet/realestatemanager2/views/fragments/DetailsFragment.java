@@ -59,6 +59,26 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 	private DetailsViewModel       detailsViewModel;
 	private GoogleMap              map;
 	private FragmentDetailsBinding fragmentDetailsBinding;
+	private List<String>           uriStringList;
+	
+	//------------------------------------------------------//
+// ------------------    Binding    ------------------- //
+//------------------------------------------------------//
+	
+	public void viewBindingManagement() {
+		typeValueTextView        = fragmentDetailsBinding.typeTitleFragmentDetails;
+		cityValueTextView        = fragmentDetailsBinding.estateCityTitleFragmentDetails;
+		priceValueTextView       = fragmentDetailsBinding.estatePriceFragmentDetails;
+		descriptionValueTextView = fragmentDetailsBinding.contentDescriptionFragmentDetails;
+		surfaceValueTextView     = fragmentDetailsBinding.surfaceValueFragmentDetails;
+		locationValueTextView    = fragmentDetailsBinding.locationValueFragmentDetails;
+		roomsValueTextView       = fragmentDetailsBinding.roomsValueFragmentDetails;
+		contactValueTextView     = fragmentDetailsBinding.contactValueFragmentDetails;
+		lastUpdateValueTextView  = fragmentDetailsBinding.updateDateValueFragmentDetails;
+		sellDateTitleTextView    = fragmentDetailsBinding.sellDateFragmentDetails;
+		sellDateValueTextView    = fragmentDetailsBinding.sellDateValueFragmentDetails;
+		mainPicture              = fragmentDetailsBinding.chosenMainPictureDetailsFragment;
+	}
 	
 	//------------------------------------------------------//
 	// ------------------   LifeCycle   ------------------- //
@@ -80,11 +100,15 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 	
 	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		id     = Long.parseLong(getArguments().get("id").toString());
+		id = Long.parseLong(getArguments().get("id").toString());
 		detailsViewModel.observeEstate(id)
 		                .observe(getViewLifecycleOwner(), estate -> updateUI(estate));
 		
 	}
+	
+	//------------------------------------------------------//
+	// ------------------   Functions   ------------------- //
+	//------------------------------------------------------//
 	
 	@Override
 	public View provideYourFragmentView(LayoutInflater inflater,
@@ -116,29 +140,9 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 		}
 	}
 	
-	public void viewBindingManagement() {
-		typeValueTextView        = fragmentDetailsBinding.typeTitleFragmentDetails;
-		cityValueTextView        = fragmentDetailsBinding.estateCityTitleFragmentDetails;
-		priceValueTextView       = fragmentDetailsBinding.estatePriceFragmentDetails;
-		descriptionValueTextView = fragmentDetailsBinding.contentDescriptionFragmentDetails;
-		surfaceValueTextView     = fragmentDetailsBinding.surfaceValueFragmentDetails;
-		locationValueTextView    = fragmentDetailsBinding.locationValueFragmentDetails;
-		roomsValueTextView       = fragmentDetailsBinding.roomsValueFragmentDetails;
-		contactValueTextView     = fragmentDetailsBinding.contactValueFragmentDetails;
-		lastUpdateValueTextView  = fragmentDetailsBinding.updateDateValueFragmentDetails;
-		sellDateTitleTextView    = fragmentDetailsBinding.sellDateFragmentDetails;
-		sellDateValueTextView    = fragmentDetailsBinding.sellDateValueFragmentDetails;
-		mainPicture              = fragmentDetailsBinding.chosenMainPictureDetailsFragment;
-		
-	}
-	
 	private void configureViewModel() {
 		detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
 	}
-	
-	//------------------------------------------------------//
-	// ------------------   Functions   ------------------- //
-	//------------------------------------------------------//
 	
 	private void updateUI(Estate estate) {
 		if (estate != null) {
@@ -170,6 +174,10 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 				mainPictureURI = estate.getMainPicture();
 				setPic(mainPicture);
 			}
+			if (estate.getGaleryPictures() != null) {
+				uriStringList = estate.getGaleryPictures();
+			}
+			//TODO manage recycler view
 		}
 	}
 	

@@ -61,26 +61,23 @@ import remy.pouzet.realestatemanager2.views.fragments.SearchFragment;
 // ----------------- Navigation, Menu, UI ------------- //
 //------------------------------------------------------//
 
-//1h
-//TODO display galery photo in form
-
-//2h
-//TODO save galery photo in estate
 //TODO display galery photo in form  modify
 //TODO display galery photo in details
-
-//??
-//TODO modify button gone from !details in tablet mode
-//TODO bug tablet>main>add>back
+//   if(estate.getGaleryPictures() != null){
+//		   uriStringList = estate.getGaleryPictures();
+//		   alternatesPicturesAdapter.notifyDataSetChanged();
+//		   }
 
 //3h
 //TODO erase photo
-//TODO ajout vide
+//TODO ajout vide (manage no photos)
 //TODO manage no result case (adress)
 
 // 3h
 //TODO make photo functions UC
 //TODO  make if is tablet UC
+//TODO bug tablet vertical
+//TODO provider
 
 //3h
 //TODO public private
@@ -103,13 +100,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	FrameLayout secondFrame;
 	private int                 navigateToNavSearch;
 	private EstatesListFragment estatesListFragment;
-
+	public  MenuItem            modifyActionButton;
 	
 	//------------------------------------------------------//
 	// ------------------    Binding    ------------------- //
 	//------------------------------------------------------//
-	private ActivityMainBinding mActivityMainBinding;
-	private RecyclerView        recyclerView;
+	private ActivityMainBinding   mActivityMainBinding;
+	private RecyclerView          recyclerView;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
 	
 	//------------------------------------------------------//
@@ -183,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.toolbar_menu, menu);
 		MenuItem searchActionButton = menu.findItem(R.id.action_search_button);
-		MenuItem modifyActionButton = menu.findItem(R.id.action_modify_button);
+		modifyActionButton = menu.findItem(R.id.action_modify_button);
 		navigationManagement(searchActionButton, modifyActionButton);
 		return true;
 	}
@@ -196,43 +193,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		});
 	}
 	
-	// problem is here
-	private void onBackManagement() {
-		Fragment currentBackStackFragment = getSupportFragmentManager().findFragmentByTag(
-				"VISIBLE_FRAGMENT");
-		if (currentBackStackFragment instanceof DetailsFragment) {
-			if (currentBackStackFragment.getArguments().getBoolean("isStartedFromMap")) {
-				mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
-				firstFrame.setVisibility(View.GONE);
-			} else {
-				firstFrame.setVisibility(View.VISIBLE);
-				mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
-			}
-		} else {
-			mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
-			firstFrame.setVisibility(View.GONE);
-		}
-		
-	}
-
-//------------------------------------------------------//
-// ------------------   Functions   ------------------- //
-//------------------------------------------------------//
-	
 	public void navigationManagement(MenuItem searchActionButton, MenuItem modifyActionButton) {
 		if (isTablet(this)) {
-			Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(
-					"VISIBLE_FRAGMENT");
-			modifyActionButton.setVisible(currentFragment instanceof DetailsFragment);
 			
 			mActivityMainBinding.mainToolbar.fab.setOnClickListener(new View.OnClickListener() {
 				@Override public void onClick(View v) {
 					mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
+					modifyActionButton.setVisible(false);
 					FormFragment formFragment = new FormFragment();
 					getSupportFragmentManager().beginTransaction()
 					                           .replace(R.id.second_frame_fragment,
 					                                    formFragment,
 					                                    "VISIBLE_FRAGMENT")
+					                           .addToBackStack(null)
 					                           .commit();
 				}
 			});
@@ -262,6 +235,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 					R.id.action_nav_estates_list_to_nav_form,
 					null)));
 		}
+	}
+
+//------------------------------------------------------//
+// ------------------   Functions   ------------------- //
+//------------------------------------------------------//
+	
+	// problem is here
+	private void onBackManagement() {
+		Fragment currentBackStackFragment = getSupportFragmentManager().findFragmentByTag(
+				"VISIBLE_FRAGMENT");
+		if (currentBackStackFragment instanceof DetailsFragment) {
+			if (currentBackStackFragment.getArguments().getBoolean("isStartedFromMap")) {
+				mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
+				modifyActionButton.setVisible(false);
+				firstFrame.setVisibility(View.GONE);
+			} else {
+				firstFrame.setVisibility(View.VISIBLE);
+				modifyActionButton.setVisible(true);
+				mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
+			}
+		} else {
+			mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
+			firstFrame.setVisibility(View.GONE);
+			modifyActionButton.setVisible(false);
+		}
+		
 	}
 	
 	private void configureAndShowListFragment() {
@@ -391,6 +390,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		if (currentBackStackFragment instanceof FormFragment && currentBackStackFragment.getArguments() == null) {
 			configureAndShowDetailsFragment();
 			mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
+			modifyActionButton.setVisible(false);
 			
 		} else if (!manageBackError) {
 			super.onBackPressed();

@@ -11,6 +11,7 @@ public class TransformEstateRawToEstateUC {
 		                  estateRaw.getCityValue(),
 		                  Integer.parseInt(estateRaw.getPriceValue()),
 		                  estateRaw.getMainPictureValue(),
+		                  estateRaw.getGaleryPicturesValues(),
 		                  estateRaw.getId(),
 		                  estateRaw.getDescriptionValue(),
 		                  Integer.parseInt(estateRaw.getSurfaceValue()),

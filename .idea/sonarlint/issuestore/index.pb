@@ -19,8 +19,6 @@ Papp/src/main/java/remy/pouzet/realestatemanager2/viewmodels/SearchViewModel.jav
 Tapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/SearchFragment.java,b\6\b61e7354e8fe5750e97770d1b6fa3769ae97cc34
 á
 Wapp/src/main/java/remy/pouzet/realestatemanager2/viewmodels/LoanSimulatorViewModel.java,a\7\a7d7d80a8c7bef5469260fc85d352c0750cbea5d
-ï
-eapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/estateslist/EstatesListFragment.java,f\f\ff5668ed43d9c4bb328643fbd11dc8987e201311
 Ç
 Rapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/FormFragment.java,b\f\bf466aa7cad3998821352e6661d1ac7e6840c949
 Ç
@@ -49,8 +47,6 @@ iapp/src/main/java/remy/pouzet/realestatemanager2/domain/usecases/estate/Transfo
 [app/src/main/java/remy/pouzet/realestatemanager2/domain/usecases/estate/UpdateEstateUC.java,3\3\335ba14b869cae8d13fd23e1c268932bd8ea59eb
 ê
 `app/src/main/java/remy/pouzet/realestatemanager2/domain/usecases/formfragment/IsNewEstateUC.java,c\5\c59b6d1b4d88ad5db8e4f99965d912f547c7823d
-î
-dapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/estateslist/EstatesListAdapter.java,d\b\dbd7ad0a0741018c3fd37b5a2634906571d6ebe1
 Å
 Qapp/src/main/java/remy/pouzet/realestatemanager2/views/activity/MainActivity.java,1\8\18c44ffa1871d00768ea13008498b316a39ec9ba
 `
@@ -61,8 +57,6 @@ W
 .app/src/main/res/drawable/location_on_24px.xml,d\e\de7089576d8f3df3b0d2a57925c36d8ef7604f04
 d
 4app/src/main/res/drawable/settings_overscan_24px.xml,7\9\79614d05df22a44f987143d6baefce1d827219d7
-ó
-gapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/estateslist/EstatesListViewHolder.java,d\b\db2c06a718467d87d270f47c50a199747f2a8f89
 P
  app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
 @
@@ -145,3 +139,17 @@ R
 "app/src/main/res/xml/file_path.xml,1\b\1bef3a7b11fd8a626206f807182a4527d1e5aa84
 z
 Japp/src/main/java/remy/pouzet/realestatemanager2/utils/IOnBackPressed.java,6\e\6e63a4ca647516959ac96da86cbc21f0e19d0b26
+â
+Yapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/EstatesListFragment.java,c\7\c79354545fdbf37cb9d95eac879e140ac30d9be7
+¢
+rapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/AdaptersAndViewHolders/EstatesListViewHolder.java,2\1\210faab37004ca005c12485c12a8f714d2e10272
+a
+1app/src/main/res/layout/fragment_estates_list.xml,1\3\139e9af8f2bf7ddb0f110fa296c0bb61ffefa94d
+©
+yapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/AdaptersAndViewHolders/AlternatesPicturesViewHolder.java,c\0\c0062f3b9388d36e7c2808a12d0a083d8956d692
+¶
+vapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/AdaptersAndViewHolders/AlternatesPicturesAdapter.java,e\b\ebce5c888a23e55d756f3020b53bdb3ff66c02cf
+ü
+oapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/AdaptersAndViewHolders/EstatesListAdapter.java,1\5\15de783afc5600cbe5052ad3b7dadb0b8b377fb3
+Ç
+Rapp/src/main/java/remy/pouzet/realestatemanager2/datas/database/DataConverter.java,d\5\d5bcb328768d6113b613691bbd727b0196b35f20

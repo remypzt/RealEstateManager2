@@ -41,8 +41,8 @@
 
     <ImageView
         android:id="@+id/chosen_main_picture_fragment_form"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:contentDescription="@string/description"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         app:layout_constraintStart_toStartOf="@id/main_picture_title_fragment_form"
@@ -148,7 +148,7 @@
     <EditText
         android:id="@+id/content_description_fragment_form"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="@+id/media_title_fragment_form"
         android:maxLength="100"
         app:layout_constraintTop_toBottomOf="@id/description_title_fragment_form" />
