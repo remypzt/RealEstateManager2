@@ -40,37 +40,36 @@ import remy.pouzet.realestatemanager2.viewmodels.MapViewModel;
 
 public class MapFragment extends Fragment {
 	
-	//--------------------------------------------------//
-	// ------------------   Variables   --------------- //
-	//--------------------------------------------------//
+	///////////////////////////////////////////////////////////////////////////
+	// VARIABLES
+	///////////////////////////////////////////////////////////////////////////
 	
-	private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-	FusedLocationProviderClient mFusedLocationClient;
-	private double userLatitude, userLongitude;
-	private final List<Estate> estatesList = new ArrayList<>();
-	public        double       estateLat, estateLng;
+	private static final int          PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+	private final        List<Estate> estatesList                              = new ArrayList<>();
+	public               double       estateLat, estateLng;
 	public  MapViewModel mapViewModel;
 	public  String       adress;
-	public  int          position       = -1;
-	public  Bundle       bundle         = new Bundle();
-	private GoogleMap    map;
-	private boolean      locationPermissionGranted;
-	private LatLng       estateLocation = new LatLng(-34.92873, 138.59995);
-	
-	//------------------------------------------------------//
-	// ------------------   Callbacks   ------------------- //
-	//------------------------------------------------------//
-	public OnMapReadyCallback callback = new OnMapReadyCallback() {
+	public  int          position = -1;
+	public  Bundle       bundle   = new Bundle();
+	private double       userLatitude, userLongitude;
+	private FusedLocationProviderClient mFusedLocationClient;
+	private GoogleMap                   map;
+	private boolean                     locationPermissionGranted;
+	///////////////////////////////////////////////////////////////////////////
+	// CALLBACK
+	///////////////////////////////////////////////////////////////////////////
+	public  OnMapReadyCallback          callback       = new OnMapReadyCallback() {
 		@Override public void onMapReady(GoogleMap googleMap) {
 			map = googleMap;
 			checkLocationPermissionAndUpdateLocation();
 			manageEstatesMarker();
 		}
 	};
+	private LatLng                      estateLocation = new LatLng(-34.92873, 138.59995);
 	
-	//--------------------------------------------------//
-	// ------------------ LifeCycle ------------------- //
-	//--------------------------------------------------//
+	///////////////////////////////////////////////////////////////////////////
+	// LIFECYCLE
+	///////////////////////////////////////////////////////////////////////////
 	
 	public void manageEstatesMarker() {
 		mapViewModel.observeAllEstates()
@@ -84,9 +83,37 @@ public class MapFragment extends Fragment {
 		}
 	}
 	
-	//------------------------------------------------------//
-	// ------------------   Functions   ------------------- //
-	//------------------------------------------------------//
+	public boolean isTablet(Context context) {
+		boolean xlarge = ((context.getResources()
+		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+		boolean large = ((context.getResources()
+		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+		return (xlarge || large);
+	}
+	
+	public Bundle saveEstateId(long id) {
+		
+		bundle.putLong("id", id);
+		return bundle;
+	}
+	
+	@Override
+	public void onRequestPermissionsResult(int requestCode,
+	                                       String[] permissions,
+	                                       int[] grantResults) {
+		if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
+			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				
+				// permission was granted, proceed to the normal flow.
+				checkLocationPermissionAndUpdateLocation();
+				locationPermissionGranted = true;
+			}
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
+	///////////////////////////////////////////////////////////////////////////
 	
 	public void setData(List<Estate> estates) {
 		this.estatesList.clear();
@@ -127,14 +154,6 @@ public class MapFragment extends Fragment {
 		});
 	}
 	
-	public boolean isTablet(Context context) {
-		boolean xlarge = ((context.getResources()
-		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
-		boolean large = ((context.getResources()
-		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
-		return (xlarge || large);
-	}
-	
 	public void getAndConvertStringToLatLng() {
 		if (estatesList.get(position) != null) {
 			estateLat      = estatesList.get(position).getLat();
@@ -153,18 +172,6 @@ public class MapFragment extends Fragment {
 		localMarkerOptions.position(estateLocation).title(type);
 		Marker marker = map.addMarker(localMarkerOptions);
 		marker.setTag(estate.getId());
-	}
-	
-	@Override public void onRequestPermissionsResult(int requestCode, String[] permissions,
-	                                       int[] grantResults) {
-		if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
-			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-				
-				// permission was granted, proceed to the normal flow.
-				checkLocationPermissionAndUpdateLocation();
-				locationPermissionGranted = true;
-			}
-		}
 	}
 	
 	@Nullable @Override
@@ -187,6 +194,9 @@ public class MapFragment extends Fragment {
 		checkLocationPermissionAndUpdateLocation();
 	}
 	
+	///////////////////////////////////////////////////////////////////////////
+	// CONFIGURATIONS
+	///////////////////////////////////////////////////////////////////////////
 	private void configureViewModel() {
 		mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
 	}
@@ -235,11 +245,5 @@ public class MapFragment extends Fragment {
 				                    }
 			                    }
 		                    });
-	}
-	
-	public Bundle saveEstateId(long id) {
-		
-		bundle.putLong("id", id);
-		return bundle;
 	}
 }

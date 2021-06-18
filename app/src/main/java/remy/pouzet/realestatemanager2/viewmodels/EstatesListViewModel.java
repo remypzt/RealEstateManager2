@@ -16,29 +16,29 @@ import remy.pouzet.realestatemanager2.datas.models.Request;
 import remy.pouzet.realestatemanager2.domain.usecases.estate.GetAllEstatesUC;
 
 public class EstatesListViewModel extends AndroidViewModel {
-
-    ///////////////////////////////////////////////////////////////////////////
-    // CONSTRUCTOR
-    ///////////////////////////////////////////////////////////////////////////
-
-    public EstatesListViewModel(@NonNull Application application) {
-        super(application);
-    }
-    
-    ///////////////////////////////////////////////////////////////////////////
-    // METHODS
-    ///////////////////////////////////////////////////////////////////////////
-    
-    public LiveData<List<Estate>> observeAllEstates() {
-        return new GetAllEstatesUC().execute(this.getApplication());
-    }
-    
-    public LiveData<List<Estate>> searchEstate(Context context, Request query) {
-        SimpleSQLiteQuery simpleSQLiteQuery = new SimpleSQLiteQuery(query.queryString,
-                                                                    query.args.toArray());
-        return EstateDatabase.getInstance(context).estateDao().searchEstates(simpleSQLiteQuery);
-    }
-    
+	
+	///////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTOR
+	///////////////////////////////////////////////////////////////////////////
+	
+	public EstatesListViewModel(@NonNull Application application) {
+		super(application);
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	// METHODS
+	///////////////////////////////////////////////////////////////////////////
+	
+	public LiveData<List<Estate>> observeAllEstates() {
+		return new GetAllEstatesUC().execute(this.getApplication());
+	}
+	
+	public LiveData<List<Estate>> searchEstate(Context context, Request query) {
+		SimpleSQLiteQuery simpleSQLiteQuery = new SimpleSQLiteQuery(query.queryString,
+		                                                            query.args.toArray());
+		return EstateDatabase.getInstance(context).estateDao().searchEstates(simpleSQLiteQuery);
+	}
+	
 }
 
 

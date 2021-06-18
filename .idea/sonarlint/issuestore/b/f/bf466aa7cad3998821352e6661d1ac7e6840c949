@@ -1,59 +1,64 @@
 
-‡
-java:S1104Q"eMake alternatesPicturesAdapter a static final constant or non-public and provide accessors if needed.(Ô§÷ïşÿÿÿÿ8ÆëØŸ/
-P
-java:S1659^"4Declare "takeMainAlternatePhoto" on a separate line.(ôØ©8½ÑŸÄš/
 w
-java:S1104E"UMake estateLat a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8¹Ã“²/
-w
-java:S1104K"[Make autoIncremented a static final constant or non-public and provide accessors if needed.(Ñ£ÅE8³›®³/
-k
-java:S2259½"MA "NullPointerException" could be thrown; "dateOfBeginning" is nullable here.(—Šãï8şÕ§…¡/
-L
-java:S1068T"*Remove this unused "estate" private field.(ÔŸÓıÿÿÿÿ8ñ”­„/
-C
-java:S1659B"!Declare "day" on a separate line.(Ò¿Ûùÿÿÿÿ8Š«“‚/
-k
-java:S1104J"NMake id a static final constant or non-public and provide accessors if needed.(€÷ëÚ8‡–øƒ/
-e
-java:S2259”"BA "NullPointerException" could be thrown; "data" is nullable here.(Ÿ®ù“ûÿÿÿÿ8ıè†¡/
+java:S1104P"[Make autoIncremented a static final constant or non-public and provide accessors if needed.(Ñ£ÅE8íÁõ©¡/
 l
-java:S2259ø"IA "NullPointerException" could be thrown; "dateOfToday" is nullable here.(à´Â†øÿÿÿÿ8şÕ§…¡/
-u
-java:S1104S"XMake recyclerView a static final constant or non-public and provide accessors if needed.(´Şºƒ8Ğ§ÏØŸ/
-y
-java:S1104R"WMake mainPicture a static final constant or non-public and provide accessors if needed.(Ë°Ç£øÿÿÿÿ8±¾ü›/
-O
-java:S1068_"2Remove this unused "estateLocation" private field.(±óÔã8ªç¼Ó/
+java:S2259Š"IA "NullPointerException" could be thrown; "dateOfToday" is nullable here.(”¸…ùÿÿÿÿ8şÕ§…¡/
 w
-java:S1104P"ZMake forMainPicture a static final constant or non-public and provide accessors if needed.(ø³œº8ó¿ØŸ/
-Q
-java:S1068U"4Remove this unused "constraintLayout" private field.(®ä›8Òûª³/
-|
-java:S1104L"ZMake nullEquivalent a static final constant or non-public and provide accessors if needed.(çæ‹Åùÿÿÿÿ8³›®³/
-E
-java:S1604˜"(Make this anonymous inner class a lambda(¥›ŸR8Ìü˜¡/
+java:S1104T"ZMake forMainPicture a static final constant or non-public and provide accessors if needed.(ø³œº8íÁõ©¡/
 {
-java:S1104O"YMake uriStringList a static final constant or non-public and provide accessors if needed.(ÿÅÀüÿÿÿÿ8µŒûƒ¡/
-z
-java:S1450_"]Remove the "estateLocation" field and declare it as a local variable in the relevant methods.(±óÔã8ªç¼Ó/
-l
-java:S2259Ö"IA "NullPointerException" could be thrown; "dateOfToday" is nullable here.(”¸…ùÿÿÿÿ8şÕ§…¡/
-E
-java:S1659B"#Declare "month" on a separate line.(Ò¿Ûùÿÿÿÿ8Š«“‚/
-w
-java:S1104E"UMake estateLng a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8¹Ã“²/
-I
-java:S1659E"'Declare "estateLng" on a separate line.(´ŞÉÎúÿÿÿÿ8¹Ã“²/
-Q
-java:S1659^"5Declare "takeMediaAlternatePhoto" on a separate line.(ôØ©8½ÑŸÄš/
-|
-java:S1450U"_Remove the "constraintLayout" field and declare it as a local variable in the relevant methods.(®ä›8´´ØŸ/
+java:S1104R"YMake uriStringList a static final constant or non-public and provide accessors if needed.(ÿÅÀüÿÿÿÿ8íÁõ©¡/
+{	java:S131›"YComplete cases by adding the missing enum constants or add a default case to this switch.(ÄçÏìúÿÿÿÿ8è‰÷Ô¡/
 r
-java:S1104I"UMake estateRaw a static final constant or non-public and provide accessors if needed.(Ë€ª¬8‡–øƒ/
-H
-java:S1659^",Declare "takeMediaPhoto" on a separate line.(ôØ©8½ÑŸÄš/
-V
-java:S1068W"4Remove this unused "editEstateButton" private field.(¸ˆ ôşÿÿÿÿ8Òûª³/
+java:S1104N"UMake estateRaw a static final constant or non-public and provide accessors if needed.(Ë€ª¬8íÁõ©¡/
+k
+java:S2259ñ"MA "NullPointerException" could be thrown; "dateOfBeginning" is nullable here.(—Šãï8şÕ§…¡/
+Ÿ
+java:S1186©"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(´ûÔ®8¥úíÓ¡/
+l
+java:S2259¢"IA "NullPointerException" could be thrown; "dateOfToday" is nullable here.(à´Â†øÿÿÿÿ8şÕ§…¡/
+L
+java:S1068Y"*Remove this unused "estate" private field.(ÔŸÓıÿÿÿÿ8ñ”­„/
+u
+java:S1104V"XMake recyclerView a static final constant or non-public and provide accessors if needed.(´Şºƒ8¨±÷©¡/
+€
+java:S1104K"cMake selledDateInRightFormat a static final constant or non-public and provide accessors if needed.(¥™úş8ñ‰ö©¡/
+I
+java:S1659L"'Declare "estateLng" on a separate line.(´ŞÉÎúÿÿÿÿ8íÁõ©¡/
 t
-java:S1104H"RMake adress a static final constant or non-public and provide accessors if needed.(ˆÚ€¼ıÿÿÿÿ8¹Ã“²/
+java:S1104M"RMake adress a static final constant or non-public and provide accessors if needed.(ˆÚ€¼ıÿÿÿÿ8íÁõ©¡/
+w
+java:S1104L"UMake estateLat a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8íÁõ©¡/
+|
+java:S1104Q"ZMake nullEquivalent a static final constant or non-public and provide accessors if needed.(çæ‹Åùÿÿÿÿ8íÁõ©¡/
+e
+java:S2259"BA "NullPointerException" could be thrown; "data" is nullable here.(Ÿ®ù“ûÿÿÿÿ8ıè†¡/
+>
+java:S1170I"!Make this final field static too.(»€„Å8²œáÕ¡/
+D
+java:S1604n"(Make this anonymous inner class a lambda(¥›ŸR8è‰÷Ô¡/
+y
+java:S1104U"WMake mainPicture a static final constant or non-public and provide accessors if needed.(Ë°Ç£øÿÿÿÿ8¨±÷©¡/
+€
+java:S1104J"cMake updateDateInRightFormat a static final constant or non-public and provide accessors if needed.(­Ë­Á8ñ‰ö©¡/
+‡
+java:S1104S"eMake alternatesPicturesAdapter a static final constant or non-public and provide accessors if needed.(Ô§÷ïşÿÿÿÿ8íÁõ©¡/
+Q
+java:S1068_"4Remove this unused "constraintLayout" private field.(®ä›8Š¬©¡/
+k
+java:S1104O"NMake id a static final constant or non-public and provide accessors if needed.(€÷ëÚ8íÁõ©¡/
+w
+java:S1104L"UMake estateLng a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8íÁõ©¡/
+Q
+java:S1659g"5Declare "takeMediaAlternatePhoto" on a separate line.(ôØ©8Š¬©¡/
+V
+java:S1068a"4Remove this unused "editEstateButton" private field.(¸ˆ ôşÿÿÿÿ8Š¬©¡/
+O
+java:S1068["2Remove this unused "estateLocation" private field.(±óÔã8ªç¼Ó/
+P
+java:S1659g"4Declare "takeMainAlternatePhoto" on a separate line.(ôØ©8Š¬©¡/
+z
+java:S1450["]Remove the "estateLocation" field and declare it as a local variable in the relevant methods.(±óÔã8æ¸Ú¨¡/
+H
+java:S1659g",Declare "takeMediaPhoto" on a separate line.(ôØ©8Š¬©¡/
+|
+java:S1450_"_Remove the "constraintLayout" field and declare it as a local variable in the relevant methods.(®ä›8Š¬©¡/

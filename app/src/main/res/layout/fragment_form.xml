@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent_fragment_form"
-    android:padding="25dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:padding="25dp"
     tools:context=".views.fragments.FormFragment">
 
     <TextView
@@ -17,8 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="7dp"
-        android:textStyle="bold"
         android:text="@string/main_picture"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -148,9 +148,10 @@
     <EditText
         android:id="@+id/content_description_fragment_form"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        app:layout_constraintStart_toStartOf="@+id/media_title_fragment_form"
+        android:layout_height="wrap_content"
+        android:hint="Détailler le bien ici et indiquer les points d'intêrets à proximités ! "
         android:maxLength="100"
+        app:layout_constraintStart_toStartOf="@+id/media_title_fragment_form"
         app:layout_constraintTop_toBottomOf="@id/description_title_fragment_form" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -174,8 +175,8 @@
             android:id="@+id/surface_title_fragment_form"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textStyle="bold"
             android:text="Surface"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/surface_picture_fragment_form"
             app:layout_constraintTop_toTopOf="@+id/surface_picture_fragment_form" />
 
@@ -184,23 +185,23 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:inputType="number"
-            app:layout_constraintStart_toStartOf="@+id/surface_title_fragment_form"
+            app:layout_constraintStart_toStartOf="@+id/surface_picture_fragment_details"
             app:layout_constraintTop_toBottomOf="@+id/surface_title_fragment_form" />
 
         <ImageView
             android:id="@+id/rooms_picture_fragment_form"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/home_24px"
             app:layout_constraintStart_toStartOf="@+id/surface_picture_fragment_form"
-            app:layout_constraintTop_toBottomOf="@+id/surface_value_fragment_form" />
+            app:layout_constraintTop_toBottomOf="@+id/surface_value_fragment_form"
+            app:srcCompat="@drawable/home_24px" />
 
         <TextView
             android:id="@+id/rooms_title_fragment_form"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textStyle="bold"
             android:text="Number of rooms"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/rooms_picture_fragment_form"
             app:layout_constraintTop_toTopOf="@+id/rooms_picture_fragment_form" />
 
@@ -209,7 +210,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:inputType="number"
-            app:layout_constraintStart_toStartOf="@+id/rooms_title_fragment_form"
+            app:layout_constraintStart_toStartOf="@+id/rooms_picture_fragment_details"
             app:layout_constraintTop_toBottomOf="@+id/rooms_title_fragment_form" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -221,14 +222,13 @@
         app:layout_constraintTop_toTopOf="@+id/estate_specification_constraint_layout_fragment_form">
 
 
-
         <ImageView
             android:id="@+id/contact_picture_fragment_form"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/contact_support_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/contact_support_24" />
 
         <TextView
             android:id="@+id/contact_title_fragment_form"
@@ -243,7 +243,10 @@
             android:id="@+id/contact_value_fragment_form"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="@+id/contact_title_fragment_form"
+            android:maxWidth="100dp"
+            android:maxLength="50"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="@+id/contact_picture_fragment_details"
             app:layout_constraintTop_toBottomOf="@+id/contact_title_fragment_form" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -253,6 +256,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/estate_specification_second_column_constraint_layout_fragment_form"
         app:layout_constraintTop_toTopOf="@+id/estate_specification_constraint_layout_fragment_form">
 
@@ -264,6 +268,7 @@
             android:text="Last update"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -331,12 +336,13 @@
 
         <EditText
             android:id="@+id/location_value_fragment_form"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:maxWidth="300dp"
             android:layout_height="match_parent"
             android:inputType="text"
             android:maxLines="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/location_title_fragment_form"
+            android:maxLength="300"
+            app:layout_constraintStart_toStartOf="@+id/location_picture_fragment_details"
             app:layout_constraintTop_toBottomOf="@+id/location_title_fragment_form" />
 
 

@@ -25,13 +25,14 @@ import static org.junit.Assert.assertTrue;
  */
 
 @RunWith(AndroidJUnit4.class) public class ItemDaoTest {
-
+	
 	// DATA SET FOR TEST
 	private static final Estate ESTATE_DEMO   = new Estate("Type",
 	                                                       "City",
 	                                                       0,
 	                                                       "R.drawable.ic_add",
-	                                                       1,
+	                                                       null,
+	                                                       0,
 	                                                       "Description",
 	                                                       0,
 	                                                       0,
@@ -45,7 +46,8 @@ import static org.junit.Assert.assertTrue;
 	                                                       "City2",
 	                                                       0,
 	                                                       "R.drawable.ic_add2",
-	                                                       2,
+	                                                       null,
+	                                                       1,
 	                                                       "Description2",
 	                                                       0,
 	                                                       0,
@@ -70,57 +72,44 @@ import static org.junit.Assert.assertTrue;
 		this.mEstateDao = this.database.estateDao();
 	}
 	
-	@After
-	public void closeDb() throws
-	                      Exception {
+	@After public void closeDb() throws
+	                             Exception {
 		database.close();
 	}
 	
-	@Test
-	public void createAndGetEstateTest() throws
-	                                     InterruptedException {
+	@Test public void createAndGetEstateTest() throws
+	                                           InterruptedException {
 //		BEFORE : Adding a new user
-		this.database.estateDao()
-				.createEstate(ESTATE_DEMO);
+		this.database.estateDao().createEstate(ESTATE_DEMO);
 		// TEST
-		Estate localEstate = LiveDataTestUtil.getValue(this.database.estateDao()
-				                                               .getEstate(1));
+		Estate localEstate = LiveDataTestUtil.getValue(this.database.estateDao().getEstate(1));
 		assertEquals(localEstate.getId(), ESTATE_DEMO.getId());
 		assertEquals(localEstate.getId(), 1);
 	}
 	
-	@Test
-	public void insertAndGetAllEstatesTest() throws
-	                                         Exception {
-		this.database.estateDao()
-				.createEstate(ESTATE_DEMO);
-		this.database.estateDao()
-				.createEstate(ESTATE_DEMO_2);
+	@Test public void insertAndGetAllEstatesTest() throws
+	                                               Exception {
+		this.database.estateDao().createEstate(ESTATE_DEMO);
+		this.database.estateDao().createEstate(ESTATE_DEMO_2);
 		List<Estate> allEstates = LiveDataTestUtil.getValue(mEstateDao.getAllEstates());
 		assertEquals(allEstates.size(), 2);
 		
 	}
 	
-	@Test
-	public void deleteEstateTest() throws
-	                               Exception {
-		this.database.estateDao()
-				.createEstate(ESTATE_DEMO);
+	@Test public void deleteEstateTest() throws
+	                                     Exception {
+		this.database.estateDao().createEstate(ESTATE_DEMO);
 		mEstateDao.deleteEstate(1);
 		List<Estate> allEstates = LiveDataTestUtil.getValue(mEstateDao.getAllEstates());
 		assertTrue(allEstates.isEmpty());
 	}
 	
-	@Test
-	public void updateEstateTest() throws
-	                               Exception {
-		this.database.estateDao()
-				.createEstate(ESTATE_DEMO);
+	@Test public void updateEstateTest() throws
+	                                     Exception {
+		this.database.estateDao().createEstate(ESTATE_DEMO);
 		ESTATE_DEMO.setType("TypeModified");
-		this.database.estateDao()
-				.updateEstate(ESTATE_DEMO);
-		Estate localEstate = LiveDataTestUtil.getValue(this.database.estateDao()
-				                                               .getEstate(1));
+		this.database.estateDao().updateEstate(ESTATE_DEMO);
+		Estate localEstate = LiveDataTestUtil.getValue(this.database.estateDao().getEstate(1));
 		assertEquals(localEstate.getType(), ESTATE_DEMO.getType());
 	}
 	

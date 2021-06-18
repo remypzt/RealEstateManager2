@@ -23,6 +23,10 @@ public class FormViewModel extends AndroidViewModel {
 	
 	private MutableLiveData<List<ResultsItem>> observeResponse;
 	
+	public FormViewModel(@NonNull Application application) {
+		super(application);
+	}
+	
 	public MutableLiveData<List<ResultsItem>> observeResponse(String address) {
 		if (observeResponse == null) {
 			observeResponse = (MutableLiveData<List<ResultsItem>>) new GetLocationFromGeoCodingUC().execute(
@@ -30,10 +34,6 @@ public class FormViewModel extends AndroidViewModel {
 					address);
 		}
 		return observeResponse;
-	}
-	
-	public FormViewModel(@NonNull Application application) {
-		super(application);
 	}
 	
 	public LiveData<Estate> observeEstate(long id) {

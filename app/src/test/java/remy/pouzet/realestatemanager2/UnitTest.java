@@ -14,15 +14,12 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by Remy Pouzet on 03/11/2020.
  */
-@RunWith(JUnit4.class)
-public class UnitTest {
-	@Test
-	public void testingConversionEuroToDollar() {
+@RunWith(JUnit4.class) public class UnitTest {
+	@Test public void testingConversionEuroToDollar() {
 		assertEquals(117, Utils.convertEurotoDollar(100), 0);
 	}
 	
-	@Test
-	public void testingGetDateUEformat() {
+	@Test public void testingGetDateUEformat() {
 		long inMillis = System.currentTimeMillis();
 		assertEquals(getTimeStamp(inMillis), Utils.getTodayDateUEformat());
 	}

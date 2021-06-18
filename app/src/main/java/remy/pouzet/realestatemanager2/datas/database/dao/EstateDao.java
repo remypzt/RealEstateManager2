@@ -1,5 +1,7 @@
 package remy.pouzet.realestatemanager2.datas.database.dao;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -20,9 +22,11 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
 	
 	@Query("SELECT * FROM Estate ") LiveData<List<Estate>> getAllEstates();
 	
+	@Query("SELECT * FROM Estate  WHERE id = :id") Cursor getEstateFromCursor(long id);
+	
 	@Query("SELECT * FROM Estate  WHERE id = :id") LiveData<Estate> getEstate(long id);
 	
-	@Insert(onConflict = OnConflictStrategy.REPLACE) void createEstate(Estate estate);
+	@Insert(onConflict = OnConflictStrategy.REPLACE) long createEstate(Estate estate);
 	
 	@Update int updateEstate(Estate estate);
 	

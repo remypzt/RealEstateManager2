@@ -9,9 +9,9 @@ import java.util.List;
 public class Request {
 	
 	// Query string
-	public String queryString = "";
+	public String       queryString = "";
+	public List<Object> args        = new ArrayList();
 	String cityValue, minimumPriceValue, maximumPriceValue, minimumSurfaceValue, maximumSurfaceValue, minimumRoomsNumberValue, maximumRoomsNumberValue;
-	public List<Object> args = new ArrayList();
 	
 	public Request(String cityValue,
 	               String minimumPriceValue,

@@ -22,7 +22,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -39,85 +38,60 @@ import remy.pouzet.realestatemanager2.views.fragments.FormFragment;
 import remy.pouzet.realestatemanager2.views.fragments.LoanSimulatorFragment;
 import remy.pouzet.realestatemanager2.views.fragments.MapFragment;
 import remy.pouzet.realestatemanager2.views.fragments.SearchFragment;
-//------------------------------------------------------//
-// ------------------    Binding    ------------------- //
-//------------------------------------------------------//
-// ------------------   Variables   ------------------- //
-//------------------------------------------------------//
-// ------------------   LifeCycle   ------------------- //
-//------------------------------------------------------//
-// ------------------   Functions   ------------------- //
-//------------------------------------------------------//
-// ------------------     Intent    ------------------- //
-//------------------------------------------------------//
-// ------------------   Callbacks   ------------------- //
-//------------------------------------------------------//
-// ------------------     Data      ------------------- //
-//------------------------------------------------------//
-// ------------------    Adapter    ------------------- //
-//------------------------------------------------------//
-// ------------------ Miscellaneous ------------------- //+
-//------------------------------------------------------//
-// ----------------- Navigation, Menu, UI ------------- //
-//------------------------------------------------------//
+///////////////////////////////////////////////////////////////////////////
+// BINDING
+///////////////////////////////////////////////////////////////////////////
+// VARIABLES
+///////////////////////////////////////////////////////////////////////////
+// LIFECYCLE
+///////////////////////////////////////////////////////////////////////////
+// CONFIGURATIONS
+///////////////////////////////////////////////////////////////////////////
+// NAVIGATION MENU
+///////////////////////////////////////////////////////////////////////////
+// FUNCTIONS
+///////////////////////////////////////////////////////////////////////////
+// MISCELLANOUS
+///////////////////////////////////////////////////////////////////////////
 
-//TODO display galery photo in form  modify
-//TODO display galery photo in details
-//   if(estate.getGaleryPictures() != null){
-//		   uriStringList = estate.getGaleryPictures();
-//		   alternatesPicturesAdapter.notifyDataSetChanged();
-//		   }
+//TODO questions
+//TODO erase photo (liveadapter)
 
-//3h
-//TODO erase photo
-//TODO ajout vide (manage no photos)
-//TODO manage no result case (adress)
-
-// 3h
+//TODO sonarLint
+//TODO make pppulate UC or delete it
 //TODO make photo functions UC
-//TODO  make if is tablet UC
-//TODO bug tablet vertical
-//TODO provider
-
-//3h
-//TODO public private
-//TODO todos
-//TODO clean and rearrange the code
-//TODO POI
+//TODO make if is tablet UC
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-	//------------------------------------------------------//
-	// ------------------   Variables   ------------------- //
-	//------------------------------------------------------//
-	private AppBarConfiguration mAppBarConfiguration;
 	
-	public long            id;
-	public boolean         listHadBeenClick = false;
-	public Bundle          bundle           = new Bundle();
-	public DetailsFragment detailsFragment;
-	public NavHostFragment navHostFragment;
-	FrameLayout firstFrame;
-	FrameLayout secondFrame;
-	private int                 navigateToNavSearch;
-	private EstatesListFragment estatesListFragment;
-	public  MenuItem            modifyActionButton;
-	
-	//------------------------------------------------------//
-	// ------------------    Binding    ------------------- //
-	//------------------------------------------------------//
-	private ActivityMainBinding   mActivityMainBinding;
-	private RecyclerView          recyclerView;
+	public  MenuItem              modifyActionButton;
+	public  long                  id;
+	public  boolean               listHadBeenClick = false;
+	public  Bundle                bundle           = new Bundle();
+	public  DetailsFragment       detailsFragment;
+	public  NavHostFragment       navHostFragment;
+	///////////////////////////////////////////////////////////////////////////
+	// VARIABLES
+	///////////////////////////////////////////////////////////////////////////
+	private AppBarConfiguration   mAppBarConfiguration;
+	private int                   navigateToNavSearch;
+	private EstatesListFragment   estatesListFragment;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
+	///////////////////////////////////////////////////////////////////////////
+	// BINDING
+	///////////////////////////////////////////////////////////////////////////
+	private ActivityMainBinding   mActivityMainBinding;
+	private FrameLayout           firstFrame;
+	private FrameLayout           secondFrame;
 	
-	//------------------------------------------------------//
-	// ------------------   LifeCycle   ------------------- //
-	//------------------------------------------------------//
+	///////////////////////////////////////////////////////////////////////////
+	// LIFECYCLES
+	///////////////////////////////////////////////////////////////////////////
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		bindingManagement();
 		menuManagement();
 		uiManagement();
-		
 	}
 	
 	public void bindingManagement() {
@@ -127,6 +101,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		
 	}
 	
+	public void menuManagement() {
+		setContentView(mActivityMainBinding.getRoot());
+		setSupportActionBar(mActivityMainBinding.mainToolbar.toolbar);
+		// Passing each menu ID as a set of Ids because each
+		// menu should be considered as top level destinations.
+		if (isTablet(this)) {
+			actionBarDrawerToggle = new ActionBarDrawerToggle(this,
+			                                                  mActivityMainBinding.drawerLayout,
+			                                                  mActivityMainBinding.mainToolbar.toolbar,
+			                                                  R.string.navigation_drawer_open,
+			                                                  R.string.navigation_drawer_close);
+			mActivityMainBinding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
+			mActivityMainBinding.navView.setNavigationItemSelectedListener(this);
+		} else {
+			mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_estates_list,
+			                                                       R.id.nav_loan_simulator,
+			                                                       R.id.nav_map_fragment).setOpenableLayout(
+					mActivityMainBinding.drawerLayout).build();
+		}
+	}
+	
 	private void uiManagement() {
 		configureAndShowListFragment();
 		if (isTablet(this)) {
@@ -134,6 +129,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			backStackManagement();
 		}
 	}
+	
+	public boolean isTablet(Context context) {
+		boolean xlarge = ((context.getResources()
+		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+		boolean large = ((context.getResources()
+		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+		return (xlarge || large);
+	}
+	
+	@Override protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		if (isTablet(this)) {
+			actionBarDrawerToggle.syncState();
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	// NAVIGATIONS
+	///////////////////////////////////////////////////////////////////////////
+	
+	//////////////DRAWER TOOLBAR ETC///////////////////
 	
 	private void configureAndShowDetailsFragment() {
 		if (!listHadBeenClick) {
@@ -146,51 +162,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		detailsFragment.setArguments(bundle);
 		t.replace(R.id.second_frame_fragment, detailsFragment, "VISIBLE_FRAGMENT");
 		t.commit();
-	}
-
-	//------------------------------------------------------//
-	// ----------------- Navigation, Menu ----------------- //
-	//------------------------------------------------------//
-	
-	public void menuManagement() {
-		setContentView(mActivityMainBinding.getRoot());
-		setSupportActionBar(mActivityMainBinding.mainToolbar.toolbar);
-		// Passing each menu ID as a set of Ids because each
-		// menu should be considered as top level destinations.
-		if (isTablet(this)) {
-			actionBarDrawerToggle = new ActionBarDrawerToggle(this, mActivityMainBinding.drawerLayout, mActivityMainBinding.mainToolbar.toolbar,
-					R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-			mActivityMainBinding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
-			mActivityMainBinding.navView.setNavigationItemSelectedListener(this);
-		} else {
-			mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_estates_list,
-					R.id.nav_loan_simulator,
-					R.id.nav_map_fragment)
-					.setOpenableLayout(mActivityMainBinding.drawerLayout).build();
-		}
-	}
-	
-	@Override public boolean onSupportNavigateUp() {
-		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-		return NavigationUI.navigateUp(navController,
-		                               mAppBarConfiguration) || super.onSupportNavigateUp();
-	}
-	
-	@Override public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-		MenuItem searchActionButton = menu.findItem(R.id.action_search_button);
-		modifyActionButton = menu.findItem(R.id.action_modify_button);
-		navigationManagement(searchActionButton, modifyActionButton);
-		return true;
-	}
-	
-	private void backStackManagement() {
-		getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-			@Override public void onBackStackChanged() {
-				onBackManagement();
-			}
-		});
 	}
 	
 	public void navigationManagement(MenuItem searchActionButton, MenuItem modifyActionButton) {
@@ -209,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 					                           .commit();
 				}
 			});
-			
 		} else {
 			NavController navController = Navigation.findNavController(this,
 			                                                           R.id.nav_host_fragment);
@@ -236,32 +206,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 					null)));
 		}
 	}
-
-//------------------------------------------------------//
-// ------------------   Functions   ------------------- //
-//------------------------------------------------------//
 	
-	// problem is here
-	private void onBackManagement() {
-		Fragment currentBackStackFragment = getSupportFragmentManager().findFragmentByTag(
-				"VISIBLE_FRAGMENT");
-		if (currentBackStackFragment instanceof DetailsFragment) {
-			if (currentBackStackFragment.getArguments().getBoolean("isStartedFromMap")) {
-				mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
-				modifyActionButton.setVisible(false);
-				firstFrame.setVisibility(View.GONE);
-			} else {
-				firstFrame.setVisibility(View.VISIBLE);
-				modifyActionButton.setVisible(true);
-				mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
-			}
-		} else {
-			mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
-			firstFrame.setVisibility(View.GONE);
-			modifyActionButton.setVisible(false);
+	@Override public void onConfigurationChanged(@NonNull Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		if (isTablet(this)) {
+			actionBarDrawerToggle.onConfigurationChanged(newConfig);
 		}
-		
 	}
+	
+	@Override protected void onStart() {
+		super.onStart();
+		if (isTablet(this)) {
+			if (!EventBus.getDefault().isRegistered(this)) {
+				EventBus.getDefault().register(this);
+			}
+		}
+	}
+	
+	@Override protected void onDestroy() {
+		if (isTablet(this)) {
+			EventBus.getDefault().unregister(this);
+		}
+		super.onDestroy();
+	}
+	
+	@Override public boolean onSupportNavigateUp() {
+		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+		return NavigationUI.navigateUp(navController,
+		                               mAppBarConfiguration) || super.onSupportNavigateUp();
+	}
+	
+	/////////////////////////////// BACKSTACK ///////////////////////////////
 	
 	private void configureAndShowListFragment() {
 		if (!isTablet(this)) {
@@ -281,19 +256,96 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		}
 	}
 	
-	public boolean isTablet(Context context) {
-		boolean xlarge = ((context.getResources()
-		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
-		boolean large = ((context.getResources()
-		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
-		return (xlarge || large);
+	private void backStackManagement() {
+		getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+			@Override public void onBackStackChanged() {
+				onBackManagement();
+			}
+		});
 	}
 	
-	@Override protected void onDestroy() {
-		if (isTablet(this)) {
-			EventBus.getDefault().unregister(this);
+	private void onBackManagement() {
+		Fragment currentBackStackFragment = getSupportFragmentManager().findFragmentByTag(
+				"VISIBLE_FRAGMENT");
+		if (currentBackStackFragment instanceof DetailsFragment) {
+			if (currentBackStackFragment.getArguments().getBoolean("isStartedFromMap")) {
+				mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
+				modifyActionButton.setVisible(false);
+				firstFrame.setVisibility(View.GONE);
+			} else {
+				firstFrame.setVisibility(View.VISIBLE);
+				modifyActionButton.setVisible(true);
+				mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
+			}
+			
+		} else {
+			mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
+			firstFrame.setVisibility(View.GONE);
+			modifyActionButton.setVisible(false);
 		}
-		super.onDestroy();
+		
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
+	///////////////////////////////////////////////////////////////////////////
+	
+	@Override public void onBackPressed() {
+		Fragment currentBackStackFragment = getSupportFragmentManager().findFragmentByTag(
+				"VISIBLE_FRAGMENT");
+		boolean manageBackError = false;
+		
+		// this part is useful for manage on back pressed from fragment (more suitable for passing data)
+		if (!(currentBackStackFragment instanceof IOnBackPressed) || !((IOnBackPressed) currentBackStackFragment)
+				.onBackPressed()) {
+			manageBackError = true;
+			super.onBackPressed();
+		}
+		if (currentBackStackFragment instanceof FormFragment && currentBackStackFragment.getArguments() == null) {
+			configureAndShowDetailsFragment();
+			mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
+			modifyActionButton.setVisible(false);
+			
+		} else if (!manageBackError) {
+			super.onBackPressed();
+		}
+	}
+	
+	@Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.nav_estates_list) {
+			Intent startIntent = new Intent(this, MainActivity.class);
+			MainActivity.this.finish();
+			startActivity(startIntent);
+		} else if (id == R.id.nav_loan_simulator) {
+			LoanSimulatorFragment loanSimulatorFragment = new LoanSimulatorFragment();
+			getSupportFragmentManager().beginTransaction()
+			                           .replace(R.id.second_frame_fragment,
+			                                    loanSimulatorFragment,
+			                                    "VISIBLE_FRAGMENT")
+			                           .addToBackStack(null)
+			                           .commit();
+			
+		} else if (id == R.id.nav_map_fragment) {
+			MapFragment mapFragment = new MapFragment();
+			getSupportFragmentManager().beginTransaction()
+			                           .replace(R.id.second_frame_fragment,
+			                                    mapFragment,
+			                                    "VISIBLE_FRAGMENT")
+			                           .addToBackStack(null)
+			                           .commit();
+		}
+		mActivityMainBinding.drawerLayout.closeDrawer(GravityCompat.START);
+		return true;
+	}
+	
+	@Override public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+		MenuItem searchActionButton = menu.findItem(R.id.action_search_button);
+		modifyActionButton = menu.findItem(R.id.action_modify_button);
+		navigationManagement(searchActionButton, modifyActionButton);
+		return true;
 	}
 	
 	@Override public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -358,16 +410,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		}
 	}
 	
-	@Override protected void onStart() {
-		super.onStart();
-		if (isTablet(this)) {
-			if (!EventBus.getDefault().isRegistered(this)) {
-				EventBus.getDefault().register(this);
-			}
-		}
-		
-	}
-	
 	@Subscribe public void updateDetailsRegardToClickListListener(ListEvent listEvent) {
 		if (isTablet(this)) {
 			listHadBeenClick = true;
@@ -376,73 +418,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		}
 	}
 	
-	@Override public void onBackPressed() {
-		Fragment currentBackStackFragment = getSupportFragmentManager().findFragmentByTag(
-				"VISIBLE_FRAGMENT");
-		boolean manageBackError = false;
-		
-		// this part is useful for manage on back pressed from fragment (more suitable for passing data)
-		if (!(currentBackStackFragment instanceof IOnBackPressed) || !((IOnBackPressed) currentBackStackFragment)
-				.onBackPressed()) {
-			manageBackError = true;
-			super.onBackPressed();
-		}
-		if (currentBackStackFragment instanceof FormFragment && currentBackStackFragment.getArguments() == null) {
-			configureAndShowDetailsFragment();
-			mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
-			modifyActionButton.setVisible(false);
-			
-		} else if (!manageBackError) {
-			super.onBackPressed();
-		}
-	}
-
-
-	@Override
-	protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		if (isTablet(this)) {
-			actionBarDrawerToggle.syncState();
-		}
-	}
-
-	@Override
-	public void onConfigurationChanged(@NonNull Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		if (isTablet(this)) {
-			actionBarDrawerToggle.onConfigurationChanged(newConfig);
-		}
-	}
-
-	@Override
-	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-		int id = item.getItemId();
-		if (id == R.id.nav_estates_list) {
-			//TODO it's quite dirty
-			Intent startIntent = new Intent(this, MainActivity.class);
-			MainActivity.this.finish();
-			startActivity(startIntent);
-		} else if (id == R.id.nav_loan_simulator) {
-			LoanSimulatorFragment loanSimulatorFragment = new LoanSimulatorFragment();
-			getSupportFragmentManager().beginTransaction()
-			                           .replace(R.id.second_frame_fragment,
-			                                    loanSimulatorFragment,
-			                                    "VISIBLE_FRAGMENT")
-			                           .addToBackStack(null)
-			                           .commit();
-			
-		} else if (id == R.id.nav_map_fragment) {
-			MapFragment mapFragment = new MapFragment();
-			getSupportFragmentManager().beginTransaction()
-			                           .replace(R.id.second_frame_fragment,
-			                                    mapFragment,
-			                                    "VISIBLE_FRAGMENT")
-			                           .addToBackStack(null)
-			                           .commit();
-		}
-		mActivityMainBinding.drawerLayout.closeDrawer(GravityCompat.START);
-		return true;
-	}
 }
 
 

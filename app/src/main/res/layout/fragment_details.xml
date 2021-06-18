@@ -102,9 +102,8 @@
             android:id="@+id/estate_specification_constraint_layout_fragment_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="50dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/content_description_fragment_details">
 
             <ImageView
@@ -120,8 +119,8 @@
                 android:id="@+id/surface_title_fragment_details"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Surface"
                 android:layout_marginStart="5dp"
+                android:text="Surface"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/surface_picture_fragment_details"
                 app:layout_constraintTop_toTopOf="@+id/surface_picture_fragment_details" />
@@ -221,8 +220,8 @@
                 android:id="@+id/update_date_title_fragment_details"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Last update"
                 android:layout_marginTop="5dp"
+                android:text="Last update"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -239,9 +238,9 @@
                 android:id="@+id/sell_date_fragment_details"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 android:text="Selled Date"
                 android:textStyle="bold"
-                android:layout_marginTop="5dp"
                 app:layout_constraintStart_toStartOf="@+id/update_date_value_fragment_details"
                 app:layout_constraintTop_toBottomOf="@+id/update_date_value_fragment_details" />
 
@@ -262,7 +261,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/estate_specification_third_column_constraint_layout_fragment_details"
-
+            app:layout_constraintBottom_toTopOf="@id/lite_map_details_fragment"
             >
 
 
@@ -286,23 +285,27 @@
 
             <TextView
                 android:id="@+id/location_value_fragment_details"
-                android:layout_width="400dp"
+                android:layout_width="wrap_content"
+                android:maxWidth="300dp"
+                android:maxLength="300"
                 android:layout_height="match_parent"
                 android:text="location value"
                 app:layout_constraintStart_toStartOf="@+id/location_title_fragment_details"
                 app:layout_constraintTop_toBottomOf="@+id/location_title_fragment_details" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <fragment
             android:id="@+id/lite_map_details_fragment"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_marginTop="10dp"
             android:layout_width="300dp"
             android:layout_height="200dp"
-            app:layout_constraintTop_toBottomOf="@+id/adress_constraint"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/adress_constraint"
             app:liteMode="true"
             app:mapType="normal" />
         <!--    </com.google.android.gms.maps.MapView>-->

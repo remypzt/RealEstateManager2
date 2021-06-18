@@ -22,24 +22,20 @@ import static org.robolectric.Shadows.shadowOf;
  * Created by Remy Pouzet on 05/11/2020.
  */
 
-@RunWith(RobolectricTestRunner.class)
-public class ShadowConnectivityManagerTest {
+@RunWith(RobolectricTestRunner.class) public class ShadowConnectivityManagerTest {
 	private ConnectivityManager connectivityManager;
 	private ShadowNetworkInfo   shadowOfActiveNetworkInfo;
 	
-	@Before
-	public void setUp() throws
-	                    Exception {
+	@Before public void setUp() throws
+	                            Exception {
 		
-		connectivityManager = (ConnectivityManager) ApplicationProvider
-				.getApplicationContext()
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		connectivityManager = (ConnectivityManager) ApplicationProvider.getApplicationContext()
+		                                                               .getSystemService(Context.CONNECTIVITY_SERVICE);
 		
 		shadowOfActiveNetworkInfo = shadowOf(connectivityManager.getActiveNetworkInfo());
 	}
 	
-	@Test
-	public void getActiveNetworkInfo_shouldReturnTrueCorrectly() {
+	@Test public void getActiveNetworkInfo_shouldReturnTrueCorrectly() {
 		shadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.CONNECTED);
 		assertTrue(Utils.isNetworkAvailable(ApplicationProvider.getApplicationContext()));
 		

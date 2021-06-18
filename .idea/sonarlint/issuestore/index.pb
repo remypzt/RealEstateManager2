@@ -1,8 +1,6 @@
 
 ƒ
 Sapp/src/main/java/remy/pouzet/realestatemanager2/repositories/EstateRepository.java,e\8\e8732fcf6fe87841d7737a5e85d7c403d583b58f
-†
-Vapp/src/main/java/remy/pouzet/realestatemanager2/viewmodels/MainActivityViewModel.java,c\d\cdc8ee20283d39258128ce5281f14ec4367808d3
 ƒ
 Sapp/src/main/java/remy/pouzet/realestatemanager2/datas/database/EstateDatabase.java,b\d\bd52c8604b92c3cdf6a591e00255f23af060a35e
 …
@@ -119,8 +117,6 @@ Eapp/src/test/java/remy/pouzet/realestatemanager2/ExampleUnitTest.java,e\f\efa3
 Mapp/src/androidTest/java/remy/pouzet/realestatemanager2/LiveDataTestUtil.java,8\7\87d2e6bd60d695b9dcb7895011308161737fbb38
 |
 Lapp/src/main/java/remy/pouzet/realestatemanager2/utils/UtilsForResponse.java,a\d\ad2bee95976d84ce01519516b8ff681654d221f5
-\
-,app/src/debug/res/values/google_maps_api.xml,c\7\c7ab7bac149c0f83f3f9611a0eb8fdce1aaf3aee
 X
 (gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 |
@@ -153,3 +149,25 @@ vapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/AdaptersAndVie
 oapp/src/main/java/remy/pouzet/realestatemanager2/views/fragments/AdaptersAndViewHolders/EstatesListAdapter.java,1\5\15de783afc5600cbe5052ad3b7dadb0b8b377fb3
 ‚
 Rapp/src/main/java/remy/pouzet/realestatemanager2/datas/database/DataConverter.java,d\5\d5bcb328768d6113b613691bbd727b0196b35f20
+Y
+)app/src/main/res/layout/activity_main.xml,7\6\76b07e40f24cce093536731477540f12e7da3cb6
+_
+/app/src/main/res/layout-w600dp/content_main.xml,1\6\16f515ac895fb50236ff355a8602d32181a1d6ba
+j
+:app/src/main/res/layout/content_of_alternates_pictures.xml,0\c\0cb39fb2e66118c7f9e155730cd6f4f52b716d8b
+\
+,app/src/main/res/layout/fragment_details.xml,6\c\6c365c1ce3140cca73b288b966211b8562d21ce9
+c
+3app/src/main/res/layout/fragment_loan_simulator.xml,d\3\d3da869c31df331227c538bfa6ee026bb5c7745f
+[
++app/src/main/res/layout/fragment_search.xml,2\f\2f0ecfae4fe398a722fcad4e3b06b75ba69c589a
+\
+,app/src/debug/res/values/google_maps_api.xml,c\7\c7ab7bac149c0f83f3f9611a0eb8fdce1aaf3aee
+^
+.app/src/main/res/drawable/gradient_toolbar.xml,2\b\2b6ada6cf7080851670b65edcab05ae13abdc9b7
+T
+$app/src/main/res/drawable/ic_add.xml,6\9\699c3d6616ccc6ddf6bb7357bbf7c0f43d8ba9b8
+W
+'app/src/main/res/drawable/ic_modify.xml,2\3\2311708636c86edd94fe6118ac05cbf58d759d75
+W
+'app/src/main/res/drawable/ic_search.xml,f\1\f147bc5a18c943e2202ab4271561325af3e75237

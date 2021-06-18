@@ -24,33 +24,12 @@ import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
 public class SearchFragment extends BaseFragment {
 	
-	//------------------------------------------------------//
-	// ------------------   Variables   ------------------- //
-	// ------------------------------------------------------//
-	public SearchViewModel       searchViewModel;
-	public Request               request;
-	public FragmentSearchBinding fragmentSearchBinding;
-	public Bundle                bundle = new Bundle();
-	public String                cityValue, minimumPriceValue, maximumPriceValue, minimumSurfaceValue, maximumSurfaceValue, minimumRoomsNumberValue, maximumRoomsNumberValue;
+	///////////////////////////////////////////////////////////////////////////
+	// BINDING
+	///////////////////////////////////////////////////////////////////////////
 	
-	//------------------------------------------------------//
-	// ------------------   Binding   ------------------- //
-	//------------------------------------------------------//
 	public EditText cityEditText, minimumPriceEditText, maximumPriceEditText, minimumSurfaceEditText, maximumSurfaceEditText, minimumRoomsNumberEditText, maximumRoomsNumberEditText;
 	public ImageButton searchButton;
-	
-	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater,
-	                         @Nullable ViewGroup container,
-	                         @Nullable Bundle savedInstanceState) {
-		fragmentSearchBinding = FragmentSearchBinding.inflate(inflater, container, false);
-		viewBindingManagement();
-		return fragmentSearchBinding.getRoot();
-	}
-	
-	//------------------------------------------------------//
-	// ------------------   LifeCycle   ------------------- //
-	//------------------------------------------------------//
 	
 	private void viewBindingManagement() {
 		cityEditText               = fragmentSearchBinding.valueOfEstateCityFragmentSearch;
@@ -61,14 +40,29 @@ public class SearchFragment extends BaseFragment {
 		minimumRoomsNumberEditText = fragmentSearchBinding.valueOfEstateMinimumRoomsNumberFragmentSearch;
 		maximumRoomsNumberEditText = fragmentSearchBinding.valueOfEstateMaximumRoomsNumberFragmentSearch;
 		searchButton               = fragmentSearchBinding.validateResearchButton;
-		
 	}
 	
+	///////////////////////////////////////////////////////////////////////////
+	// VARIABLES
+	///////////////////////////////////////////////////////////////////////////
+	
+	public SearchViewModel       searchViewModel;
+	public Request               request;
+	public FragmentSearchBinding fragmentSearchBinding;
+	public Bundle                bundle = new Bundle();
+	public String                cityValue, minimumPriceValue, maximumPriceValue, minimumSurfaceValue, maximumSurfaceValue, minimumRoomsNumberValue, maximumRoomsNumberValue;
+	
+	///////////////////////////////////////////////////////////////////////////
+	// LIFECYCLE
+	///////////////////////////////////////////////////////////////////////////
+	
 	@Override
-	public View provideYourFragmentView(LayoutInflater inflater,
-	                                    ViewGroup parent,
-	                                    Bundle savedInstanceState) {
-		return null;
+	public View onCreateView(@NonNull LayoutInflater inflater,
+	                         @Nullable ViewGroup container,
+	                         @Nullable Bundle savedInstanceState) {
+		fragmentSearchBinding = FragmentSearchBinding.inflate(inflater, container, false);
+		viewBindingManagement();
+		return fragmentSearchBinding.getRoot();
 	}
 	
 	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -77,17 +71,24 @@ public class SearchFragment extends BaseFragment {
 		searchManagement();
 	}
 	
-	//------------------------------------------------------//
-	// ------------------   Functions   ------------------- //
-	//------------------------------------------------------//
+	///////////////////////////////////////////////////////////////////////////
+	// CONFIGURATIONS
+	///////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public View provideYourFragmentView(LayoutInflater inflater,
+	                                    ViewGroup parent,
+	                                    Bundle savedInstanceState) {
+		return null;
+	}
 	
 	private void configureViewModel() {
 		searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 	}
 	
-	//------------------------------------------------------//
-// ----------------- Navigation, Menu, UI ------------- //
-//------------------------------------------------------//
+	///////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
+	///////////////////////////////////////////////////////////////////////////
 	
 	public void searchManagement() {
 		
@@ -126,17 +127,17 @@ public class SearchFragment extends BaseFragment {
 		});
 	}
 	
-	public Bundle saveRequest(Request request) {
-		Bundle bundle = new Bundle();
-		bundle.putSerializable("request", new Gson().toJson(request));
-		return bundle;
-	}
-	
 	public boolean isTablet(Context context) {
 		boolean xlarge = ((context.getResources()
 		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
 		boolean large = ((context.getResources()
 		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
 		return (xlarge || large);
+	}
+	
+	public Bundle saveRequest(Request request) {
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("request", new Gson().toJson(request));
+		return bundle;
 	}
 }

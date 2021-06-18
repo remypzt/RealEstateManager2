@@ -39,7 +39,10 @@ public class CheckFormDataUC {
 		if (estateRaw.getUpdateDate().length() < EMPTY) {
 			return EstateFormState.ERROR_UPDATE_DATE_VALUE;
 		}
-		
+//		if (estateRaw.getMainPictureValue() == null){
+//			return  EstateFormState.ERROR_MAIN_PICTURE;}
+//		if (estateRaw.getGaleryPicturesValues() == null){
+//			return EstateFormState.ERROR_ALTERNATES_PICTURES;}
 		return EstateFormState.IS_VALID;
 	}
 	
@@ -52,6 +55,8 @@ public class CheckFormDataUC {
 		ERROR_PRICE_VALUE,
 		ERROR_CONTACT_VALUE,
 		ERROR_UPDATE_DATE_VALUE,
+		ERROR_MAIN_PICTURE,
+		ERROR_ALTERNATES_PICTURES
 		
 	}
 }

@@ -10,8 +10,8 @@ import remy.pouzet.realestatemanager2.datas.database.EstateDatabase;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 
 public class GetAllEstatesUC {
-    
-    public LiveData<List<Estate>> execute(Context context) {
-        return EstateDatabase.getInstance(context).estateDao().getAllEstates();
-    }
+	
+	public LiveData<List<Estate>> execute(Context context) {
+		return EstateDatabase.getInstance(context).estateDao().getAllEstates();
+	}
 }

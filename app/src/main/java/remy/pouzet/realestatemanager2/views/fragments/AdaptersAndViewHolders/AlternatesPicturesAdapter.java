@@ -21,10 +21,15 @@ public class AlternatesPicturesAdapter extends RecyclerView.Adapter<AlternatesPi
 	private final Context      context;
 	// FOR DATA
 	private       List<String> picturesUriList = new ArrayList<>();
+	private final boolean      isFromForm;
 	
-	public AlternatesPicturesAdapter(List<String> picturesUriList, Context context) {
+	public AlternatesPicturesAdapter(List<String> picturesUriList,
+	                                 Context context,
+	                                 boolean isFromForm) {
 		this.picturesUriList = picturesUriList;
 		this.context         = context;
+		this.isFromForm      = isFromForm;
+		
 	}
 	
 	@NonNull @Override
@@ -35,7 +40,7 @@ public class AlternatesPicturesAdapter extends RecyclerView.Adapter<AlternatesPi
 		View           view     = inflater.inflate(R.layout.content_of_alternates_pictures,
 		                                           parent,
 		                                           false);
-		return new AlternatesPicturesViewHolder(view);
+		return new AlternatesPicturesViewHolder(view, isFromForm);
 	}
 	
 	@Override

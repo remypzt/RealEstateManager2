@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,6 +24,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import remy.pouzet.realestatemanager2.R;
@@ -32,38 +35,43 @@ import remy.pouzet.realestatemanager2.utils.IOnBackPressed;
 import remy.pouzet.realestatemanager2.utils.OnMapAndViewReadyListener;
 import remy.pouzet.realestatemanager2.viewmodels.DetailsViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
+import remy.pouzet.realestatemanager2.views.fragments.AdaptersAndViewHolders.AlternatesPicturesAdapter;
 
 public class DetailsFragment extends BaseFragment implements OnMapReadyCallback, IOnBackPressed {
-	//------------------------------------------------------//
-	// ------------------   Variables   ------------------- //
-	// ------------------------------------------------------//
+	///////////////////////////////////////////////////////////////////////////
+	// VARIABLES
+	///////////////////////////////////////////////////////////////////////////
 	
-	public long   id;
-	public double estateLat, estateLng;
-	public  String                 adress;
-	public  ImageView              mainPicture;
-	public  Bundle                 bundle         = new Bundle();
-	private LatLng                 estateLocation = new LatLng(-34.92873, 138.59995);
+	private final List<String>              uriStringList = new ArrayList<>();
+	private final boolean                   isFromForm    = false;
+	public        AlternatesPicturesAdapter alternatesPicturesAdapter;
+	public        RecyclerView              recyclerView;
+	public        long                      id;
+	public        double                    estateLat, estateLng;
+	public  String           adress;
+	public  Bundle           bundle         = new Bundle();
+	private LatLng           estateLocation = new LatLng(-34.92873, 138.59995);
+	private String           mainPictureURI;
+	private DetailsViewModel detailsViewModel;
+	private GoogleMap        map;
+	
+	///////////////////////////////////////////////////////////////////////////
+	// BINDING
+	///////////////////////////////////////////////////////////////////////////
+	
 	private TextView               typeValueTextView;
 	private TextView               cityValueTextView;
+	private FragmentDetailsBinding fragmentDetailsBinding;
 	private TextView               priceValueTextView;
 	private TextView               descriptionValueTextView;
 	private TextView               surfaceValueTextView;
-	private String                 mainPictureURI;
 	private TextView               locationValueTextView;
 	private TextView               roomsValueTextView;
 	private TextView               contactValueTextView;
 	private TextView               lastUpdateValueTextView;
 	private TextView               sellDateValueTextView;
 	private TextView               sellDateTitleTextView;
-	private DetailsViewModel       detailsViewModel;
-	private GoogleMap              map;
-	private FragmentDetailsBinding fragmentDetailsBinding;
-	private List<String>           uriStringList;
-	
-	//------------------------------------------------------//
-// ------------------    Binding    ------------------- //
-//------------------------------------------------------//
+	private ImageView              mainPicture;
 	
 	public void viewBindingManagement() {
 		typeValueTextView        = fragmentDetailsBinding.typeTitleFragmentDetails;
@@ -78,11 +86,12 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 		sellDateTitleTextView    = fragmentDetailsBinding.sellDateFragmentDetails;
 		sellDateValueTextView    = fragmentDetailsBinding.sellDateValueFragmentDetails;
 		mainPicture              = fragmentDetailsBinding.chosenMainPictureDetailsFragment;
+		recyclerView             = fragmentDetailsBinding.estatePicturesListFragmentDetails;
 	}
 	
-	//------------------------------------------------------//
-	// ------------------   LifeCycle   ------------------- //
-	//------------------------------------------------------//
+	///////////////////////////////////////////////////////////////////////////
+	// LIFECYCLE
+	///////////////////////////////////////////////////////////////////////////
 	
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater,
@@ -100,49 +109,26 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 	
 	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		configureRecyclerView();
 		id = Long.parseLong(getArguments().get("id").toString());
 		detailsViewModel.observeEstate(id)
 		                .observe(getViewLifecycleOwner(), estate -> updateUI(estate));
 		
 	}
 	
-	//------------------------------------------------------//
-	// ------------------   Functions   ------------------- //
-	//------------------------------------------------------//
-	
-	@Override
-	public View provideYourFragmentView(LayoutInflater inflater,
-	                                    ViewGroup parent,
-	                                    Bundle savedInstanceState) {
-		return null;
+	public void configureRecyclerView() {
+		this.alternatesPicturesAdapter = new AlternatesPicturesAdapter(uriStringList,
+		                                                               requireContext(),
+		                                                               isFromForm);
+		this.recyclerView.setAdapter(this.alternatesPicturesAdapter);
+		this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
+		                                                           RecyclerView.HORIZONTAL,
+		                                                           false));
 	}
 	
-	@Override public void onMapReady(GoogleMap googleMap) {
-		map = googleMap;
-		
-	}
-	
-	//I'd try to pass data from fragment to activity by bundle and sharedpreferences but i failed it so I'm using this unorthodox method
-	
-	@Override public boolean onBackPressed() {
-		
-		if (getArguments().getBoolean("isStartedFromMap") && isTablet(requireContext())) {
-			MapFragment mapFragment = new MapFragment();
-			bundle.putBoolean("isStartedFromMap", false);
-			mapFragment.setArguments(bundle);
-			getActivity().getSupportFragmentManager()
-			             .beginTransaction()
-			             .replace(R.id.second_frame_fragment, mapFragment, "VISIBLE_FRAGMENT")
-			             .commit();
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	private void configureViewModel() {
-		detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
-	}
+	///////////////////////////////////////////////////////////////////////////
+	// CONFIGURATIONS
+	///////////////////////////////////////////////////////////////////////////
 	
 	private void updateUI(Estate estate) {
 		if (estate != null) {
@@ -175,14 +161,33 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 				setPic(mainPicture);
 			}
 			if (estate.getGaleryPictures() != null) {
-				uriStringList = estate.getGaleryPictures();
+				this.uriStringList.clear();
+				this.uriStringList.addAll(estate.getGaleryPictures());
+				this.alternatesPicturesAdapter.notifyDataSetChanged();
 			}
-			//TODO manage recycler view
 		}
 	}
 	
+	@Override
+	public View provideYourFragmentView(LayoutInflater inflater,
+	                                    ViewGroup parent,
+	                                    Bundle savedInstanceState) {
+		return null;
+	}
+	
+	@Override public void onMapReady(GoogleMap googleMap) {
+		map = googleMap;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
+	///////////////////////////////////////////////////////////////////////////
+	
+	private void configureViewModel() {
+		detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
+	}
+	
 	private void setPic(ImageView imageView) {
-		
 		// Get the dimensions of the View
 		int targetW = imageView.getWidth();
 		int targetH = imageView.getHeight();
@@ -207,6 +212,32 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 		Bitmap bitmap = BitmapFactory.decodeFile(mainPictureURI, bmOptions);
 		imageView.setImageBitmap(bitmap);
 	}
+	
+	@Override public boolean onBackPressed() {
+		
+		if (getArguments().getBoolean("isStartedFromMap") && isTablet(requireContext())) {
+			MapFragment mapFragment = new MapFragment();
+			bundle.putBoolean("isStartedFromMap", false);
+			mapFragment.setArguments(bundle);
+			getActivity().getSupportFragmentManager()
+			             .beginTransaction()
+			             .replace(R.id.second_frame_fragment, mapFragment, "VISIBLE_FRAGMENT")
+			             .commit();
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean isTablet(Context context) {
+		boolean xlarge = ((context.getResources()
+		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+		boolean large = ((context.getResources()
+		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+		return (xlarge || large);
+	}
+	
+	//////////////////////////  LiteMap  /////////////////////////////////
 	
 	private void configureLiteMap() {
 		showEstateLocation();
@@ -234,11 +265,4 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 		detailsViewModel.observeResponse(adress).observe(requireActivity(), observeResponse);
 	}
 	
-	public boolean isTablet(Context context) {
-		boolean xlarge = ((context.getResources()
-		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
-		boolean large = ((context.getResources()
-		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
-		return (xlarge || large);
-	}
 }

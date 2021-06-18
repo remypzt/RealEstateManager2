@@ -23,6 +23,7 @@ public class DataConverter implements Serializable {
 		if (uriListString == null) {
 			return (null);
 		}
+		uriListString = uriListString.substring(1, uriListString.length() - 1);
 		List<String> uris = new ArrayList<String>(Arrays.asList(uriListString.split(", ")));
 		return uris;
 	}
