@@ -1,23 +1,23 @@
 
-t
-java:S11043"RMake adress a static final constant or non-public and provide accessors if needed.(ˆÚ€¼ıÿÿÿÿ8§ıª¡/
-I
-java:S16592"'Declare "estateLng" on a separate line.(´ŞÉÎúÿÿÿÿ8§ıª¡/
-u
-java:S11040"XMake recyclerView a static final constant or non-public and provide accessors if needed.(´Şºƒ8Ê¶¸Î¡/
-n
-java:S11044"RMake bundle a static final constant or non-public and provide accessors if needed.(ö“§"8§ıª¡/
-V
-java:S1874Ò"3Remove this use of "inPurgeable"; it is deprecated.(á§³™üÿÿÿÿ8å£ª¹/
-w
-java:S11042"UMake estateLng a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8§ıª¡/
-p
-java:S11041"NMake id a static final constant or non-public and provide accessors if needed.(™ò¤·ÿÿÿÿÿ8§ıª¡/
-‡
-java:S1104/"eMake alternatesPicturesAdapter a static final constant or non-public and provide accessors if needed.(Ô§÷ïşÿÿÿÿ8‰³ÃÎ¡/
-w
-java:S11042"UMake estateLat a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8§ıª¡/
-C
-java:S1170."!Make this final field static too.(óõŞÀıÿÿÿÿ8´œáÕ¡/
 N
-java:S1612s",Replace this lambda with a method reference.(ğù´‡ÿÿÿÿÿ8´œáÕ¡/
+java:S1612q",Replace this lambda with a method reference.(ğù´‡ÿÿÿÿÿ8´¯àÊ¢/
+t
+java:S11041"RMake adress a static final constant or non-public and provide accessors if needed.(ˆÚ€¼ıÿÿÿÿ8§ıª¡/
+u
+java:S1104."XMake recyclerView a static final constant or non-public and provide accessors if needed.(´Şºƒ8Ê¶¸Î¡/
+n
+java:S11042"RMake bundle a static final constant or non-public and provide accessors if needed.(ö“§"8§ıª¡/
+I
+java:S16590"'Declare "estateLng" on a separate line.(´ŞÉÎúÿÿÿÿ8§ıª¡/
+p
+java:S1104/"NMake id a static final constant or non-public and provide accessors if needed.(™ò¤·ÿÿÿÿÿ8§ıª¡/
+w
+java:S11040"UMake estateLat a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8§ıª¡/
+‡
+java:S1104-"eMake alternatesPicturesAdapter a static final constant or non-public and provide accessors if needed.(Ô§÷ïşÿÿÿÿ8‰³ÃÎ¡/
+w
+java:S11040"UMake estateLng a static final constant or non-public and provide accessors if needed.(´ŞÉÎúÿÿÿÿ8§ıª¡/
+C
+java:S1170,"!Make this final field static too.(óõŞÀıÿÿÿÿ8´œáÕ¡/
+V
+java:S1874Ñ"3Remove this use of "inPurgeable"; it is deprecated.(á§³™üÿÿÿÿ8è„ÜË¢/

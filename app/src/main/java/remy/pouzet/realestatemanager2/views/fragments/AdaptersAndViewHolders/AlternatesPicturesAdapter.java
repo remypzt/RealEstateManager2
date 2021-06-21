@@ -18,17 +18,20 @@ import remy.pouzet.realestatemanager2.R;
  */
 public class AlternatesPicturesAdapter extends RecyclerView.Adapter<AlternatesPicturesViewHolder> {
 	
-	private final Context      context;
+	private final Context           context;
+	private final boolean           isFromForm;
+	private final ItemClickListener itemClickListener;
 	// FOR DATA
-	private       List<String> picturesUriList = new ArrayList<>();
-	private final boolean      isFromForm;
+	private       List<String>      picturesUriList = new ArrayList<>();
 	
 	public AlternatesPicturesAdapter(List<String> picturesUriList,
 	                                 Context context,
-	                                 boolean isFromForm) {
-		this.picturesUriList = picturesUriList;
-		this.context         = context;
-		this.isFromForm      = isFromForm;
+	                                 boolean isFromForm,
+	                                 ItemClickListener itemClickListener) {
+		this.picturesUriList   = picturesUriList;
+		this.context           = context;
+		this.isFromForm        = isFromForm;
+		this.itemClickListener = itemClickListener;
 		
 	}
 	
@@ -45,10 +48,16 @@ public class AlternatesPicturesAdapter extends RecyclerView.Adapter<AlternatesPi
 	
 	@Override
 	public void onBindViewHolder(@NonNull AlternatesPicturesViewHolder holder, int position) {
-		holder.updatePictures(Uri.parse(picturesUriList.get(position)));
+		holder.updatePictures(Uri.parse(picturesUriList.get(position)),
+		                      position,
+		                      itemClickListener);
 	}
 	
 	@Override public int getItemCount() {
 		return this.picturesUriList.size();
+	}
+	
+	public interface ItemClickListener {
+		void onItemClickedListener(View view, int position);
 	}
 }

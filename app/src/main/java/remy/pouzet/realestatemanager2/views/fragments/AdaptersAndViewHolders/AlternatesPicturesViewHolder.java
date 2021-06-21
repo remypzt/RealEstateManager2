@@ -13,7 +13,7 @@ import remy.pouzet.realestatemanager2.databinding.ContentOfAlternatesPicturesBin
 /**
  * Created by Remy Pouzet on 11/06/2021.
  */
-public class AlternatesPicturesViewHolder extends RecyclerView.ViewHolder {
+public class AlternatesPicturesViewHolder extends RecyclerView.ViewHolder implements AlternatesPicturesAdapter.ItemClickListener {
 	
 	private final ContentOfAlternatesPicturesBinding contentOfAlternatesPicturesBinding;
 	private final ImageView                          alternatePicture;
@@ -26,27 +26,31 @@ public class AlternatesPicturesViewHolder extends RecyclerView.ViewHolder {
 		this.isFromForm                    = isFromForm;
 	}
 	
-	public void updatePictures(Uri uri) {
+	public void updatePictures(Uri uri,
+	                           int position,
+	                           AlternatesPicturesAdapter.ItemClickListener itemClickListener) {
 		if (uri != null) {
 			alternatePicture.setImageURI(uri);
 		}
 		if (isFromForm) {
 			alternatePicture.setOnClickListener(new View.OnClickListener() {
 				@Override public void onClick(View v) {
-					showChoiceSnackBar(v);
+					alertDialogChoice(v, position, itemClickListener);
 				}
 			});
 		}
 	}
 	
-	public void showChoiceSnackBar(View view) {
+	public void alertDialogChoice(View view,
+	                              int position,
+	                              AlternatesPicturesAdapter.ItemClickListener itemClickListener) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
 		alertDialogBuilder.setTitle(null)
 		                  .setCancelable(true)
 		                  .setMessage("Erase this picture ?")
 		                  .setPositiveButton("Yes", (dialog, id) -> {
-			                  alternatePicture.setImageURI(null);
-			                  Toast.makeText(view.getContext(), "Supressed !", Toast.LENGTH_SHORT)
+			                  itemClickListener.onItemClickedListener(view, position);
+			                  Toast.makeText(view.getContext(), "Suppressed !", Toast.LENGTH_SHORT)
 			                       .show();
 		                  })
 		                  .setNegativeButton("No", (dialog, id) -> {
@@ -56,4 +60,6 @@ public class AlternatesPicturesViewHolder extends RecyclerView.ViewHolder {
 		alertDialog.show();
 	}
 	
+	@Override public void onItemClickedListener(View view, int position) {
+	}
 }

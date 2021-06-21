@@ -8,7 +8,6 @@ import remy.pouzet.realestatemanager2.datas.models.Estate;
  * Created by Remy Pouzet on 17/12/2020.
  */
 public class IsNewEstateUC {
-	
 	public boolean execute(Context context, long id) {
 		final Estate estate = EstateDatabase.getInstance(context)
 		                                    .estateDao()
@@ -16,4 +15,5 @@ public class IsNewEstateUC {
 		                                    .getValue();
 		return estate == null;
 	}
+	
 }

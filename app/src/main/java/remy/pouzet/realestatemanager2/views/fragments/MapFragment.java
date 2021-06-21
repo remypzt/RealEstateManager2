@@ -1,9 +1,7 @@
 package remy.pouzet.realestatemanager2.views.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -82,14 +80,7 @@ public class MapFragment extends Fragment {
 			getAndShowEstateLocation();
 		}
 	}
-	
-	public boolean isTablet(Context context) {
-		boolean xlarge = ((context.getResources()
-		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
-		boolean large = ((context.getResources()
-		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
-		return (xlarge || large);
-	}
+
 	
 	public Bundle saveEstateId(long id) {
 		
@@ -133,7 +124,7 @@ public class MapFragment extends Fragment {
 		map.setOnInfoWindowClickListener(marker -> {
 			View         view;
 			CharSequence charSequence;
-			if (isTablet(requireContext())) {
+			if (mapViewModel.isTablet()) {
 				DetailsFragment detailsFragment = new DetailsFragment();
 				bundle.putBoolean("isStartedFromMap", true);
 				detailsFragment.setArguments(saveEstateId((Long) marker.getTag()));

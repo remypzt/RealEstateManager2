@@ -1,7 +1,5 @@
 package remy.pouzet.realestatemanager2.views.fragments.AdaptersAndViewHolders;
 
-import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -20,6 +18,7 @@ import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.ContentItemsOfFragmentEstateListBinding;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.datas.models.ListEvent;
+import remy.pouzet.realestatemanager2.domain.usecases.IsTabletUC;
 
 /**
  * Created by Remy Pouzet on 10/11/2020.
@@ -61,7 +60,7 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
 		cityLocationEstate.setText(estate.getCity());
 		priceEstate.setText((estate.getPrice() + "€"));
 		
-		if (isTablet(this.itemView.getContext())) {
+		if (new IsTabletUC().execute(this.itemView.getContext())) {
 			constraintLayout.setOnClickListener(new View.OnClickListener() {
 				@Override public void onClick(View v) {
 					EventBus.getDefault().post(new ListEvent(estate.getId()));
@@ -96,14 +95,6 @@ public class EstatesListViewHolder extends RecyclerView.ViewHolder {
 		bmOptions.inPurgeable        = true;
 		Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
 		imageView.setImageBitmap(bitmap);
-	}
-	
-	public boolean isTablet(Context context) {
-		boolean xlarge = ((context.getResources()
-		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
-		boolean large = ((context.getResources()
-		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
-		return (xlarge || large);
 	}
 	
 	public Bundle saveEstateId(Estate estate) {

@@ -13,6 +13,7 @@ import java.util.List;
 import remy.pouzet.realestatemanager2.datas.database.EstateDatabase;
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.datas.models.Request;
+import remy.pouzet.realestatemanager2.domain.usecases.IsTabletUC;
 import remy.pouzet.realestatemanager2.domain.usecases.estate.GetAllEstatesUC;
 
 public class EstatesListViewModel extends AndroidViewModel {
@@ -37,6 +38,10 @@ public class EstatesListViewModel extends AndroidViewModel {
 		SimpleSQLiteQuery simpleSQLiteQuery = new SimpleSQLiteQuery(query.queryString,
 		                                                            query.args.toArray());
 		return EstateDatabase.getInstance(context).estateDao().searchEstates(simpleSQLiteQuery);
+	}
+	
+	public boolean isTablet() {
+		return new IsTabletUC().execute(getApplication());
 	}
 	
 }

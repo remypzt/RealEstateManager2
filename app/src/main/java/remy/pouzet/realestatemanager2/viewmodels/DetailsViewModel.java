@@ -11,6 +11,7 @@ import java.util.List;
 
 import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.datas.services.realapi.pojos.ResultsItem;
+import remy.pouzet.realestatemanager2.domain.usecases.IsTabletUC;
 import remy.pouzet.realestatemanager2.domain.usecases.estate.GetEstateUC;
 import remy.pouzet.realestatemanager2.domain.usecases.map.GetLocationFromGeoCodingUC;
 
@@ -29,6 +30,10 @@ public class DetailsViewModel extends AndroidViewModel {
 					address);
 		}
 		return observeResponse;
+	}
+	
+	public boolean isTablet() {
+		return new IsTabletUC().execute(getApplication());
 	}
 	
 	public LiveData<Estate> observeEstate(long id) {

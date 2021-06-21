@@ -155,8 +155,6 @@ _
 /app/src/main/res/layout-w600dp/content_main.xml,1\6\16f515ac895fb50236ff355a8602d32181a1d6ba
 j
 :app/src/main/res/layout/content_of_alternates_pictures.xml,0\c\0cb39fb2e66118c7f9e155730cd6f4f52b716d8b
-\
-,app/src/main/res/layout/fragment_details.xml,6\c\6c365c1ce3140cca73b288b966211b8562d21ce9
 c
 3app/src/main/res/layout/fragment_loan_simulator.xml,d\3\d3da869c31df331227c538bfa6ee026bb5c7745f
 [
@@ -171,3 +169,7 @@ W
 'app/src/main/res/drawable/ic_modify.xml,2\3\2311708636c86edd94fe6118ac05cbf58d759d75
 W
 'app/src/main/res/drawable/ic_search.xml,f\1\f147bc5a18c943e2202ab4271561325af3e75237
+‘
+aapp/src/main/java/remy/pouzet/realestatemanager2/datas/services/provider/ItemContentProvider.java,b\1\b11b94a9512740491605f9a03a26814f75cbaf7c
+†
+Vapp/src/androidTest/java/remy/pouzet/realestatemanager2/EstateContentProviderTest.java,5\5\55aa6413a85039528eb2b34674ee301d8e2fbd5a

@@ -54,7 +54,7 @@ import remy.pouzet.realestatemanager2.views.fragments.AdaptersAndViewHolders.Alt
 
 import static android.app.Activity.RESULT_OK;
 
-public class FormFragment extends BaseFragment {
+public class FormFragment extends BaseFragment implements AlternatesPicturesAdapter.ItemClickListener {
 	///////////////////////////////////////////////////////////////////////////
 	// VARIABLES
 	///////////////////////////////////////////////////////////////////////////
@@ -173,14 +173,16 @@ public class FormFragment extends BaseFragment {
 		return null;
 	}
 	
-	public void configureRecyclerView() {
-		this.alternatesPicturesAdapter = new AlternatesPicturesAdapter(uriStringList,
-		                                                               requireContext(),
-		                                                               isFromForm);
-		this.recyclerView.setAdapter(this.alternatesPicturesAdapter);
-		this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
-		                                                           RecyclerView.HORIZONTAL,
-		                                                           false));
+	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		configureRecyclerView();
+		setHideKeyboardOnTouch(requireContext(), getView());
+		updateUIIfItsModification();
+		isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
+		photosManagement();
+		datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
+		datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
+		validationButtonManagement();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
@@ -280,17 +282,6 @@ public class FormFragment extends BaseFragment {
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
-	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		configureRecyclerView();
-		setHideKeyboardOnTouch(requireContext(), getView());
-		updateUIIfItsModification();
-		isItSellCheckBox.setOnClickListener(v -> sellStatusManagement());
-		photosManagement();
-		datePickerButtonsManagement(lastModificationDateButton, selledDateButton);
-		datePickerButtonsManagement(selledDateButton, lastModificationDateButton);
-		validationButtonManagement();
-	}
 	
 	///////////////////////MODIFICATION MANAGEMENT///////////////////////
 	
@@ -317,39 +308,18 @@ public class FormFragment extends BaseFragment {
 		formViewModel.observeEstate(id).observe(getViewLifecycleOwner(), this::receiveEstate);
 	}
 	
-	////////////////////////DATES MANAGEMENT//////////////////////////////////
-	
-	private void receiveEstate(Estate estate) {
-		if (estate.getMainPicture() != null) {
-			mainPhotoPath = estate.getMainPicture();
-			mainPicture.setImageURI(Uri.parse(mainPhotoPath));
-		}
-		mFragmentFormBinding.valueOfEstateTypeFragmentForm.setPrompt(estate.getType());
-		mFragmentFormBinding.valueOfEstateCityFragmentForm.setText(estate.getCity());
-		mFragmentFormBinding.valueOfEstatePriceFragmentForm.setText(Long.toString(estate.getPrice()));
-		if (estate.getGaleryPictures() != null) {
-			this.uriStringList.clear();
-			this.uriStringList.addAll(estate.getGaleryPictures());
-			this.alternatesPicturesAdapter.notifyDataSetChanged();
-		}
-		if (estate.getDescription() != null) {
-			mFragmentFormBinding.contentDescriptionFragmentForm.setText(estate.getDescription());
-		}
-		mFragmentFormBinding.surfaceValueFragmentForm.setText(Long.toString(estate.getSurface()));
-		if (estate.getAdress() != null) {
-			mFragmentFormBinding.locationValueFragmentForm.setText(estate.getAdress());
-		}
-		mFragmentFormBinding.roomsValueFragmentForm.setText(Long.toString(estate.getRooms()));
-		mFragmentFormBinding.contactValueFragmentForm.setText(estate.getAgent());
-		mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.setText(estate.getUpdateDate());
-		if (estate.getSellDate() != null) {
-			mFragmentFormBinding.isSellCheckbox.setChecked(false);
-			mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.setText(estate.getSellDate());
-		} else {
-			mFragmentFormBinding.isSellCheckbox.setChecked(true);
-		}
-		autoIncremented = (int) estate.getId();
+	public void configureRecyclerView() {
+		this.alternatesPicturesAdapter = new AlternatesPicturesAdapter(uriStringList,
+		                                                               requireContext(),
+		                                                               isFromForm,
+		                                                               this::onItemClickedListener);
+		this.recyclerView.setAdapter(this.alternatesPicturesAdapter);
+		this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
+		                                                           RecyclerView.HORIZONTAL,
+		                                                           false));
 	}
+	
+	////////////////////////DATES MANAGEMENT//////////////////////////////////
 	
 	public void checkDateBetweenThem(Button button1, Button button2) {
 		Date dateOfBeginning = null;
@@ -417,6 +387,12 @@ public class FormFragment extends BaseFragment {
 			}
 			return dateOfToday.toString();
 		}
+	}
+	
+	@Override public void onItemClickedListener(View view, int position) {
+		uriStringList.remove(position);
+		alternatesPicturesAdapter.notifyDataSetChanged();
+		
 	}
 	
 	//////////////////////////////////OTHERS////////////////////////////////
@@ -609,5 +585,36 @@ public class FormFragment extends BaseFragment {
 		
 	}
 	
+	private void receiveEstate(Estate estate) {
+		if (estate.getMainPicture() != null) {
+			mainPhotoPath = estate.getMainPicture();
+			mainPicture.setImageURI(Uri.parse(mainPhotoPath));
+		}
+		mFragmentFormBinding.valueOfEstateTypeFragmentForm.setPrompt(estate.getType());
+		mFragmentFormBinding.valueOfEstateCityFragmentForm.setText(estate.getCity());
+		mFragmentFormBinding.valueOfEstatePriceFragmentForm.setText(Long.toString(estate.getPrice()));
+		if (estate.getGaleryPictures() != null) {
+			this.uriStringList.clear();
+			this.uriStringList.addAll(estate.getGaleryPictures());
+			this.alternatesPicturesAdapter.notifyDataSetChanged();
+		}
+		if (estate.getDescription() != null) {
+			mFragmentFormBinding.contentDescriptionFragmentForm.setText(estate.getDescription());
+		}
+		mFragmentFormBinding.surfaceValueFragmentForm.setText(Long.toString(estate.getSurface()));
+		if (estate.getAdress() != null) {
+			mFragmentFormBinding.locationValueFragmentForm.setText(estate.getAdress());
+		}
+		mFragmentFormBinding.roomsValueFragmentForm.setText(Long.toString(estate.getRooms()));
+		mFragmentFormBinding.contactValueFragmentForm.setText(estate.getAgent());
+		mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.setText(estate.getUpdateDate());
+		if (estate.getSellDate() != null) {
+			mFragmentFormBinding.isSellCheckbox.setChecked(false);
+			mFragmentFormBinding.updateDateValueFragmentFormDatePickerButton.setText(estate.getSellDate());
+		} else {
+			mFragmentFormBinding.isSellCheckbox.setChecked(true);
+		}
+		autoIncremented = (int) estate.getId();
+	}
 }
 

@@ -27,7 +27,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(AndroidJUnit4.class) public class EstateContentProviderTest {
 	
 	// DATA SET FOR TEST
-	private static final long            USER_ID = 3;
+	private static final long            USER_ID = 1;
 	// FOR DATA
 	private              ContentResolver mContentResolver;
 	
@@ -60,18 +60,22 @@ import static org.junit.Assert.assertThat;
 		                                             null,
 		                                             null,
 		                                             null);
-
-//		assertThat(cursor, notNullValue());
-//		assertThat(cursor.getCount(), is(0));
+		
+		assertThat(cursor, notNullValue());
+		assertThat(cursor.getCount(), is(1));
+		cursor.moveToFirst();
 //		assertThat(cursor.moveToFirst(), is(true));
-//		assertThat(cursor.getString(cursor.getColumnIndexOrThrow("id")), is("0"));
+		assertThat(cursor.getString(cursor.getColumnIndexOrThrow("id")), is("1"));
+		cursor.close();
+		mContentResolver.delete(userUri, null, null);
+		
 	}
 	
 	// ---
 	
 	private ContentValues generateItem() {
 		final ContentValues values = new ContentValues();
-		values.put("0", "id");
+		values.put("1", "id");
 		values.put("loft", "type");
 		values.put("Providercity", "city");
 		values.put("5", "price");
@@ -81,13 +85,12 @@ import static org.junit.Assert.assertThat;
 		values.put("Mairie 35000 Rennes", "adress");
 		values.put("provider agent", "agent");
 		values.put("18/06/2021", "updateDate");
-
-//			values.put(null,"mainPicture");
-//			values.put(null,"sellDate");
-//			values.put(null,"lat");
-//			values.put(null,"lng");
-//			values.put(null,"galeryPicture");
 		
+		values.put("", "mainPicture");
+		values.put("", "sellDate");
+		values.put("0.0", "lat");
+		values.put("0.0", "lng");
+		values.put("", "galeryPicture");
 		return values;
 	}
 }

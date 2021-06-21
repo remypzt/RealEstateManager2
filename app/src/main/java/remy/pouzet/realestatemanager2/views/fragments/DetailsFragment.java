@@ -1,7 +1,5 @@
 package remy.pouzet.realestatemanager2.views.fragments;
 
-import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -113,13 +111,13 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 		id = Long.parseLong(getArguments().get("id").toString());
 		detailsViewModel.observeEstate(id)
 		                .observe(getViewLifecycleOwner(), estate -> updateUI(estate));
-		
 	}
 	
 	public void configureRecyclerView() {
 		this.alternatesPicturesAdapter = new AlternatesPicturesAdapter(uriStringList,
 		                                                               requireContext(),
-		                                                               isFromForm);
+		                                                               isFromForm,
+		                                                               null);
 		this.recyclerView.setAdapter(this.alternatesPicturesAdapter);
 		this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
 		                                                           RecyclerView.HORIZONTAL,
@@ -189,8 +187,12 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 	
 	private void setPic(ImageView imageView) {
 		// Get the dimensions of the View
-		int targetW = imageView.getWidth();
-		int targetH = imageView.getHeight();
+		int targetW = 150;
+		int targetH = 150;
+		if (imageView.getWidth() != 0) {
+			targetW = imageView.getWidth();
+			targetH = imageView.getHeight();
+		}
 		
 		// Get the dimensions of the bitmap
 		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -215,7 +217,7 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 	
 	@Override public boolean onBackPressed() {
 		
-		if (getArguments().getBoolean("isStartedFromMap") && isTablet(requireContext())) {
+		if (getArguments().getBoolean("isStartedFromMap") && detailsViewModel.isTablet()) {
 			MapFragment mapFragment = new MapFragment();
 			bundle.putBoolean("isStartedFromMap", false);
 			mapFragment.setArguments(bundle);
@@ -227,14 +229,6 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 		} else {
 			return false;
 		}
-	}
-	
-	public boolean isTablet(Context context) {
-		boolean xlarge = ((context.getResources()
-		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
-		boolean large = ((context.getResources()
-		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
-		return (xlarge || large);
 	}
 	
 	//////////////////////////  LiteMap  /////////////////////////////////

@@ -1,7 +1,5 @@
 package remy.pouzet.realestatemanager2.views.fragments;
 
-import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -109,7 +107,7 @@ public class SearchFragment extends BaseFragment {
 			                      minimumRoomsNumberValue,
 			                      maximumRoomsNumberValue);
 			
-			if (isTablet(requireContext())) {
+			if (searchViewModel.isTablet()) {
 				EstatesListFragment estatesListFragment = new EstatesListFragment();
 				estatesListFragment.setArguments(saveRequest(request));
 				getActivity().getSupportFragmentManager()
@@ -125,14 +123,6 @@ public class SearchFragment extends BaseFragment {
 				                    saveRequest(request));
 			}
 		});
-	}
-	
-	public boolean isTablet(Context context) {
-		boolean xlarge = ((context.getResources()
-		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
-		boolean large = ((context.getResources()
-		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
-		return (xlarge || large);
 	}
 	
 	public Bundle saveRequest(Request request) {

@@ -1,65 +1,69 @@
 
-V
-java:S1659"4Declare "maximumSurfaceEditText" on a separate line.(éêÎşÿÿÿÿ8øÕ¹¥™/
-‚
-java:S1104"`Make minimumPriceEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
-z
-java:S1104"XMake cityEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
-x
-java:S11041"[Make searchViewModel a static final constant or non-public and provide accessors if needed.(•Çƒ·8Øì«¡/
-€
-java:S11045"cMake minimumRoomsNumberValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
-N
-java:S16595"1Declare "maximumSurfaceValue" on a separate line.(­Ş´È8Øì«¡/
-z
-java:S1104 "XMake searchButton a static final constant or non-public and provide accessors if needed.(¦Şüÿÿÿÿ8Ú¢¥¨™/
 „
-java:S1104"bMake maximumSurfaceEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
-z
-java:S11045"]Make minimumPriceValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
-Z
-java:S1659"8Declare "minimumRoomsNumberEditText" on a separate line.(éêÎşÿÿÿÿ8øÕ¹¥™/
-r
-java:S11045"UMake cityValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
-L
-java:S16595"/Declare "maximumPriceValue" on a separate line.(­Ş´È8Øì«¡/
-N
-java:S16595"1Declare "minimumSurfaceValue" on a separate line.(­Ş´È8Øì«¡/
-L
-java:S16595"/Declare "minimumPriceValue" on a separate line.(­Ş´È8Øì«¡/
-€
-java:S11045"cMake maximumRoomsNumberValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
-|
-java:S11045"_Make maximumSurfaceValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
+java:S1104"bMake maximumSurfaceEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
+‚
+java:S1104"`Make maximumPriceEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
 ˆ
-java:S1104"fMake maximumRoomsNumberEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
-p
-java:S11042"SMake request a static final constant or non-public and provide accessors if needed.(ªØ˜Å8Øì«¡/
-T
-java:S1659"2Declare "maximumPriceEditText" on a separate line.(éêÎşÿÿÿÿ8øÕ¹¥™/
-R
-java:S16595"5Declare "minimumRoomsNumberValue" on a separate line.(­Ş´È8Øì«¡/
+java:S1104"fMake minimumRoomsNumberEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
+z
+java:S1104"XMake searchButton a static final constant or non-public and provide accessors if needed.(¦Şüÿÿÿÿ8Ú¢¥¨™/
 ƒ
-java:S11043"aMake fragmentSearchBinding a static final constant or non-public and provide accessors if needed.(µ–Ä’ÿÿÿÿÿ8Øì«¡/
-z
-java:S11045"]Make maximumPriceValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
+java:S11041"aMake fragmentSearchBinding a static final constant or non-public and provide accessors if needed.(µ–Ä’ÿÿÿÿÿ8Øì«¡/
 T
-java:S1659"2Declare "minimumPriceEditText" on a separate line.(éêÎşÿÿÿÿ8øÕ¹¥™/
-R
-java:S16595"5Declare "maximumRoomsNumberValue" on a separate line.(­Ş´È8Øì«¡/
-„
-java:S1104"bMake minimumSurfaceEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
-n
-java:S11044"RMake bundle a static final constant or non-public and provide accessors if needed.(ö“§"8Øì«¡/
-ˆ
-java:S1104"fMake minimumRoomsNumberEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
+java:S1659"2Declare "minimumPriceEditText" on a separate line.(éêÎşÿÿÿÿ8øÕ¹¥™/
 Z
-java:S1659"8Declare "maximumRoomsNumberEditText" on a separate line.(éêÎşÿÿÿÿ8øÕ¹¥™/
-‚
-java:S1104"`Make maximumPriceEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
-]
-java:S1117‹":Rename "bundle" which hides the field declared at line 52.(Èı¢ùÿÿÿÿ8¨‰ü›/
-|
-java:S11045"_Make minimumSurfaceValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
+java:S1659"8Declare "minimumRoomsNumberEditText" on a separate line.(éêÎşÿÿÿÿ8øÕ¹¥™/
 V
-java:S1659"4Declare "minimumSurfaceEditText" on a separate line.(éêÎşÿÿÿÿ8øÕ¹¥™/
+java:S1659"4Declare "maximumSurfaceEditText" on a separate line.(éêÎşÿÿÿÿ8øÕ¹¥™/
+n
+java:S11042"RMake bundle a static final constant or non-public and provide accessors if needed.(ö“§"8Øì«¡/
+z
+java:S11043"]Make minimumPriceValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
+Z
+java:S1659"8Declare "maximumRoomsNumberEditText" on a separate line.(éêÎşÿÿÿÿ8øÕ¹¥™/
+L
+java:S16593"/Declare "minimumPriceValue" on a separate line.(­Ş´È8Øì«¡/
+^
+java:S1128">Remove this unused import 'android.content.res.Configuration'.(ßºÊƒûÿÿÿÿ8ö¶øÊ¢/
+p
+java:S11040"SMake request a static final constant or non-public and provide accessors if needed.(ªØ˜Å8Øì«¡/
+N
+java:S16593"1Declare "maximumSurfaceValue" on a separate line.(­Ş´È8Øì«¡/
+O
+java:S1128"4Remove this unused import 'android.content.Context'.(©Ê‰è8ö¶øÊ¢/
+€
+java:S11043"cMake maximumRoomsNumberValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
+€
+java:S11043"cMake minimumRoomsNumberValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
+|
+java:S11043"_Make minimumSurfaceValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
+„
+java:S1104"bMake minimumSurfaceEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
+N
+java:S16593"1Declare "minimumSurfaceValue" on a separate line.(­Ş´È8Øì«¡/
+z
+java:S11043"]Make maximumPriceValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
+R
+java:S16593"5Declare "minimumRoomsNumberValue" on a separate line.(­Ş´È8Øì«¡/
+R
+java:S16593"5Declare "maximumRoomsNumberValue" on a separate line.(­Ş´È8Øì«¡/
+]
+java:S1117":Rename "bundle" which hides the field declared at line 52.(Èı¢ùÿÿÿÿ8¨‰ü›/
+ˆ
+java:S1104"fMake maximumRoomsNumberEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
+T
+java:S1659"2Declare "maximumPriceEditText" on a separate line.(éêÎşÿÿÿÿ8øÕ¹¥™/
+L
+java:S16593"/Declare "maximumPriceValue" on a separate line.(­Ş´È8Øì«¡/
+x
+java:S1104/"[Make searchViewModel a static final constant or non-public and provide accessors if needed.(•Çƒ·8Øì«¡/
+r
+java:S11043"UMake cityValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
+z
+java:S1104"XMake cityEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
+|
+java:S11043"_Make maximumSurfaceValue a static final constant or non-public and provide accessors if needed.(­Ş´È8Øì«¡/
+‚
+java:S1104"`Make minimumPriceEditText a static final constant or non-public and provide accessors if needed.(éêÎşÿÿÿÿ8Ú¢¥¨™/
+V
+java:S1659"4Declare "minimumSurfaceEditText" on a separate line.(éêÎşÿÿÿÿ8øÕ¹¥™/

@@ -1,6 +1,5 @@
 package remy.pouzet.realestatemanager2.views.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -31,6 +30,8 @@ import org.greenrobot.eventbus.Subscribe;
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.ActivityMainBinding;
 import remy.pouzet.realestatemanager2.datas.models.ListEvent;
+import remy.pouzet.realestatemanager2.domain.usecases.IsTabletUC;
+import remy.pouzet.realestatemanager2.domain.usecases.formfragment.IsNewEstateUC;
 import remy.pouzet.realestatemanager2.utils.IOnBackPressed;
 import remy.pouzet.realestatemanager2.views.fragments.DetailsFragment;
 import remy.pouzet.realestatemanager2.views.fragments.EstatesListFragment;
@@ -54,13 +55,6 @@ import remy.pouzet.realestatemanager2.views.fragments.SearchFragment;
 // MISCELLANOUS
 ///////////////////////////////////////////////////////////////////////////
 
-//TODO questions
-//TODO erase photo (liveadapter)
-
-//TODO sonarLint
-//TODO make pppulate UC or delete it
-//TODO make photo functions UC
-//TODO make if is tablet UC
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 	
@@ -98,15 +92,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		mActivityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
 		firstFrame           = mActivityMainBinding.mainToolbar.contentMainConstraintLayout.firstFrameFragment;
 		secondFrame          = mActivityMainBinding.mainToolbar.contentMainConstraintLayout.secondFrameFragment;
-		
 	}
+	
+	@Override protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		if (new IsTabletUC().execute(this)) {
+			actionBarDrawerToggle.syncState();
+		}
+	}
+	
+	@Override public void onConfigurationChanged(@NonNull Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		if (new IsTabletUC().execute(this)) {
+			actionBarDrawerToggle.onConfigurationChanged(newConfig);
+		}
+	}
+	
+	@Override protected void onStart() {
+		super.onStart();
+		if (new IsTabletUC().execute(this)) {
+			if (!EventBus.getDefault().isRegistered(this)) {
+				EventBus.getDefault().register(this);
+			}
+		}
+	}
+	
+	@Override protected void onDestroy() {
+		if (new IsTabletUC().execute(this)) {
+			EventBus.getDefault().unregister(this);
+		}
+		super.onDestroy();
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	// NAVIGATIONS
+	///////////////////////////////////////////////////////////////////////////
+	
+	//////////////DRAWER TOOLBAR ETC///////////////////
 	
 	public void menuManagement() {
 		setContentView(mActivityMainBinding.getRoot());
 		setSupportActionBar(mActivityMainBinding.mainToolbar.toolbar);
 		// Passing each menu ID as a set of Ids because each
 		// menu should be considered as top level destinations.
-		if (isTablet(this)) {
+		if (new IsTabletUC().execute(this)) {
 			actionBarDrawerToggle = new ActionBarDrawerToggle(this,
 			                                                  mActivityMainBinding.drawerLayout,
 			                                                  mActivityMainBinding.mainToolbar.toolbar,
@@ -122,51 +151,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		}
 	}
 	
-	private void uiManagement() {
-		configureAndShowListFragment();
-		if (isTablet(this)) {
-			configureAndShowDetailsFragment();
-			backStackManagement();
-		}
-	}
 	
-	public boolean isTablet(Context context) {
-		boolean xlarge = ((context.getResources()
-		                          .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
-		boolean large = ((context.getResources()
-		                         .getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
-		return (xlarge || large);
-	}
-	
-	@Override protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		if (isTablet(this)) {
-			actionBarDrawerToggle.syncState();
-		}
-	}
-	
-	///////////////////////////////////////////////////////////////////////////
-	// NAVIGATIONS
-	///////////////////////////////////////////////////////////////////////////
-	
-	//////////////DRAWER TOOLBAR ETC///////////////////
-	
-	private void configureAndShowDetailsFragment() {
-		if (!listHadBeenClick) {
-			id = 1;
-		}
-		bundle.putLong("id", id);
-		
-		detailsFragment = new DetailsFragment();
-		FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-		detailsFragment.setArguments(bundle);
-		t.replace(R.id.second_frame_fragment, detailsFragment, "VISIBLE_FRAGMENT");
-		t.commit();
-	}
 	
 	public void navigationManagement(MenuItem searchActionButton, MenuItem modifyActionButton) {
-		if (isTablet(this)) {
-			
+		if (new IsTabletUC().execute(this)) {
+			if (bundle.get("id") == null) {
+				modifyActionButton.setVisible(false);
+			}
 			mActivityMainBinding.mainToolbar.fab.setOnClickListener(new View.OnClickListener() {
 				@Override public void onClick(View v) {
 					mActivityMainBinding.mainToolbar.fab.setVisibility(View.GONE);
@@ -207,29 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		}
 	}
 	
-	@Override public void onConfigurationChanged(@NonNull Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		if (isTablet(this)) {
-			actionBarDrawerToggle.onConfigurationChanged(newConfig);
-		}
-	}
-	
-	@Override protected void onStart() {
-		super.onStart();
-		if (isTablet(this)) {
-			if (!EventBus.getDefault().isRegistered(this)) {
-				EventBus.getDefault().register(this);
-			}
-		}
-	}
-	
-	@Override protected void onDestroy() {
-		if (isTablet(this)) {
-			EventBus.getDefault().unregister(this);
-		}
-		super.onDestroy();
-	}
-	
 	@Override public boolean onSupportNavigateUp() {
 		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 		return NavigationUI.navigateUp(navController,
@@ -238,21 +206,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	
 	/////////////////////////////// BACKSTACK ///////////////////////////////
 	
-	private void configureAndShowListFragment() {
-		if (!isTablet(this)) {
-			// B - Create new main fragment
-			estatesListFragment = new EstatesListFragment();
-			
-			// C - Add it to FrameLayout container
-			getSupportFragmentManager().beginTransaction()
-			                           .add(R.id.estates_list_constraint_layout,
-			                                estatesListFragment)
-			                           .commit();
+	@Override public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+		if (new IsTabletUC().execute(this)) {
+			switch (item.getItemId()) {
+				case R.id.action_search_button:
+					SearchFragment searchFragment = new SearchFragment();
+					getSupportFragmentManager().beginTransaction()
+					                           .replace(R.id.second_frame_fragment,
+					                                    searchFragment,
+					                                    "VISIBLE_FRAGMENT")
+					                           .addToBackStack(null)
+					                           .commit();
+					return true;
+				case R.id.action_modify_button:
+					id = Long.parseLong(getSupportFragmentManager().findFragmentByTag(
+							"VISIBLE_FRAGMENT").getArguments().get("id").toString());
+					bundle.putLong("id", id);
+					FormFragment formFragment = new FormFragment();
+					formFragment.setArguments(bundle);
+					getSupportFragmentManager().beginTransaction()
+					                           .addToBackStack(null)
+					                           .replace(R.id.second_frame_fragment,
+					                                    formFragment,
+					                                    "VISIBLE_FRAGMENT")
+					                           .commit();
+					return true;
+				
+				default:
+					return super.onOptionsItemSelected(item);
+			}
 		} else {
-			estatesListFragment = new EstatesListFragment();
-			getSupportFragmentManager().beginTransaction()
-			                           .add(R.id.first_frame_fragment, estatesListFragment)
-			                           .commit();
+			NavController navController = Navigation.findNavController(this,
+			                                                           R.id.nav_host_fragment);
+			if (navController.getCurrentDestination().getId() == R.id.nav_estates_list) {
+				navigateToNavSearch = R.id.action_nav_estates_list_to_nav_search;
+			} else if (navController.getCurrentDestination().getId() == R.id.nav_details) {
+				navigateToNavSearch = R.id.action_nav_details_to_action_search_button;
+			}
+			switch (item.getItemId()) {
+				case R.id.action_search_button:
+					Navigation.findNavController(this, R.id.nav_host_fragment)
+					          .navigate(navigateToNavSearch);
+					return true;
+				case R.id.action_modify_button:
+					navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(
+							R.id.nav_host_fragment);
+					
+					detailsFragment = (DetailsFragment) navHostFragment.getChildFragmentManager()
+					                                                   .getFragments()
+					                                                   .get(0);
+					id = detailsFragment.id;
+					bundle.putLong("id", id);
+					
+					Navigation.findNavController(this, R.id.nav_host_fragment)
+					          .navigate(R.id.action_nav_details_to_nav_form, bundle);
+					
+					return true;
+				default:
+					return super.onOptionsItemSelected(item);
+			}
 		}
 	}
 	
@@ -348,70 +360,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		return true;
 	}
 	
-	@Override public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-		if (isTablet(this)) {
-			switch (item.getItemId()) {
-				case R.id.action_search_button:
-					SearchFragment searchFragment = new SearchFragment();
-					getSupportFragmentManager().beginTransaction()
-					                           .replace(R.id.second_frame_fragment,
-					                                    searchFragment,
-					                                    "VISIBLE_FRAGMENT")
-					                           .addToBackStack(null)
-					                           .commit();
-					return true;
-				case R.id.action_modify_button:
-					id = Long.parseLong(getSupportFragmentManager().findFragmentByTag(
-							"VISIBLE_FRAGMENT").getArguments().get("id").toString());
-					bundle.putLong("id", id);
-					FormFragment formFragment = new FormFragment();
-					formFragment.setArguments(bundle);
-					getSupportFragmentManager().beginTransaction()
-					                           .addToBackStack(null)
-					                           .replace(R.id.second_frame_fragment,
-					                                    formFragment,
-					                                    "VISIBLE_FRAGMENT")
-					                           .commit();
-					return true;
-				
-				default:
-					return super.onOptionsItemSelected(item);
-			}
+	private void uiManagement() {
+		configureAndShowListFragment();
+		if (new IsTabletUC().execute(this)) {
+			configureAndShowDetailsFragment();
+			backStackManagement();
+		}
+	}
+	
+	private void configureAndShowListFragment() {
+		if (!new IsTabletUC().execute(this)) {
+			// B - Create new main fragment
+			estatesListFragment = new EstatesListFragment();
+			
+			// C - Add it to FrameLayout container
+			getSupportFragmentManager().beginTransaction()
+			                           .add(R.id.estates_list_constraint_layout,
+			                                estatesListFragment)
+			                           .commit();
 		} else {
-			NavController navController = Navigation.findNavController(this,
-			                                                           R.id.nav_host_fragment);
-			if (navController.getCurrentDestination().getId() == R.id.nav_estates_list) {
-				navigateToNavSearch = R.id.action_nav_estates_list_to_nav_search;
-			} else if (navController.getCurrentDestination().getId() == R.id.nav_details) {
-				navigateToNavSearch = R.id.action_nav_details_to_action_search_button;
+			estatesListFragment = new EstatesListFragment();
+			getSupportFragmentManager().beginTransaction()
+			                           .add(R.id.first_frame_fragment, estatesListFragment)
+			                           .commit();
+		}
+	}
+	
+	private void configureAndShowDetailsFragment() {
+		boolean thereIsNoneEstate = new IsNewEstateUC().execute(this, 1);
+		if (thereIsNoneEstate) {
+			if (!listHadBeenClick) {
+				id = 1;
 			}
-			switch (item.getItemId()) {
-				case R.id.action_search_button:
-					Navigation.findNavController(this, R.id.nav_host_fragment)
-					          .navigate(navigateToNavSearch);
-					return true;
-				case R.id.action_modify_button:
-					navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(
-							R.id.nav_host_fragment);
-					
-					detailsFragment = (DetailsFragment) navHostFragment.getChildFragmentManager()
-					                                                   .getFragments()
-					                                                   .get(0);
-					id = detailsFragment.id;
-					bundle.putLong("id", id);
-					
-					Navigation.findNavController(this, R.id.nav_host_fragment)
-					          .navigate(R.id.action_nav_details_to_nav_form, bundle);
-					
-					return true;
-				default:
-					return super.onOptionsItemSelected(item);
-			}
+			bundle.putLong("id", id);
+			detailsFragment = new DetailsFragment();
+			FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+			detailsFragment.setArguments(bundle);
+			t.replace(R.id.second_frame_fragment, detailsFragment, "VISIBLE_FRAGMENT");
+			t.commit();
 		}
 	}
 	
 	@Subscribe public void updateDetailsRegardToClickListListener(ListEvent listEvent) {
-		if (isTablet(this)) {
+		if (new IsTabletUC().execute(this)) {
 			listHadBeenClick = true;
 			id               = listEvent.getId();
 			configureAndShowDetailsFragment();
