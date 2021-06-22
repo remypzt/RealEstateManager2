@@ -27,11 +27,14 @@ import com.google.android.material.navigation.NavigationView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.List;
+
 import remy.pouzet.realestatemanager2.R;
 import remy.pouzet.realestatemanager2.databinding.ActivityMainBinding;
+import remy.pouzet.realestatemanager2.datas.models.Estate;
 import remy.pouzet.realestatemanager2.datas.models.ListEvent;
 import remy.pouzet.realestatemanager2.domain.usecases.IsTabletUC;
-import remy.pouzet.realestatemanager2.domain.usecases.formfragment.IsNewEstateUC;
+import remy.pouzet.realestatemanager2.domain.usecases.estate.GetAllEstatesUC;
 import remy.pouzet.realestatemanager2.utils.IOnBackPressed;
 import remy.pouzet.realestatemanager2.views.fragments.DetailsFragment;
 import remy.pouzet.realestatemanager2.views.fragments.EstatesListFragment;
@@ -55,15 +58,8 @@ import remy.pouzet.realestatemanager2.views.fragments.SearchFragment;
 // MISCELLANOUS
 ///////////////////////////////////////////////////////////////////////////
 
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 	
-	public  MenuItem              modifyActionButton;
-	public  long                  id;
-	public  boolean               listHadBeenClick = false;
-	public  Bundle                bundle           = new Bundle();
-	public  DetailsFragment       detailsFragment;
-	public  NavHostFragment       navHostFragment;
 	///////////////////////////////////////////////////////////////////////////
 	// VARIABLES
 	///////////////////////////////////////////////////////////////////////////
@@ -71,12 +67,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	private int                   navigateToNavSearch;
 	private EstatesListFragment   estatesListFragment;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
+	
+	public  long                id;
+	public  boolean             listHadBeenClick = false;
+	public  Bundle              bundle           = new Bundle();
+	public  DetailsFragment     detailsFragment;
+	public  NavHostFragment     navHostFragment;
+	public  boolean             modifyActionButtonMustBeVisible;
 	///////////////////////////////////////////////////////////////////////////
 	// BINDING
 	///////////////////////////////////////////////////////////////////////////
-	private ActivityMainBinding   mActivityMainBinding;
-	private FrameLayout           firstFrame;
-	private FrameLayout           secondFrame;
+	private ActivityMainBinding mActivityMainBinding;
+	private FrameLayout         firstFrame;
+	private FrameLayout         secondFrame;
+	public  MenuItem            modifyActionButton;
+	
+	public void bindingManagement() {
+		mActivityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+		firstFrame           = mActivityMainBinding.mainToolbar.contentMainConstraintLayout.firstFrameFragment;
+		secondFrame          = mActivityMainBinding.mainToolbar.contentMainConstraintLayout.secondFrameFragment;
+	}
 	
 	///////////////////////////////////////////////////////////////////////////
 	// LIFECYCLES
@@ -87,12 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		menuManagement();
 		uiManagement();
 	}
-	
-	public void bindingManagement() {
-		mActivityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-		firstFrame           = mActivityMainBinding.mainToolbar.contentMainConstraintLayout.firstFrameFragment;
-		secondFrame          = mActivityMainBinding.mainToolbar.contentMainConstraintLayout.secondFrameFragment;
-	}
+
 	
 	@Override protected void onPostCreate(@Nullable Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -287,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			} else {
 				firstFrame.setVisibility(View.VISIBLE);
 				modifyActionButton.setVisible(true);
+				modifyActionButtonMustBeVisible = true;
 				mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
 			}
 			
@@ -316,7 +322,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		if (currentBackStackFragment instanceof FormFragment && currentBackStackFragment.getArguments() == null) {
 			configureAndShowDetailsFragment();
 			mActivityMainBinding.mainToolbar.fab.setVisibility(View.VISIBLE);
-			modifyActionButton.setVisible(false);
+			if (!modifyActionButtonMustBeVisible) {
+				modifyActionButton.setVisible(false);
+			}
+			modifyActionButtonMustBeVisible = false;
 			
 		} else if (!manageBackError) {
 			super.onBackPressed();
@@ -387,8 +396,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	}
 	
 	private void configureAndShowDetailsFragment() {
-		boolean thereIsNoneEstate = new IsNewEstateUC().execute(this, 1);
-		if (thereIsNoneEstate) {
+		new GetAllEstatesUC().execute(this).observe(this, this::observeEstates);
+	}
+	
+	private void observeEstates(List<Estate> estatesList) {
+		if (!estatesList.isEmpty()) {
 			if (!listHadBeenClick) {
 				id = 1;
 			}

@@ -173,3 +173,9 @@ W
 aapp/src/main/java/remy/pouzet/realestatemanager2/datas/services/provider/ItemContentProvider.java,b\1\b11b94a9512740491605f9a03a26814f75cbaf7c
 †
 Vapp/src/androidTest/java/remy/pouzet/realestatemanager2/EstateContentProviderTest.java,5\5\55aa6413a85039528eb2b34674ee301d8e2fbd5a
+\
+,app/src/main/res/layout/fragment_details.xml,6\c\6c365c1ce3140cca73b288b966211b8562d21ce9
+Y
+)app/src/main/res/layout/fragment_form.xml,2\a\2a9b098d3d7dfb465af61ddbeebb82a37b928ddc
+€
+Papp/src/main/java/remy/pouzet/realestatemanager2/domain/usecases/IsTabletUC.java,f\d\fd21860f64d382d02b5fdb1e59eb3d334ff853d6
