@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	public  DetailsFragment     detailsFragment;
 	public  NavHostFragment     navHostFragment;
 	public  boolean             modifyActionButtonMustBeVisible;
+	
 	///////////////////////////////////////////////////////////////////////////
 	// BINDING
 	///////////////////////////////////////////////////////////////////////////
@@ -91,13 +92,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	///////////////////////////////////////////////////////////////////////////
 	// LIFECYCLES
 	///////////////////////////////////////////////////////////////////////////
+	
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		bindingManagement();
 		menuManagement();
 		uiManagement();
 	}
-
 	
 	@Override protected void onPostCreate(@Nullable Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	// NAVIGATIONS
 	///////////////////////////////////////////////////////////////////////////
 	
-	//////////////DRAWER TOOLBAR ETC///////////////////
+	//////////////MENUS & TOOLBAR///////////////////
 	
 	public void menuManagement() {
 		setContentView(mActivityMainBinding.getRoot());
@@ -156,7 +157,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		}
 	}
 	
-	
+	@Override public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+		MenuItem searchActionButton = menu.findItem(R.id.action_search_button);
+		modifyActionButton = menu.findItem(R.id.action_modify_button);
+		navigationManagement(searchActionButton, modifyActionButton);
+		return true;
+	}
 	
 	public void navigationManagement(MenuItem searchActionButton, MenuItem modifyActionButton) {
 		if (new IsTabletUC().execute(this)) {
@@ -208,8 +216,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		return NavigationUI.navigateUp(navController,
 		                               mAppBarConfiguration) || super.onSupportNavigateUp();
 	}
-	
-	/////////////////////////////// BACKSTACK ///////////////////////////////
 	
 	@Override public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 		if (new IsTabletUC().execute(this)) {
@@ -273,6 +279,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		}
 	}
 	
+	@Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.nav_estates_list) {
+			Intent startIntent = new Intent(this, MainActivity.class);
+			MainActivity.this.finish();
+			startActivity(startIntent);
+		} else if (id == R.id.nav_loan_simulator) {
+			LoanSimulatorFragment loanSimulatorFragment = new LoanSimulatorFragment();
+			getSupportFragmentManager().beginTransaction()
+			                           .replace(R.id.second_frame_fragment,
+			                                    loanSimulatorFragment,
+			                                    "VISIBLE_FRAGMENT")
+			                           .addToBackStack(null)
+			                           .commit();
+			
+		} else if (id == R.id.nav_map_fragment) {
+			MapFragment mapFragment = new MapFragment();
+			getSupportFragmentManager().beginTransaction()
+			                           .replace(R.id.second_frame_fragment,
+			                                    mapFragment,
+			                                    "VISIBLE_FRAGMENT")
+			                           .addToBackStack(null)
+			                           .commit();
+		}
+		mActivityMainBinding.drawerLayout.closeDrawer(GravityCompat.START);
+		return true;
+	}
+	
+	/////////////////////////////// BACKSTACK ///////////////////////////////
+	
 	private void backStackManagement() {
 		getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
 			@Override public void onBackStackChanged() {
@@ -304,10 +340,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		
 	}
 	
-	///////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
-	///////////////////////////////////////////////////////////////////////////
-	
 	@Override public void onBackPressed() {
 		Fragment currentBackStackFragment = getSupportFragmentManager().findFragmentByTag(
 				"VISIBLE_FRAGMENT");
@@ -332,42 +364,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		}
 	}
 	
-	@Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-		int id = item.getItemId();
-		if (id == R.id.nav_estates_list) {
-			Intent startIntent = new Intent(this, MainActivity.class);
-			MainActivity.this.finish();
-			startActivity(startIntent);
-		} else if (id == R.id.nav_loan_simulator) {
-			LoanSimulatorFragment loanSimulatorFragment = new LoanSimulatorFragment();
-			getSupportFragmentManager().beginTransaction()
-			                           .replace(R.id.second_frame_fragment,
-			                                    loanSimulatorFragment,
-			                                    "VISIBLE_FRAGMENT")
-			                           .addToBackStack(null)
-			                           .commit();
-			
-		} else if (id == R.id.nav_map_fragment) {
-			MapFragment mapFragment = new MapFragment();
-			getSupportFragmentManager().beginTransaction()
-			                           .replace(R.id.second_frame_fragment,
-			                                    mapFragment,
-			                                    "VISIBLE_FRAGMENT")
-			                           .addToBackStack(null)
-			                           .commit();
-		}
-		mActivityMainBinding.drawerLayout.closeDrawer(GravityCompat.START);
-		return true;
-	}
-	
-	@Override public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-		MenuItem searchActionButton = menu.findItem(R.id.action_search_button);
-		modifyActionButton = menu.findItem(R.id.action_modify_button);
-		navigationManagement(searchActionButton, modifyActionButton);
-		return true;
-	}
+	///////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
+	///////////////////////////////////////////////////////////////////////////
 	
 	private void uiManagement() {
 		configureAndShowListFragment();

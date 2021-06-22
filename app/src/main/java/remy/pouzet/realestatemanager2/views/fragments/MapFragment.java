@@ -53,20 +53,49 @@ public class MapFragment extends Fragment {
 	private FusedLocationProviderClient mFusedLocationClient;
 	private GoogleMap                   map;
 	private boolean                     locationPermissionGranted;
+	private LatLng                      estateLocation = new LatLng(-34.92873, 138.59995);
+	
 	///////////////////////////////////////////////////////////////////////////
-	// CALLBACK
+	// LIFECYCLE
 	///////////////////////////////////////////////////////////////////////////
-	public  OnMapReadyCallback          callback       = new OnMapReadyCallback() {
+	
+	@Nullable @Override
+	public View onCreateView(@NonNull LayoutInflater inflater,
+	                         @Nullable ViewGroup container,
+	                         @Nullable Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fragment_map, container, false);
+		
+	}
+	
+	@Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(
+				R.id.map);
+		configureViewModel();
+		
+		if (mapFragment != null) {
+			mapFragment.getMapAsync(callback);
+		}
+		checkLocationPermissionAndUpdateLocation();
+	}
+	
+	public OnMapReadyCallback callback = new OnMapReadyCallback() {
 		@Override public void onMapReady(GoogleMap googleMap) {
 			map = googleMap;
 			checkLocationPermissionAndUpdateLocation();
 			manageEstatesMarker();
 		}
 	};
-	private LatLng                      estateLocation = new LatLng(-34.92873, 138.59995);
 	
 	///////////////////////////////////////////////////////////////////////////
-	// LIFECYCLE
+	// CONFIGURATIONS
+	///////////////////////////////////////////////////////////////////////////
+	private void configureViewModel() {
+		mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
 	///////////////////////////////////////////////////////////////////////////
 	
 	public void manageEstatesMarker() {
@@ -80,31 +109,6 @@ public class MapFragment extends Fragment {
 			getAndShowEstateLocation();
 		}
 	}
-
-	
-	public Bundle saveEstateId(long id) {
-		
-		bundle.putLong("id", id);
-		return bundle;
-	}
-	
-	@Override
-	public void onRequestPermissionsResult(int requestCode,
-	                                       String[] permissions,
-	                                       int[] grantResults) {
-		if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
-			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-				
-				// permission was granted, proceed to the normal flow.
-				checkLocationPermissionAndUpdateLocation();
-				locationPermissionGranted = true;
-			}
-		}
-	}
-	
-	///////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
-	///////////////////////////////////////////////////////////////////////////
 	
 	public void setData(List<Estate> estates) {
 		this.estatesList.clear();
@@ -165,31 +169,24 @@ public class MapFragment extends Fragment {
 		marker.setTag(estate.getId());
 	}
 	
-	@Nullable @Override
-	public View onCreateView(@NonNull LayoutInflater inflater,
-	                         @Nullable ViewGroup container,
-	                         @Nullable Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_map, container, false);
+	public Bundle saveEstateId(long id) {
 		
+		bundle.putLong("id", id);
+		return bundle;
 	}
 	
-	@Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(
-				R.id.map);
-		configureViewModel();
-		
-		if (mapFragment != null) {
-			mapFragment.getMapAsync(callback);
+	@Override
+	public void onRequestPermissionsResult(int requestCode,
+	                                       String[] permissions,
+	                                       int[] grantResults) {
+		if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
+			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				
+				// permission was granted, proceed to the normal flow.
+				checkLocationPermissionAndUpdateLocation();
+				locationPermissionGranted = true;
+			}
 		}
-		checkLocationPermissionAndUpdateLocation();
-	}
-	
-	///////////////////////////////////////////////////////////////////////////
-	// CONFIGURATIONS
-	///////////////////////////////////////////////////////////////////////////
-	private void configureViewModel() {
-		mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
 	}
 	
 	private void checkLocationPermissionAndUpdateLocation() {

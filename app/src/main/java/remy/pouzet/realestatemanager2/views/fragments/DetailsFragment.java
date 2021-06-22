@@ -36,27 +36,28 @@ import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 import remy.pouzet.realestatemanager2.views.fragments.AdaptersAndViewHolders.AlternatesPicturesAdapter;
 
 public class DetailsFragment extends BaseFragment implements OnMapReadyCallback, IOnBackPressed {
+	
 	///////////////////////////////////////////////////////////////////////////
 	// VARIABLES
 	///////////////////////////////////////////////////////////////////////////
+	private final List<String>     uriStringList  = new ArrayList<>();
+	private final boolean          isFromForm     = false;
+	private       LatLng           estateLocation = new LatLng(-34.92873, 138.59995);
+	private       String           mainPictureURI;
+	private       DetailsViewModel detailsViewModel;
+	private       GoogleMap        map;
 	
-	private final List<String>              uriStringList = new ArrayList<>();
-	private final boolean                   isFromForm    = false;
-	public        AlternatesPicturesAdapter alternatesPicturesAdapter;
-	public        RecyclerView              recyclerView;
-	public        long                      id;
-	public        double                    estateLat, estateLng;
-	public  String           adress;
-	public  Bundle           bundle         = new Bundle();
-	private LatLng           estateLocation = new LatLng(-34.92873, 138.59995);
-	private String           mainPictureURI;
-	private DetailsViewModel detailsViewModel;
-	private GoogleMap        map;
+	public AlternatesPicturesAdapter alternatesPicturesAdapter;
+	public long                      id;
+	public double                    estateLat, estateLng;
+	public String adress;
+	public Bundle bundle = new Bundle();
 	
 	///////////////////////////////////////////////////////////////////////////
 	// BINDING
 	///////////////////////////////////////////////////////////////////////////
 	
+	public  RecyclerView           recyclerView;
 	private TextView               typeValueTextView;
 	private TextView               cityValueTextView;
 	private FragmentDetailsBinding fragmentDetailsBinding;
@@ -113,6 +114,14 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 		                .observe(getViewLifecycleOwner(), estate -> updateUI(estate));
 	}
 	
+	@Override public void onMapReady(GoogleMap googleMap) {
+		map = googleMap;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	// CONFIGURATIONS
+	///////////////////////////////////////////////////////////////////////////
+	
 	public void configureRecyclerView() {
 		this.alternatesPicturesAdapter = new AlternatesPicturesAdapter(uriStringList,
 		                                                               requireContext(),
@@ -124,8 +133,19 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 		                                                           false));
 	}
 	
+	@Override
+	public View provideYourFragmentView(LayoutInflater inflater,
+	                                    ViewGroup parent,
+	                                    Bundle savedInstanceState) {
+		return null;
+	}
+	
+	private void configureViewModel() {
+		detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////
-	// CONFIGURATIONS
+	// FUNCTIONS
 	///////////////////////////////////////////////////////////////////////////
 	
 	private void updateUI(Estate estate) {
@@ -166,24 +186,6 @@ public class DetailsFragment extends BaseFragment implements OnMapReadyCallback,
 		}
 	}
 	
-	@Override
-	public View provideYourFragmentView(LayoutInflater inflater,
-	                                    ViewGroup parent,
-	                                    Bundle savedInstanceState) {
-		return null;
-	}
-	
-	@Override public void onMapReady(GoogleMap googleMap) {
-		map = googleMap;
-	}
-	
-	///////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
-	///////////////////////////////////////////////////////////////////////////
-	
-	private void configureViewModel() {
-		detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
-	}
 	
 	private void setPic(ImageView imageView) {
 		// Get the dimensions of the View

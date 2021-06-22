@@ -21,6 +21,15 @@ import remy.pouzet.realestatemanager2.viewmodels.SearchViewModel;
 import remy.pouzet.realestatemanager2.views.bases.BaseFragment;
 
 public class SearchFragment extends BaseFragment {
+	///////////////////////////////////////////////////////////////////////////
+	// VARIABLES
+	///////////////////////////////////////////////////////////////////////////
+	
+	public SearchViewModel       searchViewModel;
+	public Request               request;
+	public FragmentSearchBinding fragmentSearchBinding;
+	public Bundle                bundle = new Bundle();
+	public String                cityValue, minimumPriceValue, maximumPriceValue, minimumSurfaceValue, maximumSurfaceValue, minimumRoomsNumberValue, maximumRoomsNumberValue;
 	
 	///////////////////////////////////////////////////////////////////////////
 	// BINDING
@@ -40,15 +49,6 @@ public class SearchFragment extends BaseFragment {
 		searchButton               = fragmentSearchBinding.validateResearchButton;
 	}
 	
-	///////////////////////////////////////////////////////////////////////////
-	// VARIABLES
-	///////////////////////////////////////////////////////////////////////////
-	
-	public SearchViewModel       searchViewModel;
-	public Request               request;
-	public FragmentSearchBinding fragmentSearchBinding;
-	public Bundle                bundle = new Bundle();
-	public String                cityValue, minimumPriceValue, maximumPriceValue, minimumSurfaceValue, maximumSurfaceValue, minimumRoomsNumberValue, maximumRoomsNumberValue;
 	
 	///////////////////////////////////////////////////////////////////////////
 	// LIFECYCLE

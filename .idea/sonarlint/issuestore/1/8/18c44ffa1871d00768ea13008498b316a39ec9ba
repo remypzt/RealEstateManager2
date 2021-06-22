@@ -1,30 +1,32 @@
 
-€
-java:S1104="^Make modifyActionButton a static final constant or non-public and provide accessors if needed.(©¨ıüÿÿÿÿ8ª£æË¢/
-p
-java:S1104>"NMake id a static final constant or non-public and provide accessors if needed.(™ò¤·ÿÿÿÿÿ8ª£æË¢/
-Y
-java:S1117Ç"6Rename "id" which hides the field declared at line 62.(ªÙğúÿÿÿÿ8ª£æË¢/
-t
-java:S1192©"QDefine a constant instead of duplicating this literal "VISIBLE_FRAGMENT" 9 times.(æ¢®Øüÿÿÿÿ8ª£æË¢/
-X	java:S110;"<This class has 9 parents which is greater than 5 authorized.(ƒ¿8ª£æË¢/
-y
-java:S1104?"\Make listHadBeenClick a static final constant or non-public and provide accessors if needed.(¼ÿÔ®8ª£æË¢/
-w
-java:S1450O"ZRemove the "secondFrame" field and declare it as a local variable in the relevant methods.(Û§·ñ8ª£æË¢/
-K
-java:S1604¡"(Make this anonymous inner class a lambda(–ëÛøÿÿÿÿ8ª£æË¢/
-}
-java:S1104A"[Make detailsFragment a static final constant or non-public and provide accessors if needed.(í–Ğğøÿÿÿÿ8ª£æË¢/
-w
-java:S1104B"[Make navHostFragment a static final constant or non-public and provide accessors if needed.(›³§;8ª£æË¢/
 
-java:S1450H"bRemove the "estatesListFragment" field and declare it as a local variable in the relevant methods.(·õ¹ı8ª£æË¢/
-L
-java:S1068O"/Remove this unused "secondFrame" private field.(Û§·ñ8ª£æË¢/
-n
-java:S1104@"RMake bundle a static final constant or non-public and provide accessors if needed.(ö“§"8ª£æË¢/
-L
-java:S1066r"/Merge this if statement with the enclosing one.(ï¨†™8ª£æË¢/
+java:S1450D"bRemove the "estatesListFragment" field and declare it as a local variable in the relevant methods.(·õ¹ı8ª£æË¢/
+t
+java:S1192®"QDefine a constant instead of duplicating this literal "VISIBLE_FRAGMENT" 9 times.(æ¢®Øüÿÿÿÿ8ê¬¡£/
 F
-java:S1604"(Make this anonymous inner class a lambda(ÅÅàÑ8ª£æË¢/
+java:S1604•"(Make this anonymous inner class a lambda(ÅÅàÑ8ê¬¡£/
+}
+java:S1104J"[Make detailsFragment a static final constant or non-public and provide accessors if needed.(í–Ğğøÿÿÿÿ8ê¬¡£/
+L
+java:S1066w"/Merge this if statement with the enclosing one.(ï¨†™8ê¬¡£/
+Y
+java:S1117Ğ"6Rename "id" which hides the field declared at line 71.(ªÙğúÿÿÿÿ8ê¬¡£/
+n
+java:S1104I"RMake bundle a static final constant or non-public and provide accessors if needed.(ö“§"8ê¬¡£/
+€
+java:S1104S"^Make modifyActionButton a static final constant or non-public and provide accessors if needed.(©¨ıüÿÿÿÿ8ôö¬¡£/
+K
+java:S1604¦"(Make this anonymous inner class a lambda(–ëÛøÿÿÿÿ8ê¬¡£/
+w
+java:S1104K"[Make navHostFragment a static final constant or non-public and provide accessors if needed.(›³§;8ê¬¡£/
+p
+java:S1104G"NMake id a static final constant or non-public and provide accessors if needed.(™ò¤·ÿÿÿÿÿ8ê¬¡£/
+L
+java:S1068R"/Remove this unused "secondFrame" private field.(Û§·ñ8ê¬¡£/
+X	java:S110="<This class has 9 parents which is greater than 5 authorized.(ƒ¿8ª£æË¢/
+w
+java:S1450R"ZRemove the "secondFrame" field and declare it as a local variable in the relevant methods.(Û§·ñ8ê¬¡£/
+y
+java:S1104H"\Make listHadBeenClick a static final constant or non-public and provide accessors if needed.(¼ÿÔ®8İù«¡£/
+
+java:S1104L"kMake modifyActionButtonMustBeVisible a static final constant or non-public and provide accessors if needed.(ßÑãÿÿÿÿÿ8ê¬¡£/
